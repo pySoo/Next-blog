@@ -1,36 +1,15 @@
-import { getAllPosts } from '@/libs/api';
-import { GetStaticProps } from 'next';
-import Head from 'next/head';
+import PlainText from '@/common/PlainText';
+import Title from '@/common/Title';
+import { PageSEO } from '@/components/SEO';
+import Layout from '@/layouts/Layout';
+import React from 'react';
 
-type Props = {
-  allPosts: Post[];
-};
-
-export default function Index({ allPosts }: Props) {
-  const heroPost = allPosts[0];
-  const morePosts = allPosts.slice(1);
+export default function Home() {
   return (
-    <>
-      <div>
-        <Head>
-          <title>{`Next.js Blog Example with `}</title>
-        </Head>
-      </div>
-    </>
+    <Layout>
+      <PageSEO title="Blog" description="블로그 설명입니다." url="/blog" />
+      <Title>pySoo</Title>
+      <PlainText>환영합니다.</PlainText>
+    </Layout>
   );
 }
-
-export const getStaticProps = async () => {
-  const allPosts = getAllPosts([
-    'title',
-    'date',
-    'slug',
-    'author',
-    'coverImage',
-    'excerpt',
-  ]);
-
-  return {
-    props: { allPosts },
-  };
-};

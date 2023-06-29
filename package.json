@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@next/font": "^13.4.7",
     "autoprefixer": "10.4.14",
     "dayjs": "^1.11.8",
     "framer-motion": "^8.4.2",
@@ -16,18 +17,25 @@
     "next": "^13.1.6",
     "next-mdx-remote": "^4.4.1",
     "next-seo": "^6.1.0",
+    "next-themes": "^0.2.1",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "title": "^3.5.3"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.22.5",
+    "@tailwindcss/typography": "^0.5.9",
     "@types/glob": "^8.1.0",
     "@types/node": "18.11.9",
     "@types/react": "18.0.24",
     "@types/react-dom": "18.0.8",
+    "@types/title": "^3.4.1",
+    "@typescript-eslint/eslint-plugin": "^5.60.1",
+    "@typescript-eslint/parser": "^5.60.1",
     "clsx": "^1.2.1",
     "eslint": "^8.43.0",
     "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-airbnb-typescript": "^17.0.0",
     "eslint-config-next": "12.1.0",
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-babel": "^5.3.1",
@@ -36,6 +44,8 @@
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-react": "^7.32.2",
     "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-simple-import-sort": "^10.0.0",
+    "eslint-plugin-unused-imports": "^2.0.0",
     "glob": "^10.3.1",
     "postcss": "8.4.24",
     "prettier": "^2.8.8",

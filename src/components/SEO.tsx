@@ -1,5 +1,6 @@
-import { siteConfig } from '@/constants/config';
 import { ArticleJsonLd, NextSeo } from 'next-seo';
+
+import { siteConfig } from '@/constants/config';
 
 const getTitle = (title?: string) => {
   if (!title) return siteConfig.title;

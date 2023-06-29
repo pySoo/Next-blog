@@ -1,10 +1,11 @@
+import { motion } from 'framer-motion';
+
 import PlainText from '@/common/PlainText';
 import Title from '@/common/Title';
 import { PageSEO } from '@/components/SEO';
 import { fadeInHalf, staggerHalf } from '@/constants/animations';
 import Layout from '@/layouts/Layout';
 import { getAllPosts } from '@/libs/post';
-import { motion } from 'framer-motion';
 
 export const getStaticProps = () => {
   return {

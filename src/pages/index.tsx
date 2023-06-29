@@ -1,14 +1,15 @@
 import { motion } from 'framer-motion';
-import PlainText from '@/common/PlainText';
-import Title from '@/common/Title';
-import { PageSEO } from '@/components/SEO';
-import Layout from '@/layouts/Layout';
 import React from 'react';
-import { fadeIn, staggerHalf } from '@/constants/animations';
-import SubTitle from '@/common/SubTitle';
+
 import LinkArrow from '@/common/LinkArrow';
-import { unsplashImageList } from '@/constants/image';
+import PlainText from '@/common/PlainText';
+import SubTitle from '@/common/SubTitle';
+import Title from '@/common/Title';
 import PostCard from '@/components/PostCard';
+import { PageSEO } from '@/components/SEO';
+import { fadeIn, staggerHalf } from '@/constants/animations';
+import { unsplashImageList } from '@/constants/image';
+import Layout from '@/layouts/Layout';
 
 export default function Home() {
   return (

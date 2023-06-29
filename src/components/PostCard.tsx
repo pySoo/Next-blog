@@ -1,7 +1,9 @@
-import IconText from '@/common/IconText';
-import { fadeInUp } from '@/constants/animations';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
+
+import IconText from '@/common/IconText';
+import { fadeInUp } from '@/constants/animations';
+
 import CalendarIcon from './icons/CalendarIcon';
 
 type PostCardType = {

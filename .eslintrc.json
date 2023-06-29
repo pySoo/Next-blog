@@ -11,7 +11,7 @@
     "project": ["tsconfig.json"],
     "createDefaultProgram": true
   },
-  "plugins": ["unused-imports"],
+  "plugins": ["unused-imports", "simple-import-sort"],
   "extends": ["plugin:prettier/recommended", "next/core-web-vitals"],
   "settings": {
     "react": {
@@ -33,7 +33,9 @@
     "react-hooks/exhaustive-deps": 0,
     "react/display-name": 0,
     "react/no-unknown-property": "off",
-    "@next/next/no-img-element": 0
+    "@next/next/no-img-element": 0,
+    "simple-import-sort/imports": "error",
+    "simple-import-sort/exports": "error"
   },
   "globals": {
     "React": "writable"

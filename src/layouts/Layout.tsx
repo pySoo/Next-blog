@@ -1,6 +1,8 @@
 import { ReactNode, useMemo } from 'react';
+
 import LinkExternal from '@/common/LinkExternal';
 import { siteConfig } from '@/constants/config';
+
 import HeaderNav from './HeaderNav';
 
 export default function Layout({ children }: { children: ReactNode }) {

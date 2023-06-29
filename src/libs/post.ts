@@ -1,9 +1,10 @@
-import { BASE_PATH, POSTS_PATH } from '@/constants/config';
-import { sync } from 'glob';
 import dayjs from 'dayjs';
 import fs from 'fs';
+import { sync } from 'glob';
 import matter from 'gray-matter';
 import readingTime from 'reading-time';
+
+import { BASE_PATH, POSTS_PATH } from '@/constants/config';
 
 export const parsePost = (postPath: string): Post | undefined => {
   try {

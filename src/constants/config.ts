@@ -1,5 +1,5 @@
-import path from 'path';
 import { DefaultSeoProps } from 'next-seo';
+import path from 'path';
 
 export const BASE_PATH = '/posts';
 export const POSTS_PATH = path.join(process.cwd(), BASE_PATH);

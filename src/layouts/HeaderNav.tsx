@@ -1,8 +1,8 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import NavItem from '../common/NavItem';
 import LogoIcon from '@/common/LogoIcon';
 import { siteConfig } from '@/constants/config';
+import NavItem from '../common/NavItem';
 
 export default function HeaderNav() {
   const router = useRouter();

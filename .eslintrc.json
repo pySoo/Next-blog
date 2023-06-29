@@ -39,6 +39,7 @@
     "react/jsx-one-expression-per-line": 0,
     "react/jsx-props-no-spreading": "off",
     "no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars": "off",
     "unused-imports/no-unused-imports": "error",
     "unused-imports/no-unused-vars": [
       "warn",
@@ -48,7 +49,11 @@
         "args": "after-used",
         "argsIgnorePattern": "^_"
       }
-    ]
+    ],
+    "react/require-default-props": "off",
+    "import/no-extraneous-dependencies": ["error", { "devDependencies": true }],
+    "consistent-return": "off",
+    "import/prefer-default-export": "off"
   },
   "globals": {
     "React": "writable"

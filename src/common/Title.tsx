@@ -11,6 +11,8 @@ export default function Title({
         'mb-4 text-3xl font-extrabold tracking-tight sm:text-5xl',
         className,
       )}
-    />
+    >
+      {props.children}
+    </h1>
   );
 }

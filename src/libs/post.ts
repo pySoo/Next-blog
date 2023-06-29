@@ -5,7 +5,7 @@ import fs from 'fs';
 import matter from 'gray-matter';
 import readingTime from 'reading-time';
 
-const parsePost = (postPath: string): Post | undefined => {
+export const parsePost = (postPath: string): Post | undefined => {
   try {
     const file = fs.readFileSync(postPath, { encoding: 'utf8' });
     const { content, data } = matter(file);

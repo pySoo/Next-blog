@@ -8,6 +8,8 @@ export default function SubTitle({
     <h2
       {...props}
       className={$('text-2xl font-bold tracking-tight md:text-4xl', className)}
-    />
+    >
+      {props.children}
+    </h2>
   );
 }

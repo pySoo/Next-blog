@@ -26,12 +26,15 @@ const getImageUrl = (img?: string) => {
 /**
  * use in Normal Page SEO
  */
-export const PageSEO = (props: {
+
+type PageSEOType = {
   title?: string;
   description?: string;
   url?: string;
   image?: string;
-}) => {
+};
+
+export function PageSEO({ ...props }: PageSEOType) {
   const title = getTitle(props.title);
   const description = props.description ?? siteConfig.description;
   const url = getRelativeUrl(props.url);
@@ -50,12 +53,12 @@ export const PageSEO = (props: {
       }}
     />
   );
-};
+}
 
 /**
  * use in Article Page SEO
  */
-export const BlogSEO = ({
+export function BlogSEO({
   summary,
   tags,
   images,
@@ -67,7 +70,7 @@ export const BlogSEO = ({
   url: string;
   tags: string[];
   images: string[];
-}) => {
+}) {
   const title = getTitle(props.title);
   const url = getRelativeUrl(props.url);
   const dateTime = new Date(props.date).toISOString();
@@ -106,4 +109,4 @@ export const BlogSEO = ({
       />
     </>
   );
-};
+}

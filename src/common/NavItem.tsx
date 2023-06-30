@@ -2,6 +2,8 @@ import { useRouter } from 'next/router';
 
 import { $ } from '@/libs/core';
 
+import LinkHover from './LinkHover';
+
 export default function NavItem({
   href,
   children,
@@ -12,7 +14,7 @@ export default function NavItem({
   const isActive = router.asPath.startsWith(href ?? '/');
 
   return (
-    <a
+    <LinkHover
       {...props}
       href={href}
       className={$(
@@ -21,6 +23,6 @@ export default function NavItem({
       )}
     >
       {children}
-    </a>
+    </LinkHover>
   );
 }

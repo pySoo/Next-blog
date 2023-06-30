@@ -5,17 +5,8 @@ import Title from '@/common/Title';
 import { PageSEO } from '@/components/SEO';
 import { fadeInHalf, staggerHalf } from '@/constants/animations';
 import Layout from '@/layouts/Layout';
-import { getAllPosts } from '@/libs/post';
 
-export const getStaticProps = () => {
-  return {
-    props: {
-      postList: getAllPosts(),
-    },
-  };
-};
-
-export default function ArchivesPage({ postList }: { postList: Post[] }) {
+export default function ArchivesPage() {
   return (
     <Layout>
       <PageSEO

@@ -1,9 +1,11 @@
-import { motion } from 'framer-motion';
-import { fadeInHalf } from '@/constants/animations';
 import { Post } from 'contentlayer/generated';
-import Tag from '@/common/Tag';
+import { motion } from 'framer-motion';
+
 import SectionBorder from '@/common/SectionBorder';
+import Tag from '@/common/Tag';
+import { fadeInHalf } from '@/constants/animations';
 import { siteConfig } from '@/constants/config';
+
 import AuthorContacts from './AuthorContacts';
 import PostNavigation, { PostNavigationProps } from './PostNavigation';
 

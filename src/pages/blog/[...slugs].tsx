@@ -1,9 +1,10 @@
 import { GetStaticPaths, GetStaticProps } from 'next';
-import { allBlogPosts } from '@/libs/dataset';
+
 import { PostNavigationProps } from '@/components/PostNavigation';
 import PostDetailLayout, {
   PostDetailLayoutProps,
 } from '@/layouts/PostDetailLayout';
+import { allBlogPosts } from '@/libs/dataset';
 
 // SSG 렌더링을 사용하기 위한 getStaticPaths 함수 사용
 export const getStaticPaths: GetStaticPaths = async () => {

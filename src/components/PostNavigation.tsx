@@ -1,4 +1,5 @@
 import { Post } from 'contentlayer/generated';
+
 import LinkHover from '../common/LinkHover';
 
 export type PostNavigationProps = {

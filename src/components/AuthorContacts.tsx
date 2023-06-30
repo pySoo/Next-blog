@@ -1,10 +1,10 @@
 import React from 'react';
 
+import { siteConfig } from '@/constants/config';
 import { $ } from '@/libs/core';
 
-import ContactsIcon from './ContactsIcon';
 import LinkExternal from '../common/LinkExternal';
-import { siteConfig } from '@/constants/config';
+import ContactsIcon from './ContactsIcon';
 
 export default function AuthorContacts({
   className,

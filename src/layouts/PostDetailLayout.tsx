@@ -1,18 +1,20 @@
-import { useMDXComponent } from 'next-contentlayer/hooks';
-import { motion } from 'framer-motion';
-import Layout from './Layout';
-import { fadeInHalf, staggerHalf } from '@/constants/animations';
-import IconText from '@/common/IconText';
 import { Post } from 'contentlayer/generated';
+import dayjs from 'dayjs';
+import { motion } from 'framer-motion';
+import { useMDXComponent } from 'next-contentlayer/hooks';
+
+import IconText from '@/common/IconText';
+import SectionBorder from '@/common/SectionBorder';
 import Title from '@/common/Title';
 import CalendarIcon from '@/components/icons/CalendarIcon';
-import dayjs from 'dayjs';
 import ClockIcon from '@/components/icons/ClockIcon';
-import SectionBorder from '@/common/SectionBorder';
-import ZoomImage from '@/components/mdx/ZoomImage';
 import CodeBlock from '@/components/mdx/CodeBlock';
+import ZoomImage from '@/components/mdx/ZoomImage';
 import PostFooter from '@/components/PostFooter';
 import { PostNavigationProps } from '@/components/PostNavigation';
+import { fadeInHalf, staggerHalf } from '@/constants/animations';
+
+import Layout from './Layout';
 
 export type PostDetailLayoutProps = {
   post: Post;

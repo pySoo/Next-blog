@@ -1,31 +1,11 @@
-import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 import LogoIcon from '@/common/LogoIcon';
 import { siteConfig } from '@/constants/config';
 
 import NavItem from '../common/NavItem';
 
-export default function HeaderNav() {
-  const router = useRouter();
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-  const toggleMenu = () => {
-    if (isMenuOpen) {
-      setIsMenuOpen(false);
-      document.body.classList.remove('overflow-hidden');
-    } else {
-      setIsMenuOpen(true);
-      document.body.classList.add('overflow-hidden');
-    }
-  };
-
-  const isActiveNav = (navPath: string) => {
-    if (navPath === '/') return router.asPath === navPath;
-
-    return router.asPath.startsWith(navPath);
-  };
-
+export default function HeaderNavigation() {
   useEffect(() => {
     return function cleanup() {
       document.body.classList.remove('overflow-hidden');

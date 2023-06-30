@@ -1,0 +1,82 @@
+/* common markdown */
+.prose {
+  @apply text-secondary;
+}
+.prose strong,
+.prose h2,
+.prose h3,
+.prose h4,
+.prose thead th {
+  @apply text-primary;
+}
+
+.prose del {
+  @apply text-mute;
+}
+
+.prose p {
+  @apply leading-7 sm:leading-8;
+}
+
+.prose img {
+  @apply my-0 mx-auto;
+}
+.prose img + span {
+  display: block;
+  margin-top: 0.5rem;
+}
+
+.prose a {
+  @apply text-primary break-words transition-all;
+  @apply decoration-neutral-450 underline-offset-2 hover:decoration-neutral-350;
+}
+.prose a:has(strong) {
+  @apply decoration-yellow-300 decoration-wavy underline-offset-1 hover:decoration-yellow-400;
+  @apply dark:decoration-yellow-300/70 dark:hover:decoration-yellow-300/90;
+}
+
+.prose code {
+  font-family: var(--font-mono), Consolas, Monaco, 'Andale Mono', monospace;
+}
+
+.prose code:not(:where(pre *)) {
+  @apply text-primary rounded-lg px-2 py-0.5 content-none;
+  @apply bg-neutral-200 dark:bg-[var(--prism-background)];
+}
+
+.prose pre::-webkit-scrollbar {
+  display: none;
+}
+.prose pre {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+/* prose first child, not <TocTop /> */
+.prose > :first-child {
+  margin-top: 3rem !important;
+}
+.prose > .lg\:hidden + * {
+  @apply lg:mt-12;
+}
+
+/* rehype-autolink-headings */
+.prose .anchor {
+  @apply absolute -ml-10 mt-1 flex h-6 w-6 items-center justify-center opacity-0 transition-all;
+  @apply rounded-md border-none no-underline ring-1 ring-neutral-700/10;
+  @apply hover:shadow hover:ring-neutral-700/30 dark:bg-neutral-700 dark:text-neutral-400;
+}
+
+.prose .anchor:after {
+  content: ' ';
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='none' aria-hidden='true'%3E%3Cpath d='M3.75 1v10M8.25 1v10M1 3.75h10M1 8.25h10' stroke='currentColor' strokeWidth='1.5' strokeLinecap='round' /%3E%3C/svg%3E");
+  mask-repeat: no-repeat;
+  mask-position: center;
+
+  @apply h-4 w-4 bg-neutral-700 dark:bg-neutral-400;
+}
+
+.prose .anchor:hover,
+.prose *:hover > .anchor {
+  @apply md:opacity-100;
+}

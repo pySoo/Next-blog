@@ -5,17 +5,16 @@ import Title from '@/common/Title';
 import { PageSEO } from '@/components/SEO';
 import { fadeInHalf, staggerHalf } from '@/constants/animations';
 import Layout from '@/layouts/Layout';
-import { getAllPosts } from '@/libs/post';
 
 export const getStaticProps = () => {
   return {
     props: {
-      postList: getAllPosts(),
+      postList: 0,
     },
   };
 };
 
-export default function BlogPage({ postList }: { postList: Post[] }) {
+export default function BlogPage() {
   return (
     <Layout>
       <PageSEO title="Blog" description="블로그 설명입니다." url="/blog" />

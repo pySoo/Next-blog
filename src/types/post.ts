@@ -1,14 +1,10 @@
-type PostMatter = {
-  title: string;
-  description: string;
-  tags: string[];
-  draft?: boolean;
-  date: string;
-};
+import { Post as TPost } from 'contentlayer/generated';
 
-type Post = PostMatter & {
-  slug: string;
-  content: string;
-  readingMinutes: number;
-  wordCount: number;
+export type Optional<Type, Key extends keyof Type> = Omit<Type, Key> &
+  Partial<Pick<Type, Key>>;
+
+export type Post = TPost & {
+  seriesName?: string | null;
+  snippetName?: string | null;
 };
+export type ReducedPost = Omit<Omit<Omit<Post, 'body'>, '_raw'>, '_id'>;

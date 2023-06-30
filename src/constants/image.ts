@@ -20,3 +20,6 @@ export const unsplashImageList = [
   '/images/samples/unsplash-19.jpg',
   '/images/samples/unsplash-20.jpg',
 ];
+
+export const getRandomUnsplashImage = () =>
+  [...unsplashImageList].sort(() => Math.random() - 0.5)[0];

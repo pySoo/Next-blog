@@ -23,7 +23,6 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   const post = allBlogPosts.find((v) => v.slug === slug);
   const postIndex = allBlogPosts.findIndex((v) => v.slug === slug);
 
-  console.log('index', postIndex);
   if (!post || postIndex < 0) {
     return {
       notFound: true,

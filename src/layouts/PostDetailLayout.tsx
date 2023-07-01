@@ -1,5 +1,6 @@
 import dayjs from 'dayjs';
 import { motion } from 'framer-motion';
+import Link from 'next/link';
 import { useMDXComponent } from 'next-contentlayer/hooks';
 
 import IconText from '@/common/IconText';
@@ -36,6 +37,10 @@ export default function PostDetailLayout({
   postNavigation,
   tableOfContents,
 }: PostDetailLayoutProps) {
+  const headerTagTitle = series?.title ?? post.snippetName;
+  const headerTagSlug =
+    series?.slug ?? `/snippets?key=${post.snippetName ?? 'all'}`;
+
   const MDXContent = useMDXComponent(post.body?.code ?? '');
 
   return (
@@ -51,6 +56,16 @@ export default function PostDetailLayout({
           <Title className="mx-auto mb-4 max-w-3xl text-center">
             {post.title}
           </Title>
+          {headerTagTitle && (
+            <div className="mt-2 flex justify-center gap-1">
+              {post.snippetName && <span>snippet: </span>}
+              <Link href={headerTagSlug}>
+                <span className="text-sm font-medium underline underline-offset-4 sm:text-base">
+                  {headerTagTitle}
+                </span>
+              </Link>
+            </div>
+          )}
           <div className="mt-2 flex w-full flex-col justify-between md:flex-row md:items-center">
             <div className="mx-auto flex gap-2 text-neutral-600 dark:text-neutral-400">
               <IconText

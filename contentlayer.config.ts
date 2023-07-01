@@ -11,6 +11,8 @@ import rehypeSlug from 'rehype-slug';
 import remarkBreaks from 'remark-breaks';
 import remarkGfm from 'remark-gfm';
 
+import rehypeCodeWrap from './src/libs/rehypeCodeWrap';
+
 const fields: FieldDefs = {
   title: { type: 'string', required: true },
   description: { type: 'string', required: true },
@@ -49,6 +51,7 @@ const contentSource = makeSource({
     remarkPlugins: [remarkGfm, remarkBreaks],
     rehypePlugins: [
       rehypeSlug,
+      rehypeCodeWrap,
       rehypePrism,
       [
         rehypeAutolinkHeadings,

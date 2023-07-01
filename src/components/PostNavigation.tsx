@@ -1,4 +1,4 @@
-import { Post } from 'contentlayer/generated';
+import { Post } from '@/types/post';
 
 import LinkHover from '../common/LinkHover';
 

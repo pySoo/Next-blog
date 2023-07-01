@@ -1,4 +1,3 @@
-import { Post } from 'contentlayer/generated';
 import dayjs from 'dayjs';
 import { motion } from 'framer-motion';
 import { useMDXComponent } from 'next-contentlayer/hooks';
@@ -13,6 +12,7 @@ import ZoomImage from '@/components/mdx/ZoomImage';
 import PostFooter from '@/components/PostFooter';
 import { PostNavigationProps } from '@/components/PostNavigation';
 import { fadeInHalf, staggerHalf } from '@/constants/animations';
+import { Post } from '@/types/post';
 
 import Layout from './Layout';
 

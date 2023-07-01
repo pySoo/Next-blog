@@ -1,10 +1,10 @@
-import { Post } from 'contentlayer/generated';
 import { motion } from 'framer-motion';
 
 import SectionBorder from '@/common/SectionBorder';
 import Tag from '@/common/Tag';
 import { fadeInHalf } from '@/constants/animations';
 import { siteConfig } from '@/constants/config';
+import { Post } from '@/types/post';
 
 import AuthorContacts from './AuthorContacts';
 import PostNavigation, { PostNavigationProps } from './PostNavigation';

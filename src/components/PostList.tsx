@@ -1,4 +1,3 @@
-import { Post } from 'contentlayer/generated';
 import dayjs from 'dayjs';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -7,6 +6,7 @@ import IconText from '@/common/IconText';
 import Tag from '@/common/Tag';
 import { getRandomUnsplashImage } from '@/constants/image';
 import { $ } from '@/libs/core';
+import { Post } from '@/types/post';
 
 import CalendarIcon from './icons/CalendarIcon';
 import ClockIcon from './icons/ClockIcon';

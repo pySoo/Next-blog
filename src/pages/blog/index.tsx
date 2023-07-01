@@ -1,4 +1,3 @@
-import { Post } from 'contentlayer/generated';
 import { motion } from 'framer-motion';
 
 import PlainText from '@/common/PlainText';
@@ -14,6 +13,7 @@ import {
 } from '@/constants/animations';
 import Layout from '@/layouts/Layout';
 import { allBlogPosts } from '@/libs/dataset';
+import { Post } from '@/types/post';
 
 export const getStaticProps = () => {
   return {

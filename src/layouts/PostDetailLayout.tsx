@@ -5,6 +5,8 @@ import { useMDXComponent } from 'next-contentlayer/hooks';
 import IconText from '@/common/IconText';
 import SectionBorder from '@/common/SectionBorder';
 import Title from '@/common/Title';
+import ContentsBanner from '@/components/ContentsBanner';
+import ContentsTable from '@/components/ContentsTable';
 import CalendarIcon from '@/components/icons/CalendarIcon';
 import ClockIcon from '@/components/icons/ClockIcon';
 import CodeBlock from '@/components/mdx/CodeBlock';
@@ -12,13 +14,15 @@ import ZoomImage from '@/components/mdx/ZoomImage';
 import PostFooter from '@/components/PostFooter';
 import { PostNavigationProps } from '@/components/PostNavigation';
 import { fadeInHalf, staggerHalf } from '@/constants/animations';
-import { Post } from '@/types/post';
+import { Post, Series, TableOfContents } from '@/types/post';
 
 import Layout from './Layout';
 
 export type PostDetailLayoutProps = {
   post: Post;
+  series?: Series | null;
   postNavigation: PostNavigationProps;
+  tableOfContents: TableOfContents;
 };
 
 const mdxComponents = {
@@ -28,7 +32,9 @@ const mdxComponents = {
 
 export default function PostDetailLayout({
   post,
+  series,
   postNavigation,
+  tableOfContents,
 }: PostDetailLayoutProps) {
   const MDXContent = useMDXComponent(post.body?.code ?? '');
 
@@ -59,7 +65,16 @@ export default function PostDetailLayout({
         {/* Post Content */}
         <motion.div variants={fadeInHalf} className="relative gap-8 lg:flex">
           <div className="prose prose-neutral w-full max-w-3xl font-spoqa dark:prose-dark">
+            <ContentsTable
+              className="lg:hidden"
+              tableOfContents={tableOfContents}
+            />
             <MDXContent components={mdxComponents} />
+          </div>
+          <div className="mt-12 ml-auto">
+            <div className="sticky top-[120px] hidden min-w-[240px] max-w-[260px] self-start lg:block">
+              <ContentsBanner tableOfContents={tableOfContents} />
+            </div>
           </div>
         </motion.div>
         {/* Post Footer */}

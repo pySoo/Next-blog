@@ -5,6 +5,7 @@ import PostDetailLayout, {
   PostDetailLayoutProps,
 } from '@/layouts/PostDetailLayout';
 import { allSnippets } from '@/libs/dataset';
+import { parseContents } from '@/libs/mdx';
 
 export const getStaticPaths: GetStaticPaths = () => {
   return {
@@ -33,9 +34,12 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     nextPost: allSnippets.at(postIndex + 1) ?? null,
   };
 
+  const tableOfContents = parseContents(post.body.raw);
+
   const props: PostDetailLayoutProps = {
     post,
     postNavigation,
+    tableOfContents,
   };
 
   return { props };

@@ -1,4 +1,5 @@
-import { motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
+import Link from 'next/link';
 
 import PlainText from '@/common/PlainText';
 import SubTitle from '@/common/SubTitle';
@@ -8,22 +9,31 @@ import { PageSEO } from '@/components/SEO';
 import {
   fadeIn,
   fadeInHalf,
+  fadeInSlideToLeft,
   fadeInUp,
   staggerHalf,
+  staggerOne,
 } from '@/constants/animations';
 import Layout from '@/layouts/Layout';
-import { allBlogPosts } from '@/libs/dataset';
-import { Post } from '@/types/post';
+import { allBlogPosts, allSeries } from '@/libs/dataset';
+import { Post, Series } from '@/types/post';
 
 export const getStaticProps = () => {
   return {
     props: {
       postList: allBlogPosts,
+      seriesList: allSeries,
     },
   };
 };
 
-export default function BlogPage({ postList }: { postList: Post[] }) {
+export default function BlogPage({
+  postList,
+  seriesList,
+}: {
+  postList: Post[];
+  seriesList: Series[];
+}) {
   return (
     <Layout>
       <PageSEO title="Blog" description="블로그 설명입니다." url="/blog" />
@@ -36,7 +46,27 @@ export default function BlogPage({ postList }: { postList: Post[] }) {
         exit="exit"
       >
         <motion.div variants={fadeInHalf}>
-          <PlainText>어서 내용을 채우고 싶군요 🤗</PlainText>
+          <PlainText>{`개발에 필요한 지식들을 소소하게 기록하는 공간입니다.
+                      시리즈로 연재된 글은 아래의 시리즈 북을 통해 열람할 수 있습니다. 🙌`}</PlainText>
+        </motion.div>
+        <motion.div
+          className="-my-12 -ml-8 flex items-center space-x-6 overflow-scroll py-12 pl-8 no-scrollbar"
+          variants={staggerOne}
+        >
+          <AnimatePresence mode="wait">
+            {seriesList.map((series) => (
+              <motion.div key={series.slug} variants={fadeInSlideToLeft}>
+                <Link as={series.slug} href={`/blog/[slug]`}>
+                  <div className="relative h-56 w-40 select-none rounded-lg bg-neutral-200 px-8 pt-8 pb-12 shadow-lg transition-all hover:scale-[1.01] hover:shadow-xl dark:bg-neutral-800">
+                    <div className="absolute inset-y-0 left-2.5 w-[1px] bg-neutral-100 dark:bg-neutral-700" />
+                    <div className="flex h-full break-keep bg-white px-2 py-3 text-sm font-medium dark:bg-neutral-700 dark:text-white">
+                      {series.title}
+                    </div>
+                  </div>
+                </Link>
+              </motion.div>
+            ))}
+          </AnimatePresence>
         </motion.div>
         <motion.div
           className="mt-16 mb-4 flex items-end gap-2"

@@ -6,12 +6,12 @@ import IconText from '@/common/IconText';
 import Tag from '@/common/Tag';
 import { getRandomUnsplashImage } from '@/constants/image';
 import { $ } from '@/libs/core';
-import { Post } from '@/types/post';
+import { ReducedPost } from '@/types/post';
 
 import CalendarIcon from './icons/CalendarIcon';
 import ClockIcon from './icons/ClockIcon';
 
-export default function PostList({ post }: { post: Post }) {
+export default function PostList({ post }: { post: ReducedPost }) {
   const href = `/blog/[...slug]`;
   return (
     <div className={$('text-ye group w-full py-4 hover:drop-shadow-base')}>

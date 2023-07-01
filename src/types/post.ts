@@ -8,3 +8,7 @@ export type Post = TPost & {
   snippetName?: string | null;
 };
 export type ReducedPost = Omit<Omit<Omit<Post, 'body'>, '_raw'>, '_id'>;
+
+export type Series = Post & {
+  posts: ReducedPost[];
+};

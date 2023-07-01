@@ -1,0 +1,373 @@
+---
+title: 'Next.js mdx plugin'
+description: '`next-mdx-remote`에서 플로그인으로 이쁜 결과물을 만들자.'
+tags:
+  - next.js
+  - blog
+draft: false
+date: 2022-11-11 00:00:04
+---
+
+## 기본 사용법
+
+✨ [**next-mdx-remote**](https://github.com/hashicorp/next-mdx-remote)를 활용하여 markdown파일을 이쁜 HTML 코드로 변환해줍니다.  
+추가로 markdown 파일에서 React 컴포넌트를 사용할 수 있는 이점이 있습니다.
+
+```shell
+yarn add next-mdx-remote
+```
+
+<br />
+
+1. mdx 파일을 `serialize`하여 필요한 데이터를 추출하고 가공합니다.
+
+```ts:libs/mdx.ts
+import { serialize } from 'next-mdx-remote/serialize';
+
+export const serializeMdx = (source: string) => {
+  return serialize(source, {
+    mdxOptions: {
+      remarkPlugins: [],
+      rehypePlugins: [],
+      format: 'mdx',
+    },
+  });
+};
+```
+
+- [`remark plugins`](https://github.com/remarkjs/remark/blob/main/doc/plugins.md)과 [`rehype plugins`](https://github.com/rehypejs/rehype/blob/main/doc/plugins.md)를 활용해서 다양한 기능을 추가할 수 있습니다.
+
+<br />
+
+2. `getStaticProps`(빌드시점)에서 필요한 데이터를 모두 가공합니다.
+
+```ts:[...slugs].tsx {21}
+import { GetStaticPaths, GetStaticProps } from 'next';
+import { serializeMdx } from '~/libs/mdx';
+import { getAllPosts } from '~/libs/post';
+
+export const getStaticPaths: GetStaticPaths = () => {
+  const posts = getAllPosts();
+
+  return {
+    paths: posts.map((post) => `/blog/${post.slug}`),
+    fallback: 'blocking',
+  };
+};
+
+export const getStaticProps: GetStaticProps = async ({ params }) => {
+  const { slugs } = params as { slugs: string[] };
+
+  const slug = [...slugs].join('/');
+  const post = getAllPosts().find((v) => v.slug === slug);
+  //...
+
+  const mdx = await serializeMdx(post.content);
+
+  return {
+    props: { mdx },
+  };
+};
+```
+
+<br />
+
+3. 브라우저는 `<MDXRemote />`가 마운트되면서 데이터를 HTML로 변환합니다.
+
+```tsx
+export default function PostPage({ mdx }: { mdx: MDXRemoteSerializeResult }) {
+  return (
+    <div className="prose dark:prose-dark mt-4 w-full max-w-none">
+      <MDXRemote {...mdx} />
+    </div>
+  );
+}
+```
+
+---
+
+## 기본 스타일링
+
+### @tailwindcss/typography
+
+https://tailwindcss.com/docs/typography-plugin
+
+tailwind 기반으로 mdx 마크업을 스타일링하는데 기본 설정만 사용해도 충분히 이쁩니다!
+
+```js:tailwind.config.js
+module.exports = {
+  theme: {
+    // ...
+  },
+  variants: {
+    typography: ['dark'],
+  },
+  plugins: [require('@tailwindcss/typography')],
+}
+```
+
+마크다운 컴포넌트 상위에 `prose`를 꼭 씌워줘야하는 것을 잊지 않길 바랍니다!
+
+```tsx
+<div className="prose dark:prose-dark">
+  <MDXRemote {...mdx} />
+</div>
+```
+
+`tailwind.config.js`에서 [커스터마이징](https://tailwindcss.com/docs/typography-plugin#customizing-the-css)을 할수도 있고 `globals.css`에서도 스타일을 정의 할 수 있습니다.  
+관심사에 따라 css 코드들을 분리하면 좋은 것 같습니다.
+
+```css:globals.css
+/* ... */
+@import url(./code.css);
+@import url(./prose.css);
+/* ... */
+```
+
+```css:prose.css
+.prose a {
+  @apply transition-all;
+}
+```
+
+---
+
+## 필수 플러그인
+
+변환 도구들은 모두 `server-side`에서 실행 될 것이기에 모두 `devDependency`로 설치해줍니다.
+
+```shell
+yarn add -D remark-gfm rehype-prism-plus rehype-slug rehype-autolink-headings
+yarn add -D @tailwindcss/typography
+```
+
+---
+
+### remark-gfm
+
+https://github.com/remarkjs/remark-gfm
+
+`GFM`(autolink literals, footnotes, strikethrough, tables, tasklists...) 문법들을 해석해주는 도구 입니다.
+굉장히 기본적인 마크다운 문법을 HTML로 변환해주기에 필수로 사용해야 합니다.
+
+---
+
+### rehype-prism-plus
+
+https://github.com/timlrx/rehype-prism-plus
+
+[**prism**](https://prismjs.com/) 기반으로 코드블럭을 `syntax highlighting`해주는 도구 입니다.  
+highlighting, showLineNumbers, line inserted, line deleted 등 강력크한 기능을 제공해줍니다.
+
+```diff-js {1} showLineNumbers
+function fancyAlert(arg) {
+  if (arg) {
++    $.facebox({ div: '#foo' })
+-    alert('#roo')
+  }
+}
+```
+
+하지만 코드 토큰만 해석해줄 뿐이지 스타일은 직접 씌워줘야합니다.  
+prism기반의 [**다양한 테마**](https://github.com/PrismJS/prism-themes)를 적용할 수 있으니 취향 것 선택하면 됩니다.  
+추가적으로 [**dracular**](https://draculatheme.com/prism) [**intellij**](https://github.com/bulenkov/Darcula) 테마를 추천드립니다.
+
+자세한 설정은 [제 레포지토리](https://github.com/bepyan/bepyan.github.io/blob/main/src/styles/intellij-prism.css)를 참고해주시면 될 것 같습니다. ~~생각보다 복잡합니다...~~
+vscode와 완벽히 똑같이 스타일링 되지 않는 점은 감안하셔야 합니다.
+
+---
+
+### rehype-slug, rehype-autolink-headings
+
+[**rehype-slug**](https://github.com/rehypejs/rehype-slug)를 사용하여 headings에 id를 심어주면,  
+[**rehype-autolink-headings**](https://github.com/rehypejs/rehype-autolink-headings)가 id를 통해서 anchor를 생성해줍니다.  
+이를 활용하여 제목들로 바로가는 링크가 활성화되며 다양하게 응용될 수 있습니다.
+
+참고로 이전에 많이 사용되었던 [**remark-slug**](https://github.com/remarkjs/remark-slug)는 deprecated 되었습니다.
+
+Headings Link의 className를 아래와 같이 커스텀하게 지정할 수 있습니다.
+
+```ts:libs/mdx.ts
+import { serialize } from 'next-mdx-remote/serialize';
+import rehypeAutolinkHeadings from 'rehype-autolink-headings';
+
+export const serializeMdx = (source: string) => {
+  return serialize(source, {
+    //...
+    mdxOptions: {
+      //...
+      rehypePlugins: [
+        [
+          rehypeAutolinkHeadings,
+          {
+            properties: {
+              className: ['anchor'],
+            },
+          },
+        ],
+      ],
+    },
+  });
+};
+```
+
+기본적으로 css의 `content`를 활용해서 `anchor`를 만들 수 있습니다.
+
+```css {11}
+.prose .anchor {
+  @apply invisible absolute no-underline;
+
+  margin-left: -1em;
+  padding-right: 0.5em;
+  cursor: pointer;
+}
+
+.prose .anchor:after {
+  @apply text-gray-300 dark:text-gray-700;
+  content: '#';
+}
+
+.anchor:hover,
+.prose *:hover > .anchor {
+  @apply visible;
+}
+```
+
+적당히 스크롤되도록 `scroll-margin-top`을 추가해주면 금상첨화입니다.
+
+```js:tailwind.config.js
+const { spacing } = require('tailwindcss/defaultTheme');
+
+module.exports = {
+  //...
+  theme: {
+    extend: {
+      typography: (theme) => ({
+        DEFAULT: {
+          css: {
+            //...
+            'h1,h2,h3,h4': {
+              'scroll-margin-top': spacing[32],
+            },
+          }
+        }
+      })
+    }
+  }
+}
+```
+
+---
+
+### remark-breaks
+
+https://github.com/remarkjs/remark-breaks
+
+기존 마크다운 문법에서는 문장 끝에 ` ` 2개 이상 입력해야 줄바꿈이 되는데 개인적으로 꽤나 불편했습니다.
+해당 플러그인을 사용하면 마크다운에서 작성한대로 줄바꿈이 적용됩니다.
+
+---
+
+## 추천 플로그인
+
+필요에 따라 활용도가 높은 플러그인들입니다. ~~어쩌면 필수~~
+
+---
+
+### remark-math, rehype-katex
+
+```shell
+yarn add -D remark-math rehype-katex
+```
+
+[remark-math](https://github.com/remarkjs/remark-math)과 [rehype-katex](https://github.com/remarkjs/remark-math/tree/main/packages/rehype-katex)를 활용하여 mdx에서 수학 수식을 사용할 수 있습니다.
+
+---
+
+### rehype-code-titles
+
+https://github.com/josestg/rehype-code-title
+
+코드블럭 제목을 생성해주는 도구입니다.
+
+`확장자:파일명`처럼 사용하면 됩니다. &nbsp; ex. `tsx:pages/_app.tsx`
+
+mdx에서 작성한 것이 아래와 같이 파싱됩니다.
+
+```html
+<div class="rehype-code-title">code.css</div>
+<pre class="language-css">
+  <code class="language-css code-highlight">
+    <span class="code-line">
+      <!-- ... -->
+    </span>
+  </code>
+</pre>
+```
+
+스타일은 역시 직접 작성해줘야 합니다.
+
+```css:code.css
+.prose .rehype-code-title {
+  /* ... */
+  @apply rounded-t-lg border border-b-0 px-5 py-3 text-sm font-bold;
+}
+```
+
+---
+
+### remark-toc
+
+https://github.com/remarkjs/remark-toc
+
+`Tabel of Content`를 만들어 주는 도구 입니다.
+
+보통 최상단에 `## TOC` 혹은 `## Table of contents`를 작성해주면 됩니다.
+
+<br />
+<br />
+
+---
+
+## 최종 코드
+
+```ts:libs/mdx.ts
+import { serialize } from 'next-mdx-remote/serialize';
+import rehypeAutolinkHeadings from 'rehype-autolink-headings';
+import rehypeCodeTitles from 'rehype-code-titles';
+import rehypePrism from 'rehype-prism-plus';
+import rehypeSlug from 'rehype-slug';
+import remarkGfm from 'remark-gfm';
+import remarkToc from 'remark-toc';
+
+export const serializeMdx = (source: string) => {
+  return serialize(source, {
+    parseFrontmatter: true,
+    mdxOptions: {
+      remarkPlugins: [remarkToc, remarkGfm],
+      rehypePlugins: [
+        rehypeSlug,
+        rehypeCodeTitles,
+        rehypePrism,
+        [
+          rehypeAutolinkHeadings,
+          {
+            properties: {
+              className: ['anchor'],
+            },
+          },
+        ],
+      ],
+      format: 'mdx',
+    },
+  });
+};
+```
+
+### 참고
+
+https://yceffort.kr/2020/10/migrate-gatsby-from-nextjs  
+https://colinhemphill.com/blog/fast-static-syntax-highlighting-for-mdx-in-nextjs
+
+Project Level Snippets  
+https://code.visualstudio.com/updates/v1_28#_project-level-snippets

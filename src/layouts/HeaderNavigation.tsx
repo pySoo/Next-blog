@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 
 import LogoIcon from '@/common/LogoIcon';
+import ThemeSwitch from '@/components/ThemeSwitch';
 import { siteConfig } from '@/constants/config';
 
 import NavItem from '../common/NavItem';
@@ -23,6 +24,9 @@ export default function HeaderNavigation() {
             {link.label}
           </NavItem>
         ))}
+      </div>
+      <div className="ml-auto flex items-center gap-2">
+        <ThemeSwitch />
       </div>
     </nav>
   );

@@ -14,9 +14,9 @@ import ClockIcon from './icons/ClockIcon';
 export default function PostList({ post }: { post: ReducedPost }) {
   const href = `/blog/[...slug]`;
   return (
-    <div className={$('text-ye group w-full py-4 hover:drop-shadow-base')}>
-      <Link as={post.slug} href={href} className="hover:drop-shadow-base">
-        <div className="overflow-hidden rounded-xl bg-neutral-200 dark:bg-neutral-800 mb-3">
+    <div className={$('text-ye group w-full py-4')}>
+      <Link as={post.slug} href={href}>
+        <div className="overflow-hidden rounded-xl bg-neutral-200 dark:bg-neutral-800 mb-3 group-hover:opacity-90">
           <Image
             src={post.image ? post.image : getRandomUnsplashImage()}
             alt={'대표 이미지'}
@@ -26,7 +26,9 @@ export default function PostList({ post }: { post: ReducedPost }) {
             draggable={false}
           />
         </div>
-        <p className="text-xl font-bold">{post.title}</p>
+        <p className="text-xl font-bold group-hover:text-highlight">
+          {post.title}
+        </p>
         <p className="text-tertiary mt-1">{post.description}</p>
       </Link>
       <div className="mt-2 inline-flex w-full items-start gap-2 text-sm">
@@ -36,7 +38,7 @@ export default function PostList({ post }: { post: ReducedPost }) {
           ))}
         </div>
 
-        <div className="ml-auto flex gap-2 whitespace-nowrap group-hover:drop-shadow-base-bold">
+        <div className="ml-auto flex gap-2 whitespace-nowrap">
           <IconText
             Icon={CalendarIcon}
             text={dayjs(post.date).format('YY.MM.DD')}

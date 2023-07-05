@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { ChangeEvent, FormEvent, useState } from 'react';
+import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 
 import { $ } from '@/libs/core';
 import useDebounce from '@/libs/useDebounce';
@@ -42,6 +42,12 @@ export default function SearchInput({
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
   };
+
+  useEffect(() => {
+    if (isSearchPage) {
+      handleSearchQuery();
+    }
+  }, [debouncedText]);
 
   return (
     <form className={$('relative w-full', className)} onSubmit={handleSubmit}>

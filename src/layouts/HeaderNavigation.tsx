@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
 import LogoIcon from '@/common/LogoIcon';
+import SearchInput from '@/common/SearchInput';
 import ThemeSwitch from '@/components/ThemeSwitch';
 import { siteConfig } from '@/constants/config';
 import { $ } from '@/libs/core';
@@ -12,12 +13,6 @@ import NavItem from '../common/NavItem';
 export default function HeaderNavigation() {
   const router = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-  useEffect(() => {
-    return function cleanup() {
-      document.body.classList.remove('overflow-hidden');
-    };
-  }, []);
 
   const isActiveNav = (navPath: string) => {
     if (navPath === '/') return router.asPath === navPath;
@@ -34,6 +29,12 @@ export default function HeaderNavigation() {
       document.body.classList.add('overflow-hidden');
     }
   };
+
+  useEffect(() => {
+    return function cleanup() {
+      document.body.classList.remove('overflow-hidden');
+    };
+  }, []);
 
   return (
     <nav className="text-secondary flex w-full select-none items-end pt-8 pb-12">
@@ -78,6 +79,7 @@ export default function HeaderNavigation() {
         </ul>
       </div>
       <div className="ml-auto flex items-center gap-2">
+        <SearchInput placeholder="포스트 제목 검색" />
         <ThemeSwitch />
       </div>
     </nav>

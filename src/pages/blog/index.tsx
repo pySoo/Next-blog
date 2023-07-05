@@ -4,6 +4,7 @@ import Link from 'next/link';
 import PlainText from '@/common/PlainText';
 import SubTitle from '@/common/SubTitle';
 import Title from '@/common/Title';
+import HoverCard from '@/components/HoverCard';
 import PostList from '@/components/PostList';
 import { PageSEO } from '@/components/SEO';
 import {
@@ -46,38 +47,49 @@ export default function BlogPage({
         exit="exit"
       >
         <motion.div variants={fadeInHalf}>
-          <PlainText>{`개발에 필요한 지식들을 소소하게 기록하는 공간입니다.
-                      시리즈로 연재된 글은 아래의 시리즈 북을 통해 열람할 수 있습니다. 🙌`}</PlainText>
+          <PlainText>
+            {`개발에 필요한 지식들을 소소하게 기록하는 공간입니다.`}
+            <br />
+            {`시리즈로 연재된 글은 아래의 시리즈 북을 통해 열람할 수 있습니다. 🙌`}
+          </PlainText>
+        </motion.div>
+        <motion.div variants={fadeInHalf}>
+          <motion.div className="mt-10 mb-4 flex items-end gap-2">
+            <SubTitle>{'All Series'}</SubTitle>
+            <span className="font-bold">({seriesList.length})</span>
+          </motion.div>
+          <motion.div
+            className="-my-12 -ml-8 flex items-center space-x-6 overflow-scroll py-12 pl-8 no-scrollbar"
+            variants={staggerOne}
+          >
+            <AnimatePresence mode="wait">
+              {seriesList.map((series) => (
+                <motion.div key={series.slug} variants={fadeInSlideToLeft}>
+                  <Link as={series.slug} href={`/blog/[slug]`}>
+                    <HoverCard>
+                      <div className="relative h-56 w-40 select-none rounded-lg bg-neutral-200 px-8 pt-8 pb-12 shadow-lg transition-all hover:scale-[1.01] hover:shadow-xl dark:bg-neutral-800">
+                        <div className="absolute inset-y-0 left-2.5 w-[1px] bg-neutral-100 dark:bg-neutral-700" />
+                        <div className="flex h-full break-keep bg-white px-2 py-3 text-sm font-medium dark:bg-neutral-700 dark:text-white">
+                          {series.title}
+                        </div>
+                      </div>
+                    </HoverCard>
+                  </Link>
+                </motion.div>
+              ))}
+            </AnimatePresence>
+          </motion.div>
         </motion.div>
         <motion.div
-          className="-my-12 -ml-8 flex items-center space-x-6 overflow-scroll py-12 pl-8 no-scrollbar"
-          variants={staggerOne}
-        >
-          <AnimatePresence mode="wait">
-            {seriesList.map((series) => (
-              <motion.div key={series.slug} variants={fadeInSlideToLeft}>
-                <Link as={series.slug} href={`/blog/[slug]`}>
-                  <div className="relative h-56 w-40 select-none rounded-lg bg-neutral-200 px-8 pt-8 pb-12 shadow-lg transition-all hover:scale-[1.01] hover:shadow-xl dark:bg-neutral-800">
-                    <div className="absolute inset-y-0 left-2.5 w-[1px] bg-neutral-100 dark:bg-neutral-700" />
-                    <div className="flex h-full break-keep bg-white px-2 py-3 text-sm font-medium dark:bg-neutral-700 dark:text-white">
-                      {series.title}
-                    </div>
-                  </div>
-                </Link>
-              </motion.div>
-            ))}
-          </AnimatePresence>
-        </motion.div>
-        <motion.div
-          className="mt-16 mb-4 flex items-end gap-2"
+          className="pt-8 mt-8 mb-4 flex items-end gap-2"
           variants={fadeInHalf}
         >
-          <SubTitle>All Posts</SubTitle>
+          <SubTitle>{'All Posts'}</SubTitle>
           <span className="font-bold">({postList.length})</span>
         </motion.div>
 
         <motion.div
-          className="mt-12 grid w-full gap-8 lg:grid-cols-2 lg:gap-12"
+          className="grid w-full gap-8 lg:grid-cols-2 lg:gap-12"
           variants={staggerHalf}
         >
           {postList.map((post) => (
@@ -87,7 +99,7 @@ export default function BlogPage({
                 initial="initial"
                 whileInView="animate"
                 exit="exit"
-                viewport={{ amount: 0.6, once: true }}
+                viewport={{ amount: 0.2, once: true }}
               >
                 <PostList post={post} />
               </motion.div>

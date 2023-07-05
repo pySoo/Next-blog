@@ -1,5 +1,6 @@
 import { allPosts } from 'contentlayer/generated';
 
+import { defaultCoverImage } from '@/constants/image';
 import { Post, Series } from '@/types/post';
 
 import { reducePost } from './post';
@@ -17,6 +18,7 @@ export const allBlogPosts: Post[] = allPosts
   )
   .map((post) => ({
     ...post,
+    image: post.image ? post.image : defaultCoverImage,
     seriesName:
       allSeriesName.find((seriesName) => post.slug.includes(seriesName)) ??
       null,

@@ -1,10 +1,11 @@
 import dayjs from 'dayjs';
 import Image from 'next/image';
 import Link from 'next/link';
+import React from 'react';
 
 import IconText from '@/common/IconText';
 import Tag from '@/common/Tag';
-import { getRandomUnsplashImage } from '@/constants/image';
+import { defaultCoverImage } from '@/constants/image';
 import { $ } from '@/libs/core';
 import { ReducedPost } from '@/types/post';
 
@@ -13,12 +14,13 @@ import ClockIcon from './icons/ClockIcon';
 
 export default function PostList({ post }: { post: ReducedPost }) {
   const href = `/blog/[...slug]`;
+
   return (
     <div className={$('text-ye group w-full py-4')}>
       <Link as={post.slug} href={href}>
         <div className="overflow-hidden rounded-xl bg-neutral-200 dark:bg-neutral-800 mb-3 group-hover:opacity-90">
           <Image
-            src={post.image ? post.image : getRandomUnsplashImage()}
+            src={post.image ?? defaultCoverImage}
             alt={'대표 이미지'}
             width={300}
             height={300}

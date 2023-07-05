@@ -63,7 +63,6 @@ export default function HoverCard({
           justify-content: center;
           align-items: center;
           perspective: 800px;
-          padding: 50px;
         }
 
         .card {

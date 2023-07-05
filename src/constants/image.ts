@@ -23,3 +23,5 @@ export const unsplashImageList = [
 
 export const getRandomUnsplashImage = () =>
   [...unsplashImageList].sort(() => Math.random() - 0.5)[0];
+
+export const defaultCoverImage = '/images/samples/unsplash-16.jpg';

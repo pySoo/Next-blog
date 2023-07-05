@@ -25,6 +25,9 @@ module.exports = {
           800: '#262626',
           900: '#171717',
         },
+        highlight: {
+          blue: '#0091ea',
+        },
       },
       dropShadow: {
         base: '0px 0px 10px rgba(234, 179, 8, 0.3)',
@@ -81,6 +84,9 @@ module.exports = {
         },
         '.text-mute': {
           '@apply text-neutral-500 dark:text-neutral-470': '',
+        },
+        '.text-highlight': {
+          '@apply text-highlight-blue': '',
         },
         '.bg-primary': {
           '@apply bg-neutral-50 dark:bg-neutral-900': '',

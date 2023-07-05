@@ -2,6 +2,7 @@ import { useRouter } from 'next/router';
 import { ChangeEvent, FormEvent, useState } from 'react';
 
 import { $ } from '@/libs/core';
+import useDebounce from '@/libs/useDebounce';
 
 type SearchInputProps = {
   className?: string;
@@ -16,11 +17,25 @@ export default function SearchInput({
   const isSearchPage = router.pathname === '/search';
 
   const [inputText, setInputText] = useState('');
+  const debouncedText = useDebounce(inputText);
+
+  const handleSearchQuery = () => {
+    router.push({
+      pathname: '/search',
+      query: { q: debouncedText },
+    });
+  };
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (isSearchPage) {
       const value = e.target.value;
       setInputText(value);
+    }
+  };
+
+  const handleClick = () => {
+    if (!isSearchPage) {
+      handleSearchQuery();
     }
   };
 
@@ -40,6 +55,7 @@ export default function SearchInput({
         placeholder={placeholder}
         value={inputText}
         onChange={handleChange}
+        onClick={handleClick}
         autoFocus={isSearchPage}
       />
       <button

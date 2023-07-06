@@ -45,7 +45,9 @@ export default function SearchLayout({
         </motion.div>
 
         <motion.div
-          className="grid w-full gap-8 lg:grid-cols-2 lg:gap-12"
+          className={`grid w-full gap-8 lg:gap-12 ${
+            postList.length !== 0 && 'lg:grid-cols-2'
+          }`}
           variants={staggerHalf}
         >
           {postList.length == 0 && (

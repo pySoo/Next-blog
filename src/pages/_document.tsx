@@ -9,7 +9,7 @@ export default function Document() {
         sizes="180x180"
         href="/images/favicon/apple-icon-180x180.png"
       />
-      <link rel="manifest" href="/manifest.json" />
+      <link rel="manifest" href="/images/favicon/manifest.json" />
       <link
         rel="icon"
         type="image/png"

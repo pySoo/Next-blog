@@ -14,6 +14,7 @@ import CodeBlock from '@/components/mdx/CodeBlock';
 import ZoomImage from '@/components/mdx/ZoomImage';
 import PostFooter from '@/components/PostFooter';
 import { PostNavigationProps } from '@/components/PostNavigation';
+import { BlogSEO } from '@/components/SEO';
 import { fadeInHalf, staggerHalf } from '@/constants/animations';
 import { Post, Series, TableOfContents } from '@/types/post';
 
@@ -45,6 +46,13 @@ export default function PostDetailLayout({
 
   return (
     <Layout>
+      <BlogSEO
+        {...post}
+        url={post.slug}
+        summary={post.description}
+        images={[]}
+      />
+
       <motion.section
         variants={staggerHalf}
         initial="initial"

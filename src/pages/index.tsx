@@ -1,5 +1,4 @@
 import { motion } from 'framer-motion';
-import Link from 'next/link';
 import React from 'react';
 
 import LinkArrow from '@/common/LinkArrow';
@@ -15,7 +14,7 @@ import Layout from '@/layouts/Layout';
 export default function Home() {
   return (
     <Layout>
-      <PageSEO title="pySoo blog" description="블로그 설명입니다." url="/" />
+      <PageSEO url="/" />
       <motion.section
         variants={staggerHalf}
         initial="initial"
@@ -28,9 +27,13 @@ export default function Home() {
         </PlainText>
         <div className="flex items-center text-tertiary">
           더 많은 글을 읽어보시려면
-          <Link href={`https://velog.io/@soopy368`}>
+          <a
+            href={`https://velog.io/@soopy368`}
+            target="_blank"
+            rel="noreferrer"
+          >
             <Pill className="w-fit mx-1">Velog</Pill>
-          </Link>
+          </a>
           를 방문해주세요!
         </div>
       </motion.section>

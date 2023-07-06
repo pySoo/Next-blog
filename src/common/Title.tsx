@@ -8,7 +8,7 @@ export default function Title({
     <h1
       {...props}
       className={$(
-        'mb-4 text-3xl font-extrabold tracking-tight sm:text-5xl',
+        'mb-4 text-3xl font-extrabold tracking-tight sm:text-4xl',
         className,
       )}
     >

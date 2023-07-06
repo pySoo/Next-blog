@@ -59,7 +59,7 @@ export default function BlogPage({
             <span className="font-bold">({seriesList.length})</span>
           </motion.div>
           <motion.div
-            className="-my-12 -ml-8 flex items-center space-x-6 overflow-scroll py-12 pl-8 no-scrollbar"
+            className="-my-12 -ml-8 flex items-center space-x-6 overflow-scroll py-12 pl-8 no-scrollbar gap-3"
             variants={staggerOne}
           >
             <AnimatePresence mode="wait">

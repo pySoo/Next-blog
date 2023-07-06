@@ -13,7 +13,7 @@ import CalendarIcon from './icons/CalendarIcon';
 import ClockIcon from './icons/ClockIcon';
 
 export default function PostList({ post }: { post: ReducedPost }) {
-  const href = `/blog/[...slug]`;
+  const href = !!post.snippetName ? `/snippets/[...slug]` : `/blog/[...slug]`;
 
   return (
     <div className={$('text-ye group w-full py-4')}>
@@ -22,9 +22,9 @@ export default function PostList({ post }: { post: ReducedPost }) {
           <Image
             src={post.image ?? defaultCoverImage}
             alt={'대표 이미지'}
-            width={300}
-            height={300}
-            className="h-52 w-full object-cover"
+            width={530}
+            height={530}
+            className="h-52 w-full object-cover max-w-[530px] mx-auto"
             draggable={false}
           />
         </div>

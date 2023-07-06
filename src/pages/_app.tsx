@@ -15,7 +15,7 @@ export default function App({ Component, pageProps }: AppProps) {
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Head>
       <DefaultSeo {...seoConfig} />
-      <div className={$('font-sans')}>
+      <div className={$('font-sans break-keep')}>
         <Component {...pageProps} />
       </div>
     </ThemeProvider>

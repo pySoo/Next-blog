@@ -40,7 +40,7 @@ export default function HeaderNavigation() {
     <nav className="text-secondary flex w-full select-none items-end pt-8 pb-12">
       <div className="hidden items-end sm:flex">
         <NavItem href="/" className="mr-2" aria-label="logo">
-          <LogoIcon width={40} />
+          <img src="/gif/sunflower.gif" width="40" alt="logo" />
         </NavItem>
         {siteConfig.menus.map((link) => (
           <NavItem key={link.label} href={link.path} className="px-3 py-1.5">

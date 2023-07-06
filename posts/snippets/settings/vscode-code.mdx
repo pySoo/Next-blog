@@ -1,0 +1,49 @@
+---
+title: '(vscode) code 명령어 등록하기'
+description: ''
+icon: ''
+image: ''
+tags:
+  - settings
+  - vscode
+  - code
+draft: false
+date: 2023-07-06 15:05:38
+---
+
+## VSCode의 code 명령어
+
+VSCode에서 개발할 때 code 명령어가 왜 필요할까요?
+
+- 터미널에서 프로젝트 폴더에 들어간 다음 `code .` 명령어를 입력하면 프로젝트 폴더에 대한 vscode가 바로 열리기 때문에 편리합니다.
+- 또한, git hist와 같은 git commit 단축어를 등록할 때 code 명령어가 필요합니다.
+
+지금부터 1분만 투자해서 앞으로의 개발을 더 편하게 만들어봅시다! 👏
+
+<br />
+
+### code 명령어 등록
+
+1. vscode에서 `command+shift+p` 를 누릅니다.
+2. 입력창에 shell command를 입력하고 `Shell Command: Install ‘code’ command ~` 를 클릭합니다.
+3. code command 등록이 완료 되었습니다. 터미널에서 code를 입력하면 실행됩니다.
+
+<br />
+
+### 권한이 없다고 뜨거나 재부팅시에 명령어가 사라진다면?
+
+**방법 1.**
+
+Downloads에 있는 Visual Studio Code를 Applications 폴더로 이동시킵니다.
+
+- finder를 이용하여 드래그 앤 드롭을 하면 재부팅을 안 해줘도 됩니다.
+- 터미널을 이용해 이동할 경우 재부팅이 필요합니다.
+
+```bash
+  mv Visual\ Studio\ Code.app /Applications
+```
+
+**방법2.**
+
+1. rm -rf /usr/local/bin/code 로 code 명령어를 삭제합니다. (권한이 없다면 sudo를 맨 앞에 붙여보기)
+2. vscode에서 위의 방법에 따라 code 명령어를 다시 설치합니다.

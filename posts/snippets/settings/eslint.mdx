@@ -1,0 +1,138 @@
+---
+title: '(eslint) airbnb 스타일로 eslint, prettier 적용하기'
+description: 'husky와 lint-staged를 이용해서 git hook을 적용하고 lint, prettier를 자동화 하는 법을 배워보겠습니다.'
+icon: ''
+image: ''
+tags:
+  - eslint
+  - prettier
+  - airbnb style
+draft: false
+date: 2023-07-06 17:44:02
+---
+
+## JS 환경에서의 ESLint, Prettier
+
+JS 개발에서는 Airbnb에서 정의한 규칙을 가장 많이 사용하고 있기 때문에 지금부터 **Airbnb 코드 스타일의 린트 세팅을** 해보겠습니다.
+
+### ESLint, Prettier 설치하기
+
+1.  eslint-config-airbnb를 설치하기 위해 필요한 패키지들을 확인해보겠습니다.
+
+    ```bash
+    npm info "eslint-config-airbnb@latest" peerDependencies
+    { eslint: '^5.16.0 || ^6.8.0',
+      'eslint-plugin-import': '^2.20.1',
+      'eslint-plugin-jsx-a11y': '^6.2.3',
+      'eslint-plugin-react': '^7.19.0',
+      'eslint-plugin-react-hooks': '^2.5.0 || ^1.7.0' }
+    ```
+
+2.  검색된 peerDependencies들을 모두 설치해줍니다.
+    여기서 `-D`를 붙이는 이유는 **패키지들을 개발 환경에만 설치하기 위함**입니다. 실제 환경에 필요하지 않는 패키지들은 -D를 붙여서 최대한 번들 용량을 줄일 수 있도록 합시다.
+    (package.json에서 devDependencies에 추가가 되었다면 잘 따라오고 계신 겁니다!)
+
+```bash
+yarn add -D eslint eslint-config-airbnb eslint-plugin-import eslint-plugin-jsx-a11y eslint-plugin-react eslint-plugin-react-hooks
+```
+
+3.  eslint-config-prettier를 설치해서 prettier과 충돌하는 부분을 비활성화합니다.
+
+    eslint는 자바스크립트 문법을 담당하고 prettier은 코드 스타일 정리를 담당합니다.
+
+```bash
+yarn add -D prettier eslint-config-prettier eslint-plugin-prettier
+```
+
+4.  @babel/eslint-parser를 이용해서 babel 이 서포트해주는 코드에 ESLint 를 적용할 수 있도록 해줍니다.
+
+    ES6 이상의 자바스크립트, flow type 등의 feature를 지원해줍니다.
+
+```bash
+yarn add -D @babel/eslint-parser eslint-plugin-babel
+```
+
+<br />
+
+### .eslintrc.json
+
+- 루트 위치(package.json이 위치한 곳)에 .eslintrc.json 파일을 생성하고 아래의 내용을 입력합니다.
+
+```json
+{
+  "env": {
+    "browser": true,
+    "es6": true,
+    "node": true
+  },
+  "parser": "@babel/eslint-parser",
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "airbnb",
+    "plugin:prettier/recommended"
+  ],
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  },
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": 2018,
+    "sourceType": "module"
+  },
+  "plugins": ["react", "react-hooks", "prettier"],
+  "rules": {
+    "react/react-in-jsx-scope": 0,
+    "react/prefer-stateless-function": 0,
+    "react/jsx-filename-extension": 0,
+    "react/jsx-one-expression-per-line": 0
+  },
+  "globals": {
+    "React": "writable"
+  }
+}
+```
+
+```
+규칙 설명
+
+"env" : 활성화하고싶은 환경을 설정해줍니다. 현재 브라우저, node, es6 환경이 활성화되어 있습니다.
+"parser" : parser 를 설정해줍니다. 설정하지 않을 경우 Espree가 기본 parser 로 설정됩니다. 보통 Espree, Babel-ESLint, @typescript-eslint/parser 을 사용합니다. 여기서는 Babel-ESLint 를 사용했습니다.
+"extends" : extension 파트. 이 extension 파트에 Prettier 를 꼭 추가해주셔야 Prettier 를 사용할 수 있습니다. Airbnb 설정을 사용하기로 했으니 Airbnb 도 추가해줍니다.
+"rules" : 필요한 설정, 필요없는 설정을 관리하는 파트입니다. 1은 사용하겠다는 뜻, 0은 사용하지 않겠다는 뜻입니다. ESLint 를 사용하다 별로 필요는 없는데 성가시게 하는 ESLint 에러가 있다면 0 으로 설정해 비활성화하시면 됩니다. 여기 적어둔 네 줄 중에서, 2~4번째 줄은 eslint-config-prettier 을 위한 설정입니다.
+```
+
+<br />
+
+### .prettierrc
+
+- 마찬가지로 루트 위치에 .prettierrc 파일을 생성하고 아래의 코드를 입력합니다.
+
+```json
+{
+  "singleQuote": false,
+  "semi": true,
+  "useTabs": false,
+  "tabWidth": 2,
+  "trailingComma": "all",
+  "printWidth": 80
+}
+```
+
+```
+# 규칙 설명
+
+문자열을 사용 할 때에는 " 를 사용합니다. (홑따옴표가 아닌 겹따옴표 사용)
+코드는 ; (semi-colon)으로 끝나야합니다.
+tab 대신에 스페이스를 사용합니다.
+들여쓰기 크기는 2칸입니다. (space 2칸)
+객체나 배열을 작성 할 때, 원소 혹은 key-value 의 맨 뒤에있는 것에도 쉼표를 붙입니다.
+한 줄이 80칸이 넘지 않도록 합니다.
+```
+
+ESLint와 Prettier의 파일 작성 부분에서는 본인의 코드 스타일에 맞게 유연하게 규칙을 추가하고 수정하면 됩니다.
+수고하셨습니다. 🤗

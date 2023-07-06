@@ -1,0 +1,162 @@
+---
+title: 웹을 이루는 핵심 요소를 알아봅시다! (DOM, BOM, JavaScript)
+description: 앞으로의 웹 개발 지식을 배울 때 꼭 등장하는 개념입니다. 해당 요소들이 웹을 만드는데 어떻게 쓰이는지 알아봅시다!
+icon: ''
+image: '/posts/1-dom/cover.png'
+tags:
+  - window
+  - DOM
+  - BOM
+  - JavaScript
+date: 2023-07-06 20:15:01
+---
+
+# DOM, BOM, JS
+
+위의 요소들은 앞으로 웹 개발 지식을 배울 때 자주 등장하는 개념입니다.
+해당 요소들이 웹을 이루는데 어떤 역할을 하는지와 어떠한 특성이 있는지 배워보겠습니다.
+
+먼저, 우리는 Window에 대해서 알아야 합니다.
+
+## Window
+
+> - 자바스크립트의 최상위 객체 / 전역 객체 / 모든 객체가 소속된 객체
+
+window는 **브라우저를 대변하고 이를 제어할 수 있는 메서드를 제공**합니다.
+
+브라우저를 대변한다니, 이게 무슨 말일까요? window가 뭐하는 녀석인지 확인해 봐야겠습니다. 🧐
+
+![230706-201501](/posts/1-dom/230706-201501.png)
+
+<br />
+
+크롬에서 F12를 눌러서 개발자 모드 콘솔창에 this를 입력해봅시다.
+
+![](https://velog.velcdn.com/images/soopy368/post/b49c3b17-b668-4f97-aa65-0ed25d55bf14/image.png)
+
+콘솔에 this를 입력했더니 window 객체가 출력되었습니다.
+js 개발에서 많이 사용했던 alert, clearTimeout 등의 메서드들이 보이네요!
+
+아하, window가 브라우저를 대변한다는 말은
+**window는 브라우저 창을 의미하고 이 창을 제어하는 다양한 메서드들을 제공**한다는 의미였습니다.
+
+흥미로운 점은 `this=window`이기 때문에 window.clearTimeout()에서 window를 생략해서 사용할 수 있습니다.
+그동안 우리가 사용했던 clearTimeout()은 사실 this.clearTimeout(), window.clearTimeout() 이었던 것이죠.
+
+> ## Okay!
+
+![230706-201703](/posts/1-dom/230706-201703.png)
+
+지금까지 **window는 브라우저 창을 의미**하고 웹을 만들 때 사용하는 **여러 메서드**들을 가지고 있는 것을 파악했습니다!
+
+그렇다면 브라우저를 의미하는 window는 어떻게 구성되어 있고 메서드들은 어디에 존재하는 걸까요?
+브라우저 안에는 다양한 객체들이 트리형태로 구성되어 있는데, 이 중 **window가 최상위**에 위치하고 있습니다.
+
+![](https://velog.velcdn.com/images/soopy368/post/7d285e93-3618-4921-a659-30cae6d40efd/image.png)
+
+사실 저희가 배우고자 했던 DOM, BOM, JS는 **window의 자식**입니다.
+지금부터 각 요소들이 어떤 역할을 하는지 알아보겠습니다.
+
+<br />
+
+## DOM(Document Object Model)
+
+> - 문서 객체 모델(DOM): 객체 지향 모델로써 구조화된 문서를 표현하는 방식
+
+위 설명은 MDN에서 정의한 DOM의 정의입니다. 말이 꽤나 어렵죠? 🤯
+쉽게 풀어보자면, DOM이란 **HTML tag들을 브라우저가 이해할 수 있는 객체 형태로 구성한 것**입니다.
+
+브라우저는 안타깝게도 HTML의 tag들을 이해할 수 없습니다..
+따라서 화면을 그리기 위해 HTML tag들을 브라우저가 이해할 수 있는 **DOM tree 형태로 변경합니다.**
+
+### DOM Tree의 객체 구성
+
+![](https://velog.velcdn.com/images/soopy368/post/b9bfe36b-9d37-468c-92c8-6d7670a50673/image.png)
+
+앞으로 타입스크립트를 사용할 때, 우리는 객체의 타입을 설정해주어야 합니다.
+예를 들어서 화면에 `input 태그`를 이용해야한다면 우리는 `HTMLInputElement`를 타입으로 설정합니다.
+
+혹시 `HTMLInputElement`가 어디서 온 녀석인지 궁금하지 않으신가요?
+네 사실 저도 별로 궁금하진 않았습니다..
+
+우리는 DOM Tree가 어떻게 구성 되어있는지 이해하는 것이 필요하니 예의상 궁금한척을 해주도록 하죠!
+
+위의 트리를 따라가주면 최상위 객체는 Node이고 순서대로 Element, HTMLElement를 따라가는 것을 확인할 수 있습니다.
+
+> ## Okay!
+
+![cover](/posts/1-dom/cover.png)
+
+최상위 객체가 Node라는 것은 JS의 Node 객체로 변환된다는 것입니다.
+즉, HTML의 Tag는 브라우저가 이해할 수 있는 형태인 JS Node 객체로 변환됩니다.
+
+<br />
+
+## BOM(Browser Object Model)
+
+![](https://velog.velcdn.com/images/soopy368/post/4929d568-a523-4e60-8471-727012e483b1/image.jpeg)
+
+> 브라우저 객체 모델(BOM): JS가 브라우저와 소통하기 위해 만들어진 모델
+
+JS를 이용하면 브라우저의 정보에 접근하거나, 브라우저의 여러 기능들을 제어할 수 있습니다.
+이 때 사용하는 객체 모델이 BOM입니다.
+
+이름은 생소하지만 어떤 요소들이 있는지 알게되면 꽤나 친숙해보일 것입니다.
+
+### BOM 요소
+
+| 이름      | 설명                                                     |
+| --------- | -------------------------------------------------------- |
+| navigator | 브라우저와 버전 정보를 속성으로 가짐                     |
+| location  | 현재 url에 대한 정보, 브라우저에서 사용자가 요청하는 url |
+| document  | 현재 문서에 대한 정보                                    |
+| screen    | 브라우저의 외부 환경에 대한 정보를 제공                  |
+| history   | 현재의 브라우저가 접근했던 url history                   |
+
+<br />
+
+## JavaScript
+
+마지막으로 다룰 개념은
+프론트엔드 개발자와 애증의 관계인.. JavaScript입니다!
+
+![230706-200314](/posts/1-dom/230706-200314.png)
+
+지금은 JS의 기묘한(..) 속성에 집중하기보다는! 브라우저에서 어떠한 역할을 하는지에 대해 알아보겠습니다.
+
+> JavaScript는 DOM, BOM 요소를 조작할 수 있기 때문에 화면을 동적으로 그리는 역할을 합니다.
+
+앞서 배운 DOM, BOM을 반갑게 만나보면서 JS가 이들을 어떻게 조작하는지에 대해 살펴보겠습니다.
+
+### JS의 DOM 조작
+
+```javascript
+// class명이 target인 요소 노드를 선택합니다.
+const taget = document.querySelector('.target');
+
+// target 노드의 className을 'non-target'으로 변경합니다.
+target.className = 'non-target';
+```
+
+### JS의 BOM 조작
+
+```javascript
+// 현재 페이지를 새로고침 합니다.
+window.location.reload(true);
+
+// userAgent 속성을 이용해서 크롬 환경인지 아닌지를 확인합니다.
+const userAgent = window.navigator.userAgent.toLowerCase();
+if (userAgent.indexOf('chrome') > -1) {
+  console.log('크롬이다!');
+} else {
+  console.log('크롬이 아니다...');
+}
+```
+
+## 글을 마치며
+
+지금까지 window, DOM, BOM, JS가 브라우저에서 어떠한 역할을 수행하는지 알아봤습니다.
+자주 등장하는 개념들을 익힌 덕분에 앞으로 웹 개발에서 배울 내용들을 더 잘 이해할 수 있게 되었습니다!
+그럼 다음 포스팅에서 뵙겠습니다.
+
+![230706-203440](/posts/1-dom/230706-203440.png)

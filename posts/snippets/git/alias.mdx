@@ -1,0 +1,56 @@
+---
+title: '(git) Git alias로 단축키 등록하기'
+description: 'Git alias를 이용해서 자주 사용하는 명령어를 단축키로 등록합니다.'
+icon: ''
+image: ''
+tags:
+  - git 단축키 등록
+  - git alias
+draft: false
+date: 2023-07-06 18:33:03
+---
+
+## Git alias란?
+
+Git 명령어를 단축키를 등록해서 간단하게 사용할 수 있게 해주는 기능입니다.
+
+### 1. **Git Commands로 설정하기**
+
+- **git config** 를 사용하여 각 명령의 Alias을 쉽게 만들 수 있습니다.
+
+```bash
+git config --global alias.st 'status -s'
+```
+
+git st를 입력하면 git status -s 명령어가 실행됩니다.
+
+<br />
+
+### 2. **gitconfig 파일에 직접 설정하기**
+
+.gitconfing 파일을 vim을 통해 직접 설정이 가능합니다.
+
+```bash
+vim ~/.gitconfig
+```
+
+![230706-180256](/posts/alias/230706-180256.png)
+
+1. i를 눌러 입력 모드로 전환합니다.
+2. [alias] 탭의 내용을 수정합니다.
+3. 저는 push origin과 status를 등록했습니다.
+4. 저장하기 위해 `:`를 누르고 `wq`를 입력합니다.
+5. 터미널에서 git p 또는 git st가 정상 동작하는 것을 확인합니다.
+
+## git log 꿀팁 🍯
+
+- git log를 그래프, 작성시간, 작성자가 포함된 형태로 예쁘게 볼 수 있는 단축키를 등록해보겠습니다.
+- 2번 방법에 따라 vim을 실행하고 아래의 내용을 입력합니다.
+
+```bash
+lg = log --graph --abbrev-commit --decorate --format=format:'%C(cyan)%h%C(reset) - %C(green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(yellow)%d%C(reset)' --all
+```
+
+![230706-180514](/posts/alias/230706-180514.png)
+
+git lg를 입력했을 때 아래의 로그가 보이는 것을 확인합니다. 😊

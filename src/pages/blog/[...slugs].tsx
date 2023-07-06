@@ -12,8 +12,7 @@ import { Series } from '@/types/post';
 export const getStaticPaths: GetStaticPaths = async () => {
   return {
     paths: allBlogPosts.map((post) => post.slug),
-    // 현재 등록된 글 이외의 제목이 전달될경우 404 처리
-    fallback: true,
+    fallback: 'blocking',
   };
 };
 

@@ -11,32 +11,41 @@ type PostCardType = {
   imgUrl: string;
   title: string;
   date: string;
+  isDraft?: boolean;
 };
 
-export default function PostCard({ href, imgUrl, title, date }: PostCardType) {
+export default function PostCard({
+  href,
+  imgUrl,
+  title,
+  date,
+  isDraft,
+}: PostCardType) {
   return (
     <motion.a
-      href={href}
-      className="overflow-hidden rounded-xl bg-neutral-200 dark:bg-neutral-800"
+      href={isDraft ? undefined : href}
+      className={`overflow-hidden rounded-xl bg-neutral-200 dark:bg-neutral-800 ${
+        isDraft ? 'cursor-not-allowed' : ''
+      }`}
       variants={fadeInUp}
-      whileHover={{ scale: 1.02, transformOrigin: 'center' }}
-      whileTap={{ scale: 0.98 }}
+      whileHover={{ scale: isDraft ? 1 : 1.02 }}
+      whileTap={{ scale: isDraft ? 1 : 0.98 }}
     >
-      <div>
+      <div className={`${isDraft ? 'opacity-50' : 'opacity-100'}`}>
         <Image
           src={imgUrl}
           alt={title}
           width={300}
           height={300}
-          className="h-64 w-full object-cover"
+          className={'h-64 w-full object-cover'}
           draggable={false}
         />
-      </div>
-      <div className="p-6">
-        <div className="mb-2 flex w-full items-end">
-          <IconText Icon={CalendarIcon} text={date} />
+        <div className="p-6">
+          <div className="mb-2 flex w-full items-end">
+            <IconText Icon={CalendarIcon} text={date} />
+          </div>
+          <p className="text-xl font-bold tracking-tight md:text-lg">{title}</p>
         </div>
-        <p className="text-xl font-bold tracking-tight md:text-lg">{title}</p>
       </div>
     </motion.a>
   );

@@ -10,6 +10,28 @@ import rehypePrism from "rehype-prism-plus";
 import rehypeSlug from "rehype-slug";
 import remarkBreaks from "remark-breaks";
 import remarkGfm from "remark-gfm";
+
+// src/libs/rehypeCodeWrap.js
+import { visit } from "unist-util-visit";
+function rehypeCodeWrap() {
+  return (tree) => {
+    visit(tree, { tagName: "pre" }, (node, index) => {
+      if (!node.children || !node.children.length)
+        return;
+      const { properties } = node.children[0];
+      if (!properties.className || !properties.className.length)
+        return;
+      const [lang, filename] = properties.className[0].split(":").map((e) => e.trim());
+      if (filename) {
+        properties.className = lang;
+        node.properties.title = filename;
+      }
+      tree.children[index] = node;
+    });
+  };
+}
+
+// contentlayer.config.ts
 var fields = {
   title: { type: "string", required: true },
   description: { type: "string", required: true },
@@ -23,7 +45,6 @@ var Post = defineDocumentType(() => ({
   name: "Post",
   contentType: "mdx",
   filePathPattern: `**/*.mdx`,
-  // mdx 파일경로 패턴
   fields,
   computedFields: {
     slug: {
@@ -47,7 +68,7 @@ var contentSource = makeSource({
     remarkPlugins: [remarkGfm, remarkBreaks],
     rehypePlugins: [
       rehypeSlug,
-      // rehypeCodeWrap,
+      rehypeCodeWrap,
       rehypePrism,
       [
         rehypeAutolinkHeadings,
@@ -73,4 +94,4 @@ export {
   Post,
   contentlayer_config_default as default
 };
-//# sourceMappingURL=compiled-contentlayer-config-DMQF6WYM.mjs.map
+//# sourceMappingURL=compiled-contentlayer-config-F7KD45MQ.mjs.map

@@ -22,7 +22,9 @@ export default function Layout({ children }: { children: ReactNode }) {
         <div className="flex flex-col items-end space-y-1">
           <p>
             <span>© {since} </span>
-            <LinkExternal href={siteConfig.author.contacts.github}>
+            <LinkExternal
+              href={`https://github.com/${siteConfig.author.contacts.github}`}
+            >
               {siteConfig.title}
             </LinkExternal>
             <span> Powered by </span>

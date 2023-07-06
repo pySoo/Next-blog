@@ -24,7 +24,16 @@ export default function Document() {
       />
       <meta name="msapplication-TileColor" content="#ffffff" />
       <meta name="msapplication-TileImage" content="/ms-icon-144x144.png" />
-      <meta name="theme-color" content="#ffffff" />
+      <meta
+        name="theme-color"
+        content="#fafafa"
+        media="(prefers-color-scheme: light)"
+      />
+      <meta
+        name="theme-color"
+        content="#131313"
+        media="(prefers-color-scheme: dark)"
+      />
       <body className="text-primary bg-primary">
         <Main />
         <NextScript />

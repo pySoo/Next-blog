@@ -5,6 +5,12 @@
 @import 'intellij-prism.css';
 @import 'prose.css';
 
+@layer base {
+  html {
+    @apply scroll-smooth;
+  }
+}
+
 html,
 body,
 #__next {
@@ -15,4 +21,12 @@ body,
 * {
   /* MW touch highlight 제거 */
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+::selection {
+  @apply bg-neutral-400/30;
+}
+
+.dark ::selection {
+  @apply bg-neutral-500/30;
 }

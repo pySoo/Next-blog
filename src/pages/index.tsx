@@ -21,7 +21,7 @@ export default function Home() {
         animate="animate"
         className="text-tertiary"
       >
-        <Title>Seize the day!</Title>
+        <Title className="text-primary">Seize the day!</Title>
         <span>
           반갑습니다🤗 <br />
           꾸준함과 글쓰기를 좋아하는 개발자 박수현입니다. <br /> <br />
@@ -46,7 +46,7 @@ export default function Home() {
         animate="animate"
       >
         <motion.div variants={fadeIn}>
-          <SubTitle className="mb-6">Featured Posts</SubTitle>
+          <SubTitle className="mb-6 text-tertiary">Featured Posts</SubTitle>
         </motion.div>
         <motion.div
           className="grid gap-6 md:grid-cols-4"

@@ -20,7 +20,6 @@ export default function AuthorContacts({
 
         if (sns === 'email') contact = `mailto:${contact}`;
         else if (sns === 'github') contact = `https://github.com/${contact}`;
-        else if (sns === 'twitter') contact = `https://twitter.com/${contact}`;
         else if (sns === 'velog') contact = `https://velog.io/${contact}`;
 
         return !contact ? null : (

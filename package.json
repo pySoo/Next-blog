@@ -37,6 +37,7 @@
     "@tailwindcss/typography": "^0.5.9",
     "@types/detect-touch": "^1.1.0",
     "@types/glob": "^8.1.0",
+    "@types/gtag.js": "^0.0.12",
     "@types/node": "18.11.9",
     "@types/react": "18.0.24",
     "@types/react-dom": "18.0.8",

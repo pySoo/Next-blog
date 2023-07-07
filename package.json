@@ -19,6 +19,7 @@
     "@next/font": "^13.4.7",
     "autoprefixer": "10.4.14",
     "dayjs": "^1.11.8",
+    "detect-touch": "^1.1.2",
     "framer-motion": "^8.4.2",
     "gray-matter": "^4.0.3",
     "gsap": "^3.12.2",
@@ -34,6 +35,7 @@
   },
   "devDependencies": {
     "@tailwindcss/typography": "^0.5.9",
+    "@types/detect-touch": "^1.1.0",
     "@types/glob": "^8.1.0",
     "@types/node": "18.11.9",
     "@types/react": "18.0.24",

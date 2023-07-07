@@ -11,12 +11,13 @@ export default function NavItem({
   ...props
 }: React.ComponentProps<'a'>) {
   const router = useRouter();
-  const isActive = router.asPath.startsWith(href ?? '/');
+  const currentPath = '/' + router.asPath.split('/')[1].split('?')[0] ?? '';
+  const isActive = href === currentPath;
 
   return (
     <LinkHover
       {...props}
-      href={href}
+      href={href ?? undefined}
       className={$(
         isActive ? 'text-primary font-semibold' : 'text-secondary font-normal',
         className,

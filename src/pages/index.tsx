@@ -21,22 +21,59 @@ export default function Home() {
         animate="animate"
         className="text-tertiary"
       >
-        <Title className="text-primary">Seize the day!</Title>
-        <span>
-          반갑습니다🤗 <br />
-          꾸준함과 글쓰기를 좋아하는 개발자 박수현입니다. <br /> <br />
-          현재 블로그 이사 작업을 하고 있습니다. 🚛 💭 💭
-        </span>
-        <div className="w-full flex items-center whitespace-nowrap">
-          <span>더 많은 글을 읽어보시려면</span>
-          <a
-            href={`https://velog.io/@soopy368`}
-            target="_blank"
-            rel="noreferrer"
-          >
-            <Pill className="w-fit mx-1">Velog</Pill>
-          </a>
-          <span>를 방문해주세요!</span>
+        <Title className="text-primary flex max-[410px]:flex-col">
+          <span className="mr-2 pb-1">기억은 기록을 이기지</span>
+          <span className="flex">
+            <span>못한다</span>
+            <span className="ml-2">✍️</span>
+          </span>
+        </Title>
+        <div className="pt-2 flex flex-col sm:flex-row justify-between">
+          <div className="w-full h-full">
+            <p className="w-full h-full">
+              반갑습니다 🤗 <br />
+              꾸준함과 글쓰기를 좋아하는 개발자 박수현입니다. <br />
+            </p>
+            <p className="pt-[15px] sm:hidden">
+              상단의{' '}
+              <motion.span
+                className="text-yellow-500 font-bold"
+                whileTap={{ fontSize: '20px' }}
+              >
+                해바라기
+              </motion.span>
+              를 눌러서 블로그를 구경해 보시죠!
+            </p>
+            <p className="pt-[15px]">
+              현재 블로그 이사 작업을 하고 있습니다. 🚛 💭 💭 <br />
+            </p>
+            <div className="w-full flex items-center whitespace-nowrap">
+              <span>더 많은 글을 읽어보시려면</span>
+              <a
+                href={`https://velog.io/@soopy368`}
+                target="_blank"
+                rel="noreferrer"
+              >
+                <Pill className="w-fit mx-1">Velog</Pill>
+              </a>
+              <span>를 방문해주세요!</span>
+            </div>
+          </div>
+          <div className="w-[256px] relative mt-8 mx-auto sm:mt-0">
+            <div
+              className={`absolute left-0 top-0 w-[22px] h-full z-[10] pointer-events-none
+              bg-gradient-to-r from-neutral-50 dark:from-neutral-900`}
+            />
+            <img
+              className="w-fit mx-auto object-contain sm:h-[140px]"
+              src="/gif/truck.gif"
+              alt="truck"
+            />
+            <div
+              className={`absolute right-0 top-0 w-[12px] h-full z-[10] pointer-events-none
+              bg-gradient-to-l from-neutral-50 dark:from-neutral-900`}
+            />
+          </div>
         </div>
       </motion.section>
       <motion.section

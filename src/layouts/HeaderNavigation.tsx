@@ -42,7 +42,7 @@ export default function HeaderNavigation() {
   }, []);
 
   return (
-    <nav className="text-secondary flex w-full select-none items-end pt-8 pb-12">
+    <nav className="text-secondary flex w-full select-none items-end pt-8 pb-9 sm:pb-12">
       <div className="hidden items-end sm:flex">
         <NavItem href="/" className="mr-2" aria-label="logo">
           <LogoIcon />

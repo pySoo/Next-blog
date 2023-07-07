@@ -31,7 +31,7 @@ export default function PostCard({
             initial="initial"
             whileInView="animate"
             exit="exit"
-            viewport={{ amount: 0.3, once: true }}
+            viewport={{ amount: 0.08, once: true }}
             className={`overflow-hidden rounded-xl bg-neutral-200 dark:bg-neutral-800 ${
               isDraft ? 'cursor-not-allowed' : ''
             }`}

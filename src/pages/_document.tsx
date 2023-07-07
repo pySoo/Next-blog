@@ -1,5 +1,7 @@
 import { Head, Html, Main, NextScript } from 'next/document';
 
+import { isDev } from '@/libs/core';
+
 export default function Document() {
   return (
     <Html lang="en">
@@ -43,6 +45,17 @@ export default function Document() {
       >
         <Main />
         <NextScript />
+        {!isDev && (
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+          `,
+            }}
+          />
+        )}
       </body>
     </Html>
   );

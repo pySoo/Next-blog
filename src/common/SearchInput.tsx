@@ -50,13 +50,19 @@ export default function SearchInput({
   }, [debouncedText]);
 
   return (
-    <form className={$('relative w-full', className)} onSubmit={handleSubmit}>
+    <form
+      className={$(
+        'relative w-full flex items-center',
+        'w-full rounded-xl border px-4 py-2 w-[150px] sm:min-w-[200px]',
+        'border-neutral-200 bg-tertiary placeholder:text-tertiary dark:border-neutral-900 dark:bg-neutral-800',
+        className,
+      )}
+      onSubmit={handleSubmit}
+    >
       <input
         type="text"
         className={$(
-          'block w-full rounded-md border px-4 py-2 sm:min-w-[300px]',
-          'border-neutral-200 bg-white placeholder:text-tertiary dark:border-neutral-900 dark:bg-neutral-800',
-          'focus:outline-none focus:ring-4 focus:ring-neutral-200 dark:focus:ring-neutral-800',
+          'w-full bg-tertiary placeholder:text-mute dark:bg-neutral-800 focus:outline-none',
         )}
         placeholder={placeholder}
         value={inputText}
@@ -64,10 +70,7 @@ export default function SearchInput({
         onClick={handleClick}
         autoFocus={isSearchPage}
       />
-      <button
-        type="submit"
-        className="text-secondary absolute right-3 top-3 h-5 w-5"
-      >
+      <button type="submit" className="text-secondary h-5 w-5 ml-1">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"

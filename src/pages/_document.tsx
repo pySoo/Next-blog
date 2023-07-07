@@ -34,7 +34,13 @@ export default function Document() {
         content="#131313"
         media="(prefers-color-scheme: dark)"
       />
-      <body className="text-primary bg-primary">
+      <body
+        className="text-primary bg-primary select-none"
+        style={{
+          WebkitUserSelect: 'none',
+          WebkitTouchCallout: 'none',
+        }}
+      >
         <Main />
         <NextScript />
       </body>

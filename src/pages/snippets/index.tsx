@@ -111,8 +111,8 @@ export default function SnippetPage({
                   className="cursor-pointer whitespace-nowrap"
                   selected={key === selectedKey}
                 >
-                  {title(key)}{' '}
-                  <span className="text-xs">{postList.length}</span>
+                  {title(key)}
+                  <span className="text-xs ml-1">{postList.length}</span>
                 </Pill>
               </Link>
             </motion.div>

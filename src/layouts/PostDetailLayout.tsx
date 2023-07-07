@@ -14,6 +14,7 @@ import CodeBlock from '@/components/mdx/CodeBlock';
 import ZoomImage from '@/components/mdx/ZoomImage';
 import PostFooter from '@/components/PostFooter';
 import { PostNavigationProps } from '@/components/PostNavigation';
+import ReadingProgressBar from '@/components/ReadingProgressBar';
 import { BlogSEO } from '@/components/SEO';
 import { fadeInHalf, staggerHalf } from '@/constants/animations';
 import { Post, Series, TableOfContents } from '@/types/post';
@@ -52,7 +53,7 @@ export default function PostDetailLayout({
         summary={post.description}
         images={[]}
       />
-
+      <ReadingProgressBar />
       <motion.section
         variants={staggerHalf}
         initial="initial"

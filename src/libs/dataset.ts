@@ -70,7 +70,7 @@ export const allFeaturedPosts: PostCardType[] = [
   },
   {
     href: '',
-    imgUrl: '/images/samples/draft3.png',
+    imgUrl: '/images/samples/draft-cover.png',
     title: '(공개 예정) Critical Rendering Path',
     date: '',
     isDraft: true,

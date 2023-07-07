@@ -1,5 +1,3 @@
-import Link from 'next/link';
-
 import { $ } from '@/libs/core';
 
 export default function LinkHover({
@@ -10,15 +8,15 @@ export default function LinkHover({
   ...props
 }: React.ComponentProps<'a'>) {
   return (
-    <Link
+    <a
       {...props}
-      href={href ?? '/'}
+      href={href ?? undefined}
       className={$(
         'flex items-center rounded-lg transition-all hover:bg-secondary',
         className,
       )}
     >
       {children}
-    </Link>
+    </a>
   );
 }

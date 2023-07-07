@@ -32,7 +32,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 
   const postNavigation: PostNavigationProps = {
     prevPost: allBlogPosts.at(postIndex + 1) ?? null,
-    nextPost: allBlogPosts.at(postIndex - 1) ?? null,
+    nextPost: postIndex === 0 ? null : allBlogPosts.at(postIndex - 1) ?? null,
   };
 
   let series: Series | null = null;

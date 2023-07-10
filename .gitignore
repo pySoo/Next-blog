@@ -36,3 +36,8 @@ next-env.d.ts
 .vscode
 .eslintcache
 .env
+
+# next-sitemap
+/build
+/public/robots.txt
+/public/sitemap*.xml

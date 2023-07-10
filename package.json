@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build && next-sitemap && next export",
     "start": "next start",
     "postinstall": "husky install",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --cache",
@@ -56,6 +56,7 @@
     "husky": "^8.0.3",
     "lint-staged": "^13.2.3",
     "next-contentlayer": "^0.3.4",
+    "next-sitemap": "^4.1.8",
     "postcss": "8.4.24",
     "prettier": "^2.8.8",
     "reading-time": "^1.5.0",

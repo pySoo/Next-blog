@@ -15,7 +15,7 @@ const getRelativeUrl = (url?: string) => {
   return `${siteConfig.url}/${url.replace(/^\/+/g, '')}`;
 };
 
-const DEFAULT_IMAGE = `${siteConfig.url}/images/base.jpg`;
+const DEFAULT_IMAGE = `${siteConfig.url}/images/base.jpeg`;
 
 const getImageUrl = (img?: string) => {
   if (!img) return DEFAULT_IMAGE;

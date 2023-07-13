@@ -30,7 +30,7 @@ export const allSnippets: Post[] = allPosts
   .filter((post) => post._raw.sourceFilePath.includes('snippets'))
   .map((snippet) => ({
     ...snippet,
-    snippetName: snippet.slug.split('/').at(2) ?? null,
+    snippetName: snippet.slug.split('/')[2] ?? null,
   }))
   .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 

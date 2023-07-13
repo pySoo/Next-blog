@@ -20,7 +20,7 @@ export default function PostNavigation({
         >
           <svg
             viewBox="0 0 3 6"
-            className="w-fit text-mute h-1.5 overflow-visible group-hover:text-secondary"
+            className="text-mute h-1.5 overflow-visible group-hover:text-secondary"
           >
             <path
               d="M3 0L0 3L3 6"

@@ -14,7 +14,7 @@ export const siteConfig = {
   googleAnalyticsId: '',
   author: {
     name: 'Suhyeon Park',
-    photo: 'https://avatars.githubusercontent.com/u/55135881?s=96&v=4',
+    photo: 'https://avatars.githubusercontent.com/u/55135881?s=288&v=4',
     bio: 'Junior Frontend Engineer',
     contacts: {
       email: 'soopy368@gmail.com',

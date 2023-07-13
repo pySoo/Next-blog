@@ -18,6 +18,7 @@ import { PostNavigationProps } from '@/components/PostNavigation';
 import ReadingProgressBar from '@/components/ReadingProgressBar';
 import { BlogSEO } from '@/components/SEO';
 import { fadeInHalf, staggerHalf } from '@/constants/animations';
+import { MAX_TABLE_CONTENTS_LENGTH } from '@/constants/contents';
 import { Post, Series, TableOfContents } from '@/types/post';
 
 import Layout from './Layout';
@@ -93,6 +94,7 @@ export default function PostDetailLayout({
             <ContentsTable
               className="lg:hidden"
               tableOfContents={tableOfContents}
+              onlyTitle={tableOfContents.length > MAX_TABLE_CONTENTS_LENGTH}
             />
             <MDXContent components={mdxComponents} />
           </div>

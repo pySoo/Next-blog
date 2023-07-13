@@ -66,9 +66,11 @@ const useScroll = (tableOfContents: TableOfContents) => {
 export default function ContentsBanner({
   tableOfContents,
   className,
+  onlyTitle = false,
 }: {
   tableOfContents: TableOfContents;
   className?: string;
+  onlyTitle?: boolean;
 }) {
   const { currentSectionSlug } = useScroll(tableOfContents);
 
@@ -118,38 +120,39 @@ export default function ContentsBanner({
                     {section.text}
                   </a>
                 </li>
-                {section.subSections.map((subSection) => (
-                  <li key={subSection.slug} className="ml-4">
-                    <a
-                      href={`#${subSection.slug}`}
-                      className={$(
-                        'group flex items-start py-1',
-                        isSubSectionActive(subSection)
-                          ? 'bg-gradient-to-r from-neutral-700 to-yellow-900 bg-clip-text font-extrabold text-transparent dark:from-yellow-400 dark:to-yellow-600'
-                          : 'text-secondary hover:text-primary hover:drop-shadow-base-bold dark:hover:drop-shadow-base',
-                      )}
-                    >
-                      <svg
-                        width="3"
-                        height="24"
-                        viewBox="0 -9 3 24"
+                {!onlyTitle &&
+                  section.subSections.map((subSection) => (
+                    <li key={subSection.slug} className="ml-4">
+                      <a
+                        href={`#${subSection.slug}`}
                         className={$(
-                          'mr-2 overflow-visible',
-                          'text-tertiary group-hover:text-secondary',
+                          'group flex items-start py-1',
+                          isSubSectionActive(subSection)
+                            ? 'bg-gradient-to-r from-neutral-700 to-yellow-900 bg-clip-text font-extrabold text-transparent dark:from-yellow-400 dark:to-yellow-600'
+                            : 'text-secondary hover:text-primary hover:drop-shadow-base-bold dark:hover:drop-shadow-base',
                         )}
                       >
-                        <path
-                          d="M0 0L3 3L0 6"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="1.5"
-                          strokeLinecap="round"
-                        />
-                      </svg>
-                      {subSection.text}
-                    </a>
-                  </li>
-                ))}
+                        <svg
+                          width="3"
+                          height="24"
+                          viewBox="0 -9 3 24"
+                          className={$(
+                            'mr-2 overflow-visible',
+                            'text-tertiary group-hover:text-secondary',
+                          )}
+                        >
+                          <path
+                            d="M0 0L3 3L0 6"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="1.5"
+                            strokeLinecap="round"
+                          />
+                        </svg>
+                        {subSection.text}
+                      </a>
+                    </li>
+                  ))}
               </Fragment>
             ))}
           </ul>

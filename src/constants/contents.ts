@@ -1,0 +1,1 @@
+export const MAX_TABLE_CONTENTS_LENGTH = 3;

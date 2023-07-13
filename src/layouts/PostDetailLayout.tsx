@@ -8,7 +8,6 @@ import SectionBorder from '@/common/SectionBorder';
 import Title from '@/common/Title';
 import ContentsBanner from '@/components/ContentsBanner';
 import ContentsTable from '@/components/ContentsTable';
-import Giscus from '@/components/Giscus';
 import CalendarIcon from '@/components/icons/CalendarIcon';
 import ClockIcon from '@/components/icons/ClockIcon';
 import CodeBlock from '@/components/mdx/CodeBlock';
@@ -17,7 +16,9 @@ import PostFooter from '@/components/PostFooter';
 import { PostNavigationProps } from '@/components/PostNavigation';
 import ReadingProgressBar from '@/components/ReadingProgressBar';
 import { BlogSEO } from '@/components/SEO';
+import SeriesCard from '@/components/SeriesCard';
 import { fadeInHalf, staggerHalf } from '@/constants/animations';
+import { MAX_TABLE_CONTENTS_LENGTH } from '@/constants/contents';
 import { Post, Series, TableOfContents } from '@/types/post';
 
 import Layout from './Layout';
@@ -93,18 +94,22 @@ export default function PostDetailLayout({
             <ContentsTable
               className="lg:hidden"
               tableOfContents={tableOfContents}
+              onlyTitle={tableOfContents.length > MAX_TABLE_CONTENTS_LENGTH}
             />
             <MDXContent components={mdxComponents} />
           </div>
           <div className="mt-12 ml-auto">
             <div className="sticky top-[120px] hidden min-w-[240px] max-w-[260px] self-start lg:block">
-              <ContentsBanner tableOfContents={tableOfContents} />
+              <ContentsBanner
+                tableOfContents={tableOfContents}
+                onlyTitle={tableOfContents.length > MAX_TABLE_CONTENTS_LENGTH}
+              />
             </div>
           </div>
         </motion.div>
+        {series && <SeriesCard currentPost={post} series={series} />}
         {/* Post Footer */}
         <PostFooter post={post} postNavigation={postNavigation} />
-        <Giscus />
       </motion.section>
     </Layout>
   );

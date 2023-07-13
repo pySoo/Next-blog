@@ -7,6 +7,7 @@ import { siteConfig } from '@/constants/config';
 import { Post } from '@/types/post';
 
 import AuthorContacts from './AuthorContacts';
+import Giscus from './Giscus';
 import PostNavigation, { PostNavigationProps } from './PostNavigation';
 
 type PostFooterType = {
@@ -41,6 +42,7 @@ export default function PostFooter({ post, postNavigation }: PostFooterType) {
         </div>
       </div>
       <PostNavigation {...postNavigation} />
+      <Giscus />
     </motion.div>
   );
 }

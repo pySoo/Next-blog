@@ -50,10 +50,10 @@ export const allSeries: Series[] = allPosts
 
 export const allFeaturedPosts: PostCardType[] = [
   {
-    href: '/blog/frontend/1-dom',
-    imgUrl: '/posts/1-dom/cover.png',
-    title: '웹을 이루는 핵심 요소를 알아봅시다! (DOM, BOM, JavaScript)',
-    date: '2023.07.06',
+    href: '/blog/javascript/2-var-let-const',
+    imgUrl: '/posts/2-var-let-const/cover.png',
+    title: '면접 단골 질문! 호이스팅을 곁들인 var, let, const의 차이',
+    date: '2023.07.13',
   },
   {
     href: '/blog/javascript/1-var',
@@ -62,16 +62,15 @@ export const allFeaturedPosts: PostCardType[] = [
     date: '2023.07.06',
   },
   {
-    href: '',
-    imgUrl: '/images/samples/draft-cover.png',
-    title: '(공개 예정) Next.js의 SSR, SSG, ISR 이해하기 ',
-    date: '',
-    isDraft: true,
+    href: '/blog/frontend/1-dom',
+    imgUrl: '/posts/1-dom/cover.png',
+    title: '웹을 이루는 핵심 요소를 알아봅시다! (DOM, BOM, JavaScript)',
+    date: '2023.07.06',
   },
   {
     href: '',
     imgUrl: '/images/samples/draft-cover.png',
-    title: '(공개 예정) Critical Rendering Path',
+    title: '(공개 예정) Next.js의 SSR, SSG, ISR 이해하기 ',
     date: '',
     isDraft: true,
   },

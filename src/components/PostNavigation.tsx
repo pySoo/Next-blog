@@ -12,12 +12,15 @@ export default function PostNavigation({
   nextPost,
 }: PostNavigationProps) {
   return (
-    <div className="text-secondary -mx-4 flex items-center text-xs font-semibold sm:mx-0 sm:text-base">
+    <div className="text-secondary -mx-4 flex items-center gap-4 text-xs font-semibold sm:mx-0 sm:text-base">
       {prevPost && (
-        <LinkHover href={prevPost.slug} className="group gap-3 px-4 py-2">
+        <LinkHover
+          href={prevPost.slug}
+          className="flex-1 group gap-3 px-4 py-2"
+        >
           <svg
             viewBox="0 0 3 6"
-            className="text-mute h-1.5 w-auto overflow-visible group-hover:text-secondary"
+            className="w-fit text-mute h-1.5 overflow-visible group-hover:text-secondary"
           >
             <path
               d="M3 0L0 3L3 6"
@@ -28,15 +31,15 @@ export default function PostNavigation({
               strokeLinejoin="round"
             />
           </svg>
-          <span>{prevPost.title}</span>
+          <span className="line-clamp-1">{prevPost.title}</span>
         </LinkHover>
       )}
       {nextPost && (
         <LinkHover
           href={nextPost.slug}
-          className="group ml-auto gap-3 px-4 py-2 text-right"
+          className="flex-1 group ml-auto gap-3 px-4 py-2 text-right justify-end"
         >
-          <span>{nextPost.title}</span>
+          <span className="line-clamp-1">{nextPost.title}</span>
           <svg
             viewBox="0 0 3 6"
             className="h-1.5 w-auto overflow-visible text-neutral-400 group-hover:text-neutral-600 dark:group-hover:text-neutral-300"

@@ -5,7 +5,7 @@ export const BASE_PATH = '/posts';
 export const POSTS_PATH = path.join(process.cwd(), BASE_PATH);
 
 export const siteConfig = {
-  url: 'https://pySoo.github.io',
+  url: 'https://enjoydev.life',
   title: '기억은 기록을 이기지 못한다 ✍️',
   description:
     '꾸준함과 글쓰기를 좋아하는 프론트엔드 개발자입니다. 웹 개발 지식과 JavaScript 지식을 쉽게 풀어 쓰는 활동을 하고 있습니다.',

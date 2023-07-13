@@ -1,6 +1,6 @@
 /** @type {import('next-sitemap').IConfig} */
 module.exports = {
-  siteUrl: 'https://pysoo.vercel.app',
+  siteUrl: 'https://enjoydev.life',
   changefreq: 'daily',
   priority: 0.7,
   sitemapSize: 7000,

@@ -8,7 +8,6 @@ import SectionBorder from '@/common/SectionBorder';
 import Title from '@/common/Title';
 import ContentsBanner from '@/components/ContentsBanner';
 import ContentsTable from '@/components/ContentsTable';
-import Giscus from '@/components/Giscus';
 import CalendarIcon from '@/components/icons/CalendarIcon';
 import ClockIcon from '@/components/icons/ClockIcon';
 import CodeBlock from '@/components/mdx/CodeBlock';
@@ -111,7 +110,6 @@ export default function PostDetailLayout({
         {series && <SeriesCard currentPost={post} series={series} />}
         {/* Post Footer */}
         <PostFooter post={post} postNavigation={postNavigation} />
-        <Giscus />
       </motion.section>
     </Layout>
   );

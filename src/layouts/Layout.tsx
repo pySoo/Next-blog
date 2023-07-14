@@ -16,7 +16,7 @@ export default function Layout({ children }: { children: ReactNode }) {
   }, []);
 
   return (
-    <div className="mx-auto max-w-3xl px-6 lg:max-w-6xl lg:px-8 overflow-x-hidden">
+    <div className="mx-auto max-w-3xl px-6 lg:max-w-6xl lg:px-8">
       <HeaderNavigation />
       <main className="relative pb-16">{children}</main>
       <footer className="pb-8 text-sm text-neutral-800 dark:text-neutral-400">

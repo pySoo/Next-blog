@@ -6,6 +6,7 @@ import Script from 'next/script';
 import { DefaultSeo } from 'next-seo';
 import { ThemeProvider } from 'next-themes';
 
+import Fonts from '@/common/Fonts';
 import { seoConfig } from '@/constants/config';
 import { $, isDev } from '@/libs/core';
 import * as gtag from '@/libs/gtag';
@@ -19,6 +20,7 @@ export default function App({ Component, pageProps }: AppProps) {
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Head>
       <DefaultSeo {...seoConfig} />
+      <Fonts />
       <div className={$('font-sans break-keep')}>
         <Component {...pageProps} />
       </div>

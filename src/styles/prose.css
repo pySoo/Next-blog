@@ -81,3 +81,8 @@
 .prose *:hover > .anchor {
   @apply md:opacity-100;
 }
+
+.prose ul,
+.prose ol {
+  padding-left: 1.2rem;
+}

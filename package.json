@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build && next-sitemap && next export",
-    "postBuild": "yarn sitemap",
+    "build": "next build && next export",
+    "postbuild": "yarn sitemap",
     "sitemap": "ts-node --project tsconfig.node.json ./scripts/generateSitemap.ts",
     "start": "next start",
     "postinstall": "husky install",

@@ -30,8 +30,7 @@ module.exports = {
         },
       },
       dropShadow: {
-        base: '0px 0px 10px rgba(234, 179, 8, 0.3)',
-        'base-bold': '0px 0px 7px rgba(234, 179, 8, 0.7)',
+        base: '0px 0px 4px rgba(240, 186, 31, 0.75)',
       },
       fontFamily: {
         sans: ['var(--font-sans)', ...fontFamily.sans],

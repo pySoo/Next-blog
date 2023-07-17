@@ -114,7 +114,7 @@ export default function ContentsBanner({
                       section.subSections && '',
                       isSectionActive(section)
                         ? 'bg-gradient-to-r from-neutral-700 to-yellow-900 bg-clip-text font-extrabold text-transparent dark:from-yellow-400 dark:to-yellow-600'
-                        : 'text-secondary hover:text-primary hover:drop-shadow-base-bold dark:hover:drop-shadow-base',
+                        : 'text-secondary hover:text-primary hover:drop-shadow-base dark:hover:drop-shadow-base',
                     )}
                   >
                     {section.text}
@@ -129,7 +129,7 @@ export default function ContentsBanner({
                           'group flex items-start py-1',
                           isSubSectionActive(subSection)
                             ? 'bg-gradient-to-r from-neutral-700 to-yellow-900 bg-clip-text font-extrabold text-transparent dark:from-yellow-400 dark:to-yellow-600'
-                            : 'text-secondary hover:text-primary hover:drop-shadow-base-bold dark:hover:drop-shadow-base',
+                            : 'text-secondary hover:text-primary hover:drop-shadow-base dark:hover:drop-shadow-base',
                         )}
                       >
                         <svg

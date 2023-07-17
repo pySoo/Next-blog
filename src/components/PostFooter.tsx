@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 
+import LinkExternal from '@/common/LinkExternal';
 import SectionBorder from '@/common/SectionBorder';
 import Tag from '@/common/Tag';
 import { fadeInHalf } from '@/constants/animations';
@@ -17,7 +18,7 @@ type PostFooterType = {
 
 export default function PostFooter({ post, postNavigation }: PostFooterType) {
   return (
-    <motion.div variants={fadeInHalf} className="mt-12 space-y-8 lg:mt-24">
+    <motion.div variants={fadeInHalf} className="space-y-8 mt-12">
       <div className="flex gap-2">
         {post.tags.map((tag) => (
           <Tag key={tag} tag={tag} />
@@ -26,14 +27,16 @@ export default function PostFooter({ post, postNavigation }: PostFooterType) {
       <SectionBorder />
       <div className="flex w-full items-center justify-center">
         <div className="flex items-center gap-4 sm:gap-8 sm:p-12">
-          <div>
+          <LinkExternal
+            href={`https://github.com/${siteConfig.author.contacts.github}`}
+          >
             <img
               src={siteConfig.author.photo}
               className="h-24 w-24 select-none overflow-hidden rounded-full"
               alt="프로필 사진"
               draggable={false}
             />
-          </div>
+          </LinkExternal>
           <div>
             <div className="font-bold">{siteConfig.author.name}</div>
             <div className="text-tertiary text-sm">{siteConfig.author.bio}</div>

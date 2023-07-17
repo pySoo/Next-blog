@@ -37,7 +37,9 @@ next-env.d.ts
 .eslintcache
 .env
 
-# next-sitemap
+# production
 /build
 /public/robots.txt
 /public/sitemap*.xml
+
+.contentlayer

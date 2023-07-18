@@ -54,15 +54,18 @@ export default function HeaderNavigation() {
         ))}
       </div>
       <div className="flex sm:hidden">
-        <NavItem onClick={toggleMenu}>
+        <div
+          className="rounded-lg transition-all hover:bg-secondary"
+          onClick={toggleMenu}
+        >
           <LogoIcon />
-        </NavItem>
+        </div>
         {currentSiteMenu.map((link) => (
           <NavItem key={link.label} href={link.path}>
             <span className="px-2">{link.label}</span>
           </NavItem>
         ))}
-        <ul
+        <div
           className={$(
             'transition-transform sm:translate-x-0 bg-primary absolute inset-x-0 top-[108px] -bottom-4 z-50 flex flex-col px-6 transition-all',
             isMenuOpen ? 'opacity-100' : 'opacity-0 -translate-x-full',
@@ -84,7 +87,7 @@ export default function HeaderNavigation() {
               {link.label}
             </Link>
           ))}
-        </ul>
+        </div>
       </div>
       <div className="ml-auto flex items-center gap-2">
         <SearchInput placeholder="Search..." />

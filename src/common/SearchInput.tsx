@@ -70,7 +70,11 @@ export default function SearchInput({
         onClick={handleClick}
         autoFocus={isSearchPage}
       />
-      <button type="submit" className="text-secondary h-5 w-5 ml-1">
+      <button
+        aria-label="search-button"
+        type="submit"
+        className="text-secondary h-5 w-5 ml-1"
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"

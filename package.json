@@ -8,7 +8,7 @@
     "postbuild": "yarn sitemap",
     "sitemap": "ts-node --project tsconfig.node.json ./scripts/generateSitemap.ts",
     "start": "next start",
-    "postinstall": "husky install",
+    "postinstall": "husky install && contentlayer build",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --cache",
     "lint-staged": "lint-staged"
   },

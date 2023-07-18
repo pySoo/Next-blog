@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 import React from 'react';
 
 import LinkArrow from '@/common/LinkArrow';
@@ -64,11 +65,14 @@ export default function Home() {
               className={`absolute left-0 top-0 w-[22px] h-full z-[10] pointer-events-none
               bg-gradient-to-r from-neutral-50 dark:from-neutral-900`}
             />
-            <img
-              className="w-fit mx-auto object-contain sm:h-[140px]"
-              src="/gif/truck.gif"
-              alt="truck"
-            />
+            <div className="w-fit mx-auto object-contain h-[128px] sm:h-[140px]">
+              <Image
+                width={256}
+                height={128}
+                src="/gif/truck.webp"
+                alt="truck"
+              />
+            </div>
             <div
               className={`absolute right-0 top-0 w-[12px] h-full z-[10] pointer-events-none
               bg-gradient-to-l from-neutral-50 dark:from-neutral-900`}

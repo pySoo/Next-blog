@@ -1,6 +1,6 @@
 import { allPosts } from 'contentlayer/generated';
 
-import { PostCardType } from '@/components/PostCard';
+import { PostCardType } from '@/components/post/PostCard';
 import { defaultCoverImage } from '@/constants/image';
 import { Post, Series } from '@/types/post';
 
@@ -68,10 +68,9 @@ export const allFeaturedPosts: PostCardType[] = [
     date: '2023.07.06',
   },
   {
-    href: '',
+    href: '/',
     imgUrl: '/images/samples/draft-cover.png',
     title: '(공개 예정) Next.js의 SSR, SSG, ISR 이해하기 ',
     date: '',
-    isDraft: true,
   },
 ];

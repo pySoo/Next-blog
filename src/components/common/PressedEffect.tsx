@@ -9,12 +9,12 @@ interface PressedEffectProps {
   action?: () => void;
 }
 
-export const PressedEffect: React.FC<PressedEffectProps> = ({
+export default function PressedEffect({
   children,
   className,
   disable = false,
   action,
-}: PressedEffectProps) => {
+}: PressedEffectProps) {
   const [buttonDown, setButtonDown] = useState(false);
   const [touchStartX, setTouchStartX] = useState(0);
   const [touchStartY, setTouchStartY] = useState(0);
@@ -89,4 +89,4 @@ export const PressedEffect: React.FC<PressedEffectProps> = ({
       {children}
     </motion.div>
   );
-};
+}

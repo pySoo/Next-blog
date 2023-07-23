@@ -3,8 +3,8 @@ import React from 'react';
 import { siteConfig } from '@/constants/config';
 import { $ } from '@/libs/core';
 
-import LinkExternal from '../common/LinkExternal';
-import ContactsIcon from './ContactsIcon';
+import LinkExternal from './common/LinkExternal';
+import ContactsIcon from './icons/ContactsIcon';
 
 export default function AuthorContacts({
   className,

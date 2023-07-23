@@ -2,11 +2,9 @@ import dayjs from 'dayjs';
 import { motion } from 'framer-motion';
 import { GetStaticPaths, GetStaticProps } from 'next';
 
-import IconText from '@/common/IconText';
-import HoverCard from '@/components/HoverCard';
-import CalendarIcon from '@/components/icons/CalendarIcon';
-import ListIcon from '@/components/icons/ListIcon';
-import PostList from '@/components/PostList';
+import { HoverCard, IconText } from '@/components/common';
+import { CalendarIcon, ListIcon } from '@/components/icons';
+import PostList from '@/components/post/PostList';
 import { PageSEO } from '@/components/SEO';
 import {
   fadeIn,

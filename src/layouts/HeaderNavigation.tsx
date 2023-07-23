@@ -2,13 +2,10 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
-import LogoIcon from '@/common/LogoIcon';
-import SearchInput from '@/common/SearchInput';
+import { LogoIcon, NavItem, SearchInput } from '@/components/common';
 import ThemeSwitch from '@/components/ThemeSwitch';
 import { siteConfig } from '@/constants/config';
 import { $ } from '@/libs/core';
-
-import NavItem from '../common/NavItem';
 
 export default function HeaderNavigation() {
   const router = useRouter();

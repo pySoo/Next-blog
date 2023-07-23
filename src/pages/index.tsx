@@ -2,11 +2,8 @@ import { motion } from 'framer-motion';
 import Image from 'next/image';
 import React from 'react';
 
-import LinkArrow from '@/common/LinkArrow';
-import Pill from '@/common/Pill';
-import SubTitle from '@/common/SubTitle';
-import Title from '@/common/Title';
-import PostCard from '@/components/PostCard';
+import { LinkArrow, Pill, SubTitle, Title } from '@/components/common';
+import PostCard from '@/components/post/PostCard';
 import { PageSEO } from '@/components/SEO';
 import { fadeIn, staggerHalf } from '@/constants/animations';
 import Layout from '@/layouts/Layout';
@@ -33,12 +30,13 @@ export default function Home() {
           <div className="w-full h-full">
             <p className="w-full h-full">
               반갑습니다 🤗 <br />
-              꾸준함과 글쓰기를 좋아하는 개발자 박수현입니다. <br />
+              어려운 것을 쉽게 설명하고 싶은 프론트엔드 개발자 박수현입니다.
+              <br />
             </p>
             <p className="pt-[15px] sm:hidden">
               상단의{' '}
               <motion.span
-                className="text-yellow-500 font-bold"
+                className="text-orange-500 font-bold"
                 whileTap={{ fontSize: '20px' }}
               >
                 해바라기

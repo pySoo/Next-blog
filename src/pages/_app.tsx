@@ -6,7 +6,7 @@ import Script from 'next/script';
 import { DefaultSeo } from 'next-seo';
 import { ThemeProvider } from 'next-themes';
 
-import Fonts from '@/common/Fonts';
+import Fonts from '@/components/common/Fonts';
 import { seoConfig } from '@/constants/config';
 import { $, isDev } from '@/libs/core';
 import * as gtag from '@/libs/gtag';

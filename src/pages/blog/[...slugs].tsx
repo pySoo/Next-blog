@@ -1,9 +1,7 @@
 import { GetStaticPaths, GetStaticProps } from 'next';
 
-import { PostNavigationProps } from '@/components/PostNavigation';
-import PostDetailLayout, {
-  PostDetailLayoutProps,
-} from '@/layouts/PostDetailLayout';
+import { PostNavigationProps } from '@/components/post/PostNavigation';
+import PostLayout, { PostLayoutProps } from '@/layouts/PostLayout';
 import { allBlogPosts, allSeries } from '@/libs/dataset';
 import { parseContents } from '@/libs/mdx';
 import { Series } from '@/types/post';
@@ -44,7 +42,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       ) ?? null;
   }
 
-  const props: PostDetailLayoutProps = {
+  const props: PostLayoutProps = {
     post,
     series,
     postNavigation,
@@ -56,6 +54,6 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   };
 };
 
-export default function PostPage(props: PostDetailLayoutProps) {
-  return <PostDetailLayout {...props} />;
+export default function PostPage(props: PostLayoutProps) {
+  return <PostLayout {...props} />;
 }

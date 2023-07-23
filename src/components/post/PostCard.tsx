@@ -1,11 +1,10 @@
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 
-import IconText from '@/common/IconText';
-import { PressedEffect } from '@/common/PressedEffect';
 import { fadeIn, fadeInUp } from '@/constants/animations';
 
-import CalendarIcon from './icons/CalendarIcon';
+import { IconText, PressedEffect } from '../common';
+import { CalendarIcon } from '../icons';
 
 export type PostCardType = {
   href: string;

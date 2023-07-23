@@ -1,12 +1,11 @@
 import dayjs from 'dayjs';
 import Link from 'next/link';
 
-import IconText from '@/common/IconText';
 import { $ } from '@/libs/core';
 import { ReducedPost } from '@/types/post';
 
-import CalendarIcon from './icons/CalendarIcon';
-import ClockIcon from './icons/ClockIcon';
+import { IconText } from '../common';
+import { CalendarIcon, ClockIcon } from '../icons';
 
 export default function SnippetList({ post }: { post: ReducedPost }) {
   return (

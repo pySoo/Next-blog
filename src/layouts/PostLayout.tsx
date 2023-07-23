@@ -3,27 +3,25 @@ import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { useMDXComponent } from 'next-contentlayer/hooks';
 
-import IconText from '@/common/IconText';
-import SectionBorder from '@/common/SectionBorder';
-import Title from '@/common/Title';
-import ContentsBanner from '@/components/ContentsBanner';
-import ContentsTable from '@/components/ContentsTable';
-import CalendarIcon from '@/components/icons/CalendarIcon';
-import ClockIcon from '@/components/icons/ClockIcon';
-import CodeBlock from '@/components/mdx/CodeBlock';
-import ZoomImage from '@/components/mdx/ZoomImage';
-import PostFooter from '@/components/PostFooter';
-import { PostNavigationProps } from '@/components/PostNavigation';
-import ReadingProgressBar from '@/components/ReadingProgressBar';
+import { IconText, SectionBorder, Title } from '@/components/common';
+import {
+  ContentsBanner,
+  ContentsTable,
+  ReadingProgressBar,
+} from '@/components/contents';
+import { CalendarIcon, ClockIcon } from '@/components/icons';
+import { CodeBlock, ZoomImage } from '@/components/mdx';
+import PostFooter from '@/components/post/PostFooter';
+import { PostNavigationProps } from '@/components/post/PostNavigation';
 import { BlogSEO } from '@/components/SEO';
-import SeriesCard from '@/components/SeriesCard';
+import SeriesCard from '@/components/series/SeriesCard';
 import { fadeInHalf, staggerHalf } from '@/constants/animations';
 import { MAX_TABLE_CONTENTS_LENGTH } from '@/constants/contents';
 import { Post, Series, TableOfContents } from '@/types/post';
 
 import Layout from './Layout';
 
-export type PostDetailLayoutProps = {
+export type PostLayoutProps = {
   post: Post;
   series?: Series | null;
   postNavigation: PostNavigationProps;
@@ -35,12 +33,12 @@ const mdxComponents = {
   pre: CodeBlock,
 };
 
-export default function PostDetailLayout({
+export default function PostLayout({
   post,
   series,
   postNavigation,
   tableOfContents,
-}: PostDetailLayoutProps) {
+}: PostLayoutProps) {
   const headerTagTitle = series?.title ?? post.snippetName;
   const headerTagSlug =
     series?.slug ?? `/snippets?key=${post.snippetName ?? 'all'}`;

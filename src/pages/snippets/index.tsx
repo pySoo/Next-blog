@@ -4,11 +4,9 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import title from 'title';
 
-import Pill from '@/common/Pill';
-import PlainText from '@/common/PlainText';
-import Title from '@/common/Title';
+import { Pill, PlainText, Title } from '@/components/common';
 import { PageSEO } from '@/components/SEO';
-import SnippetList from '@/components/SnippetList';
+import SnippetList from '@/components/snippet/SnippetList';
 import {
   fadeInHalf,
   staggerHalf,

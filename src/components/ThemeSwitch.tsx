@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 
-import IconButton from '@/common/IconButton';
 import useDarkMode from '@/libs/useDarkMode';
+
+import IconButton from './common/IconButton';
 
 export default function ThemeSwitch(props: React.ComponentProps<'button'>) {
   const [mounted, setMounted] = useState(false);

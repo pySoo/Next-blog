@@ -1,5 +1,4 @@
-import NavItem from '@/common/NavItem';
-import Title from '@/common/Title';
+import { NavItem, Title } from '@/components/common';
 import { PageSEO } from '@/components/SEO';
 import Layout from '@/layouts/Layout';
 

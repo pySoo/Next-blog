@@ -1,4 +1,4 @@
-import SectionBorder from '@/common/SectionBorder';
+import { SectionBorder } from '@/components/common';
 import { TableOfContents } from '@/types/post';
 
 export default function ContentsTable({

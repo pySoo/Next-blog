@@ -1,14 +1,12 @@
 import { motion } from 'framer-motion';
 
-import LinkExternal from '@/common/LinkExternal';
-import SectionBorder from '@/common/SectionBorder';
-import Tag from '@/common/Tag';
+import { LinkExternal, SectionBorder, Tag } from '@/components/common';
 import { fadeInHalf } from '@/constants/animations';
 import { siteConfig } from '@/constants/config';
 import { Post } from '@/types/post';
 
-import AuthorContacts from './AuthorContacts';
-import Giscus from './Giscus';
+import AuthorContacts from '../AuthorContacts';
+import { Giscus } from '../contents';
 import PostNavigation, { PostNavigationProps } from './PostNavigation';
 
 type PostFooterType = {

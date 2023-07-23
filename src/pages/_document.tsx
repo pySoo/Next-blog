@@ -37,9 +37,8 @@ export default function Document() {
         media="(prefers-color-scheme: dark)"
       />
       <body
-        className="text-primary bg-primary select-none"
+        className="text-primary bg-primary"
         style={{
-          WebkitUserSelect: 'none',
           WebkitTouchCallout: 'none',
         }}
       >

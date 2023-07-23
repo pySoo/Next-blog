@@ -1,9 +1,7 @@
 import { motion } from 'framer-motion';
 
-import PlainText from '@/common/PlainText';
-import SubTitle from '@/common/SubTitle';
-import Title from '@/common/Title';
-import PostList from '@/components/PostList';
+import { PlainText, SubTitle, Title } from '@/components/common';
+import PostList from '@/components/post/PostList';
 import { PageSEO } from '@/components/SEO';
 import {
   fadeIn,

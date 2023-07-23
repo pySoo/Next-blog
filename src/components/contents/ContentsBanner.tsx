@@ -1,7 +1,6 @@
 import { Fragment, useEffect, useState } from 'react';
 
-import CopyLinkButton from '@/common/CopyLinkButton';
-import IconButton from '@/common/IconButton';
+import { CopyLinkButton, IconButton } from '@/components/common';
 import UpIcon from '@/components/icons/UpIcon';
 import { $ } from '@/libs/core';
 import { Section, SubSection, TableOfContents } from '@/types/post';

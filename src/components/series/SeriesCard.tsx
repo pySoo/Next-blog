@@ -2,11 +2,11 @@ import { Post } from 'contentlayer/generated';
 import Link from 'next/link';
 import { useState } from 'react';
 
-import IconText from '@/common/IconText';
 import { $ } from '@/libs/core';
 import { Series } from '@/types/post';
 
-import ListIcon from './icons/ListIcon';
+import { IconText } from '../common';
+import { ListIcon } from '../icons';
 
 export default function SeriesCard({
   currentPost,

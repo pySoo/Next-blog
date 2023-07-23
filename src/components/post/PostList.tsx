@@ -4,14 +4,12 @@ import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
 
-import IconText from '@/common/IconText';
-import Tag from '@/common/Tag';
 import { defaultCoverImage } from '@/constants/image';
 import { $ } from '@/libs/core';
 import { ReducedPost } from '@/types/post';
 
-import CalendarIcon from './icons/CalendarIcon';
-import ClockIcon from './icons/ClockIcon';
+import { IconText, Tag } from '../common';
+import { CalendarIcon, ClockIcon } from '../icons';
 
 export default function PostList({ post }: { post: ReducedPost }) {
   const href = !!post.snippetName ? `/snippets/[...slug]` : `/blog/[...slug]`;

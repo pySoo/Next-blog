@@ -1,7 +1,7 @@
 import { ReactNode, useMemo } from 'react';
 
-import LinkExternal from '@/common/LinkExternal';
 import AuthorContacts from '@/components/AuthorContacts';
+import LinkExternal from '@/components/common/LinkExternal';
 import { siteConfig } from '@/constants/config';
 
 import HeaderNavigation from './HeaderNavigation';

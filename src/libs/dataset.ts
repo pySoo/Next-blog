@@ -50,6 +50,12 @@ export const allSeries: Series[] = allPosts
 
 export const allFeaturedPosts: PostCardType[] = [
   {
+    href: '/blog/frontend/2-browser-rendering',
+    imgUrl: '/posts/2-browser-rendering/cover.png',
+    title: '브라우저 렌더링 과정 쉽게 이해하기',
+    date: '2023.07.24',
+  },
+  {
     href: '/blog/javascript/2-var-let-const',
     imgUrl: '/posts/2-var-let-const/cover.png',
     title: '면접 단골 질문! 호이스팅을 곁들인 var, let, const의 차이',
@@ -66,11 +72,5 @@ export const allFeaturedPosts: PostCardType[] = [
     imgUrl: '/posts/1-dom/cover.png',
     title: '웹을 이루는 핵심 요소를 알아봅시다! (DOM, BOM, JavaScript)',
     date: '2023.07.06',
-  },
-  {
-    href: '/',
-    imgUrl: '/images/samples/draft-cover.png',
-    title: '(공개 예정) Next.js의 SSR, SSG, ISR 이해하기 ',
-    date: '',
   },
 ];

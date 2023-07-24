@@ -23,7 +23,7 @@ date: 2023-07-24 13:30:11
 
 > ## Okay!
 
-<img src="/posts/1-dom/230706-201703.png" width="350px" />
+<img src="/posts/2-browser-rendering/230724-151730.png" width="350px" />
 
 이제부터 우리가 지난 시간에 배웠던 DOM이라는 개념을 활용해서
 브라우저가 어떻게 HTMl, CSS, JS 코드들을 파싱하고 브라우저에 렌더링을 하는지 알아보겠습니다.
@@ -32,10 +32,10 @@ date: 2023-07-24 13:30:11
 
 ## Parsing
 
-<img src="/posts/2-browser-rendering/230724-143128.png" width="80%" />
+<img src="/posts/2-browser-rendering/230724-151608.png" width="80%" />
 
 브라우저가 페이지를 렌더링하려면 가장 먼저 받아온 HTML 파일을 해석해야 합니다.
-그러나 HTML 파일은 그저 문자열로 이루어진 순수한 텍스트이기 때문에 브라우저가 이해할 수 없습니다. 😫
+그러나 HTML 파일은 그저 문자열로 이루어진 순수한 텍스트이기 때문에 브라우저가 이해할 수 없습니다 😫
 
 따라서! `번역`이 필요합니다.
 **브라우저는 파싱을 통해 HTML 파일을 해석**하여 DOM Tree를 구성합니다.

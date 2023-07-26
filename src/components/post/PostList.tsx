@@ -22,9 +22,9 @@ export default function PostList({ post }: { post: ReducedPost }) {
             <Image
               src={post.image ?? defaultCoverImage}
               alt={'대표 이미지'}
-              width={530}
-              height={530}
-              className="h-52 w-full object-cover max-w-[530px] mx-auto"
+              width={400}
+              height={400}
+              className="h-52 w-full object-cover max-w-[400px] mx-auto"
               draggable={false}
             />
           </motion.div>

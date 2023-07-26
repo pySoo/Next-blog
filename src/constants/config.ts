@@ -8,7 +8,7 @@ export const siteConfig = {
   url: 'https://enjoydev.life',
   title: '기억은 기록을 이기지 못한다 ✍️',
   description:
-    '꾸준함과 글쓰기를 좋아하는 프론트엔드 개발자입니다. 웹 개발 지식과 JavaScript 지식을 쉽게 풀어 쓰는 활동을 하고 있습니다.',
+    '어려운 것을 쉽게 설명하고 싶은 프론트엔드 개발자입니다. 웹 개발 지식과 JavaScript 지식을 쉽게 풀어 쓰는 활동을 하고 있습니다.',
   copyright: '물개박수 © All rights reserved.',
   since: 2023,
   googleAnalyticsId: '',

@@ -50,6 +50,12 @@ export const allSeries: Series[] = allPosts
 
 export const allFeaturedPosts: PostCardType[] = [
   {
+    href: '/blog/frontend/3-reflow-repaint',
+    imgUrl: '/posts/3-reflow-repaint/cover.png',
+    title: '브라우저 렌더링 최적화 (Reflow, Repaint)',
+    date: '2023.07.26',
+  },
+  {
     href: '/blog/frontend/2-browser-rendering',
     imgUrl: '/posts/2-browser-rendering/cover.png',
     title: '브라우저 렌더링 과정 쉽게 이해하기',
@@ -62,14 +68,8 @@ export const allFeaturedPosts: PostCardType[] = [
     date: '2023.07.13',
   },
   {
-    href: '/blog/javascript/1-var',
-    imgUrl: '/posts/1-var/cover.png',
-    title: 'var 모르고 쓰면 큰일납니다.',
-    date: '2023.07.06',
-  },
-  {
     href: '/blog/frontend/1-dom',
-    imgUrl: '/posts/1-dom/cover.png',
+    imgUrl: '/posts/1-dom/new_cover.png',
     title: '웹을 이루는 핵심 요소를 알아봅시다! (DOM, BOM, JavaScript)',
     date: '2023.07.06',
   },

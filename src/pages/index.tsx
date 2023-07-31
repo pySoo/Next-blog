@@ -1,5 +1,4 @@
 import { motion } from 'framer-motion';
-import Image from 'next/image';
 import React from 'react';
 
 import { LinkArrow, Pill, SubTitle, Title } from '@/components/common';
@@ -43,9 +42,7 @@ export default function Home() {
               </motion.span>
               를 눌러서 블로그를 구경해 보시죠!
             </p>
-            <p className="pt-[15px]">
-              현재 블로그 이사 작업을 하고 있습니다. 🚛 💭 💭 <br />
-            </p>
+
             <div className="w-full flex items-center whitespace-nowrap">
               <span>더 많은 글을 읽어보시려면</span>
               <a
@@ -57,24 +54,6 @@ export default function Home() {
               </a>
               <span>를 방문해주세요!</span>
             </div>
-          </div>
-          <div className="w-[256px] relative mt-8 mx-auto sm:mt-0">
-            <div
-              className={`absolute left-0 top-0 w-[22px] h-full z-[10] pointer-events-none
-              bg-gradient-to-r from-neutral-50 dark:from-neutral-900`}
-            />
-            <div className="w-fit mx-auto object-contain h-[128px] sm:h-[140px]">
-              <Image
-                width={256}
-                height={128}
-                src="/gif/truck.webp"
-                alt="truck"
-              />
-            </div>
-            <div
-              className={`absolute right-0 top-0 w-[12px] h-full z-[10] pointer-events-none
-              bg-gradient-to-l from-neutral-50 dark:from-neutral-900`}
-            />
           </div>
         </div>
       </motion.section>

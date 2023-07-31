@@ -28,7 +28,7 @@ https://enjoydev.life
 - 사이트맵 생성 및 구글 검색 엔진 등록
 - 구글 Analytics 연동
 
-## 프로젝트 구조
+## Project Structure
 
 ```
 📦 src

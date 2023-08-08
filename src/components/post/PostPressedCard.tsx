@@ -6,7 +6,7 @@ import { fadeIn, fadeInUp } from '@/constants/animations';
 import { IconText, PressedEffect } from '../common';
 import { CalendarIcon } from '../icons';
 
-export type PostCardType = {
+export type PostPressedCardProps = {
   href: string;
   imgUrl: string;
   title: string;
@@ -14,13 +14,13 @@ export type PostCardType = {
   isDraft?: boolean;
 };
 
-export default function PostCard({
+export default function PostPressedCard({
   href,
   imgUrl,
   title,
   date,
   isDraft,
-}: PostCardType) {
+}: PostPressedCardProps) {
   return (
     <motion.div variants={fadeInUp} whileHover={{ scale: isDraft ? 1 : 1.02 }}>
       <PressedEffect>

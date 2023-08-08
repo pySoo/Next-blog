@@ -70,12 +70,12 @@ export function BlogSEO({
   date: string;
   url: string;
   tags: string[];
-  images: string[];
+  images?: string[];
 }) {
   const title = getTitle(props.title);
   const url = getRelativeUrl(props.url);
   const dateTime = new Date(props.date).toISOString();
-  const imageList = images.length ? images.map(getImageUrl) : [DEFAULT_IMAGE];
+  const imageList = images?.length ? images.map(getImageUrl) : [DEFAULT_IMAGE];
 
   return (
     <>

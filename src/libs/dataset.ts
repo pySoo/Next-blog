@@ -1,8 +1,7 @@
 import { allPosts } from 'contentlayer/generated';
 
-import { PostCardType } from '@/components/post/PostCard';
 import { defaultCoverImage } from '@/constants/image';
-import { Post, Series } from '@/types/post';
+import { Post, PostPressedCardType, Series } from '@/types/post';
 
 import { reducePost } from './post';
 
@@ -48,7 +47,7 @@ export const allSeries: Series[] = allPosts
   }))
   .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
-export const allFeaturedPosts: PostCardType[] = [
+export const allFeaturedPosts: PostPressedCardType[] = [
   {
     href: '/blog/frontend/3-reflow-repaint',
     imgUrl: '/posts/3-reflow-repaint/cover.png',

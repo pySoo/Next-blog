@@ -2,17 +2,10 @@ import { motion } from 'framer-motion';
 import Image from 'next/image';
 
 import { fadeIn, fadeInUp } from '@/constants/animations';
+import { PostPressedCardType } from '@/types/post';
 
 import { IconText, PressedEffect } from '../common';
 import { CalendarIcon } from '../icons';
-
-export type PostPressedCardProps = {
-  href: string;
-  imgUrl: string;
-  title: string;
-  date: string;
-  isDraft?: boolean;
-};
 
 export default function PostPressedCard({
   href,
@@ -20,7 +13,7 @@ export default function PostPressedCard({
   title,
   date,
   isDraft,
-}: PostPressedCardProps) {
+}: PostPressedCardType) {
   return (
     <motion.div variants={fadeInUp} whileHover={{ scale: isDraft ? 1 : 1.02 }}>
       <PressedEffect>

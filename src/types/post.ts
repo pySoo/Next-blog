@@ -21,3 +21,11 @@ export type SubSection = {
 export type Section = SubSection & {
   subSections: SubSection[];
 };
+
+export type PostPressedCardType = {
+  href: string;
+  imgUrl: string;
+  title: string;
+  date: string;
+  isDraft?: boolean;
+};

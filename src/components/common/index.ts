@@ -1,6 +1,6 @@
-export { default as Accordian } from './Accordian';
 export { default as CopyLinkButton } from './CopyLinkButton';
 export { default as Fonts } from './Fonts';
+export { default as HeaderNavigation } from './HeaderNavigation';
 export { default as HoverCard } from './HoverCard';
 export { default as IconButton } from './IconButton';
 export { default as IconText } from './IconText';
@@ -14,6 +14,7 @@ export { default as PlainText } from './PlainText';
 export { default as PressedEffect } from './PressedEffect';
 export { default as SearchInput } from './SearchInput';
 export { default as SectionBorder } from './SectionBorder';
+export { default as SiteFooter } from './SiteFooter';
 export { default as SubTitle } from './SubTitle';
 export { default as Tag } from './Tag';
 export { default as Title } from './Title';

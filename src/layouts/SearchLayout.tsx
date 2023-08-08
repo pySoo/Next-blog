@@ -3,12 +3,7 @@ import { motion } from 'framer-motion';
 import { PlainText, SubTitle, Title } from '@/components/common';
 import PostList from '@/components/post/PostList';
 import { PageSEO } from '@/components/SEO';
-import {
-  fadeIn,
-  fadeInHalf,
-  fadeInUp,
-  staggerHalf,
-} from '@/constants/animations';
+import { fadeInHalf, staggerHalf } from '@/constants/animations';
 import Layout from '@/layouts/Layout';
 import { Post } from '@/types/post';
 
@@ -27,7 +22,6 @@ export default function SearchLayout({
         url="/search"
       />
       <Title>Search</Title>
-
       <motion.div
         variants={staggerHalf}
         initial="initial"
@@ -53,19 +47,7 @@ export default function SearchLayout({
               <PlainText>검색된 내용이 없습니다.</PlainText>
             </div>
           )}
-          {postList.map((post) => (
-            <motion.div key={post.slug} variants={fadeInUp}>
-              <motion.div
-                variants={fadeIn}
-                initial="initial"
-                whileInView="animate"
-                exit="exit"
-                viewport={{ amount: 0.2, once: true }}
-              >
-                <PostList post={post} />
-              </motion.div>
-            </motion.div>
-          ))}
+          <PostList postList={postList} />
         </motion.div>
       </motion.div>
     </Layout>

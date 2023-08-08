@@ -1,7 +1,6 @@
 import React from 'react';
 
-import FeaturedPosts from '@/components/home/FeaturedPosts';
-import IntroduceInfo from '@/components/home/IntroduceInfo';
+import { FeaturedPosts, IntroduceInfo } from '@/components/home';
 import { PageSEO } from '@/components/SEO';
 import Layout from '@/layouts/Layout';
 

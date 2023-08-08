@@ -5,10 +5,8 @@ import { HoverCard, PlainText, SubTitle, Title } from '@/components/common';
 import PostList from '@/components/post/PostList';
 import { PageSEO } from '@/components/SEO';
 import {
-  fadeIn,
   fadeInHalf,
   fadeInSlideToLeft,
-  fadeInUp,
   staggerHalf,
   staggerOne,
 } from '@/constants/animations';
@@ -89,19 +87,7 @@ export default function BlogPage({
           className="grid w-full gap-8 lg:grid-cols-2 lg:gap-12"
           variants={staggerHalf}
         >
-          {postList.map((post) => (
-            <motion.div key={post.slug} variants={fadeInUp}>
-              <motion.div
-                variants={fadeIn}
-                initial="initial"
-                whileInView="animate"
-                exit="exit"
-                viewport={{ amount: 0.2, once: true }}
-              >
-                <PostList post={post} />
-              </motion.div>
-            </motion.div>
-          ))}
+          <PostList postList={postList} />
         </motion.div>
       </motion.div>
     </Layout>

@@ -11,7 +11,7 @@ import { ReducedPost } from '@/types/post';
 import { IconText, Tag } from '../common';
 import { CalendarIcon, ClockIcon } from '../icons';
 
-export default function PostList({ post }: { post: ReducedPost }) {
+export default function PostItem({ post }: { post: ReducedPost }) {
   const href = !!post.snippetName ? `/snippets/[...slug]` : `/blog/[...slug]`;
 
   return (

@@ -4,7 +4,7 @@ import { GetStaticPaths, GetStaticProps } from 'next';
 
 import { HoverCard, IconText } from '@/components/common';
 import { CalendarIcon, ListIcon } from '@/components/icons';
-import PostList from '@/components/post/PostList';
+import PostItem from '@/components/post/PostItem';
 import { PageSEO } from '@/components/SEO';
 import {
   fadeIn,
@@ -91,7 +91,7 @@ export default function PostPage({ series }: { series: Series }) {
                 <motion.div key={post.slug} variants={fadeInUp}>
                   <div className="flex space-x-6">
                     <div className="pt-4 font-bold">{i + 1}.</div>
-                    <PostList post={post} />
+                    <PostItem post={post} />
                   </div>
                 </motion.div>
               ))}

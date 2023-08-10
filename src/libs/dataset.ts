@@ -49,6 +49,12 @@ export const allSeries: Series[] = allPosts
 
 export const allFeaturedPosts: PostPressedCardType[] = [
   {
+    href: '/blog/javascript/3-javascript-single-thread',
+    imgUrl: '/posts/3-javascript-single-thread/cover.png',
+    title: 'JavaScript의 동작 원리 (JS는 머리가 하나 🧠)',
+    date: '2023.08.08',
+  },
+  {
     href: '/blog/frontend/3-reflow-repaint',
     imgUrl: '/posts/3-reflow-repaint/cover.png',
     title: '브라우저 렌더링 최적화 (Reflow, Repaint)',
@@ -65,11 +71,5 @@ export const allFeaturedPosts: PostPressedCardType[] = [
     imgUrl: '/posts/2-var-let-const/cover.png',
     title: '면접 단골 질문! 호이스팅을 곁들인 var, let, const의 차이',
     date: '2023.07.13',
-  },
-  {
-    href: '/blog/frontend/1-dom',
-    imgUrl: '/posts/1-dom/new_cover.png',
-    title: '웹을 이루는 핵심 요소를 알아봅시다! (DOM, BOM, JavaScript)',
-    date: '2023.07.06',
   },
 ];

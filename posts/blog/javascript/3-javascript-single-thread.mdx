@@ -1,0 +1,262 @@
+---
+title: JavaScript의 동작 원리 (JS는 머리가 하나 🧠)
+description: 싱글 스레드 언어인 JavaScript의 동작 원리에 대해 배워보겠습니다.
+icon: ''
+image: '/posts/3-javascript-single-thread/cover.png'
+tags:
+  - JavaScript
+  - JavaScript 동작 원리
+date: 2023-08-08 13:30:39
+---
+
+> ## 글을 시작하며
+
+자바스크립트는 어떻게 동작할까요?
+우리가 작성한 JS 코드가 브라우저에서 어떤 원리로 실행되는 건지 궁금하지 않으신가요?
+
+<img width="500px" src="/posts/3-javascript-single-thread/cover.png" />
+
+이번 글을 읽으시면 자바스크립트의 중요한 특징인
+`싱글 스레드`, `비동기 동작`, `EventLoop`에 대해 이해하는게 더 쉬워지실 겁니다!
+
+지금부터 자바스크립트의 동작 원리에 대해 배워보겠습니다.
+
+---
+
+> ## 자바스크립트는 머리가 하나 🧠
+
+- **자바스크립트는 싱글 스레드 언어입니다.**
+
+  이게 무슨 뜻일까요?
+  쉽게 풀어쓰자면 자바스크립트는 `한 번에 한 가지 일`밖에 처리할 수 없습니다.
+
+  어려운 용어로는 `Call stack이 하나`라고 표현할 수 있습니다.
+  Call stack이 하나일 때는 현재 실행되고 있는 함수가 있는 경우에 다른 일들을 블락하게 됩니다.
+
+<br />
+
+- **예시로 이해해 볼까요?**
+
+  <img
+    width="500px"
+    src="/posts/3-javascript-single-thread/230810-211104.png"
+  />
+  크롬에서 alert 창을 띄워보면 alert 창을 닫기 전까지는 아무것도 할 수 없습니다.
+
+  이러한 동작은 자바스크립트는 머리가 하나만 있기 때문에 일어나게 되는 것이죠.
+  즉 `Call stack이 하나인 싱글 스레드 언어`이기 때문에 일어나는 것입니다.
+
+<br />
+
+> ### Okay!
+
+<img width="400px" src="/posts/1-dom/cover.png" />
+
+자바스크립트의 가장 큰 특징에 대해서 알게 되었으니
+지금부터 브라우저에서 자바스크립트가 동작하는 과정을 살펴보도록 하겠습니다.
+
+---
+
+## 자바스크립트의 동작 과정
+
+브라우저는 `JS 코드를 실행하는 엔진`입니다. 대표적으로 크롬에서는 V8이라는 엔진으로 JS를 실행하죠!
+
+브라우저가 코드를 실행하는데는 `Heap`, `Stack`, `Queue`, `대기실`이라는 개념이 필요합니다.
+
+<img
+  width="550px"
+  src="https://velog.velcdn.com/images/soopy368/post/729796cd-a1a3-4a80-a8a8-7084ded35d31/image.png"
+/>
+
+<br />
+
+아래의 코드가 어떠한 순서로 동작할 지 예상해볼까요?
+setTimeout을 이용한 문제는 면접에서도 자주 출제되기 때문에 집중해서 같이 고민해봅시다 🤔
+
+```javascript
+console.log(1);
+setTimeout(function () {
+  console.log(2);
+}, 0);
+console.log(3);
+```
+
+<br />
+
+결과는..?
+
+```javascript
+1;
+3;
+2;
+```
+
+> **setTimeout의 delay가 0인데 어째서 console.log(3)보다 늦게 출력 되었을까요? 🤯**
+
+코드가 실행되는 과정을 그림을 통해 살펴보겠습니다.
+
+## 코드는 한 줄씩 모두 Stack으로
+
+<img
+  width="550px"
+  src="https://velog.velcdn.com/images/soopy368/post/c752bd64-460f-4d72-9854-8c9af2b43657/image.png"
+/>
+
+브라우저는 코드를 한 줄 `한 줄씩 Stack에 적재`합니다. 그리고 Stack에 있는 코드를 `순차적으로 실행`합니다.
+
+(\* 참고로 이번 글에서는 Heap에 대해서는 다루지 않을 것입니다. Heap은 변수 등을 저장해두는 공간입니다!)
+
+<br />
+
+<img
+  width="550px"
+  src="https://velog.velcdn.com/images/soopy368/post/dcab407c-a273-44da-b796-7bf2937ecaaa/image.png"
+/>
+
+가장 상단에 있던 console.log(1)을 실행했습니다. setTimeout 코드가 최상단이 되었습니다.
+
+## 비동기 코드는 대기실로
+
+<img
+  width="550px"
+  src="https://velog.velcdn.com/images/soopy368/post/dcab407c-a273-44da-b796-7bf2937ecaaa/image.png"
+/>
+
+브라우저는 Stack에 있는 코드를 실행하면서 `나중에 처리` 해야하는 비동기 동작들은 모두 `대기실로` 보냅니다.
+
+대기실에 보내는 코드들은 대표적으로 **서버와 통신하는 Ajax 요청 코드, 이벤트 리스너, setTimeout** 등이 있습니다.
+
+<br />
+
+<img
+  width="550px"
+  src="https://velog.velcdn.com/images/soopy368/post/32630bdf-bf83-4c31-9b29-5190a7ff9f31/image.png"
+/>
+
+따라서 브라우저는 setTimeout이 포함된 코드를 대기실로 보냅니다.
+
+## 대기실 중 실행할 수 있는 녀석은 Queue로
+
+<img
+  width="550px"
+  src="https://velog.velcdn.com/images/soopy368/post/6007fcc7-bbac-4a59-afc5-1b8a03ce159d/image.png"
+/>
+
+0초 뒤에 setTimeout 함수의 console.log(2)를 실행할 수 있으므로 `console.log(2)`를 Queue로 보내겠습니다.
+
+<br />
+
+<img
+  width="550px"
+  src="https://velog.velcdn.com/images/soopy368/post/f1523c79-b4c0-4d10-a62d-b065e0a55d9f/image.png"
+/>
+
+어라, Stack과 Queue 모두 함수를 가지고 있네요. 둘 중 어떤 함수를 먼저 실행해야 할까요?
+
+## Stack에 있는 코드를 순차적으로 실행
+
+<img
+  width="550px"
+  src="https://velog.velcdn.com/images/soopy368/post/92f21e5e-8f56-447a-9752-9ab4705159fd/image.png"
+/>
+
+결론부터 말씀드리자면 `Stack에 있는 함수를 먼저 실행`해야 합니다!
+
+`Queue`는 `Stack에 가기 전 대기 중인 공간`이기 때문입니다.
+Queue는 Stack이 비어있을 때 Stack으로 내용을 올려보내는 역할을 합니다.
+
+## Stack이 비어있다면 Queue에 있는 내용을 Stack으로
+
+<img
+  width="550px"
+  src="https://velog.velcdn.com/images/soopy368/post/92f21e5e-8f56-447a-9752-9ab4705159fd/image.png"
+/>
+
+Queue는 지속적으로 Stack의 상태를 살핍니다. 👀
+오 이제 Stack이 비었네요! Queue의 함수를 Stack으로 보내도 되겠습니다.
+
+<br />
+
+<img
+  width="550px"
+  src="https://velog.velcdn.com/images/soopy368/post/2fd12eec-2208-4ede-985c-853cfb991de4/image.png"
+/>
+
+<img
+  width="550px"
+  src="https://velog.velcdn.com/images/soopy368/post/729796cd-a1a3-4a80-a8a8-7084ded35d31/image.png"
+/>
+
+이제 Stack에 들어온 코드를 차례대로 실행합니다. 모든 코드가 실행되었습니다!
+
+## 실행 과정 요약
+
+```javascript
+console.log(1);
+setTimeout(function () {
+  console.log(2);
+}, 0);
+console.log(3);
+```
+
+<br />
+
+```javascript
+1. 코드 한 줄씩 Call Stack에 적재
+2. Call stack에 있는 코드들 순차적으로 실행
+3. Stack에 있는 `console.log(1)` 실행
+3. 나중에 처리 해야하는 setTimeout(function(){console.log(2)},0); 코드는 대기실로 보내기
+4. 0초 뒤에 console.log(2)를 Queue로 적재
+5. Stack에 있는 `console.log(3)` 실행
+(Queue에 있는 내용은 Stack이 비워진 후에 실행되므로)
+6. Queue에 있는 console.log(2)를 스택에 적재
+7. Stack에 있는 `console.log(2)` 실행
+```
+
+<br />
+
+이제 이 질문에 대답할 수 있게 되었습니다!
+
+> 질문: **setTimeout의 delay가 0인데 어째서 console.log(3)보다 늦게 출력 되었을까요? 🤯**
+
+> 대답: **setTimeout**은 `비동기 동작`이기 때문에 나중에 실행하기 위해 `대기실`로 보내지고, `큐를 거쳐서 스택으로 이동`됩니다. 따라서 console.log(3)보다 늦게 실행되는 것입니다.
+
+---
+
+## 그렇다면 JS 코드를 어떻게 작성하는게 좋을까요?
+
+> 1.  Stack을 바쁘게 하지 맙시다. 🤯
+> 2.  Queue를 바쁘게 하지 맙시다. 🤯
+
+### Why?
+
+### 1. 오래 걸리는 연산을 하게 되면 브라우저에서 다른 동작을 할 수 없어요.
+
+만약, 10초 이상 걸리는 어려운 연산을 Stack에서 실행 중인 상태에서
+버튼의 이벤트 리스너를 등록했다면 아무리 버튼을 눌러도 동작하지 않을 것입니다.
+
+`Queue에 있는 코드`는 `Stack에 있는 코드가 실행된 후에 실행`되기 때문입니다.
+
+### 2. 너무 많은 이벤트 리스너를 등록하진 않았는지 확인해봅시다.
+
+`이벤트 리스너`에 등록된 코드들은 `모두 큐에 적재`됩니다.
+왜냐하면 비동기 동작이기 때문이죠! 비동기에 대한 내용은 다음 포스팅에서 다뤄보겠습니다.
+
+따라서 큐에 있는 코드가 많아진다면 Stack으로 이동하는 과정도 한번 더 거쳐야하고
+`결국 Stack에도 많은 코드가 적재`되기 때문에 `과부하`가 올 수 있습니다.
+
+`이벤트 위임`을 사용하면 요소마다 핸들러를 할당하지 않고 공통의 부모에만 이벤트 리스너를 등록하면 되기 때문에 성능을 개선할 수 있습니다.
+
+---
+
+## 글을 마치며
+
+여기까지 따라오시느라 고생하셨습니다!
+우리가 매일 보는 브라우저에서 자바스크립트가 어떻게 동작하는지 이해할 수 있게 되었네요.
+
+게다가 원리를 알게 되었더니 코드 작성 방향에 대한 인사이트도 얻을 수 있었습니다. ✨
+
+{/* <img width="400px" src="/posts/3-javascript-single-thread/230810-211629.png" /> */}
+
+![230810-211811](/posts/3-javascript-single-thread/230810-211811.png)
+다음 포스팅에서는 이번에 다뤘던 `대기실`이라는 추상적인 개념과 `비동기 동작`, `EventLoop`에 대해서 다뤄보도록 하겠습니다.

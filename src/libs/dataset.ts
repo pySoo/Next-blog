@@ -49,6 +49,12 @@ export const allSeries: Series[] = allPosts
 
 export const allFeaturedPosts: PostPressedCardType[] = [
   {
+    href: '/blog/javascript/4-event-loop',
+    imgUrl: '/posts/4-event-loop/cover.png',
+    title: 'Event Loop와 JavaScript의 비동기 동작 원리',
+    date: '2023.08.11',
+  },
+  {
     href: '/blog/javascript/3-javascript-single-thread',
     imgUrl: '/posts/3-javascript-single-thread/cover.png',
     title: 'JavaScript의 동작 원리 (JS는 머리가 하나 🧠)',
@@ -65,11 +71,5 @@ export const allFeaturedPosts: PostPressedCardType[] = [
     imgUrl: '/posts/2-browser-rendering/cover.png',
     title: '브라우저 렌더링 과정 쉽게 이해하기',
     date: '2023.07.24',
-  },
-  {
-    href: '/blog/javascript/2-var-let-const',
-    imgUrl: '/posts/2-var-let-const/cover.png',
-    title: '면접 단골 질문! 호이스팅을 곁들인 var, let, const의 차이',
-    date: '2023.07.13',
   },
 ];

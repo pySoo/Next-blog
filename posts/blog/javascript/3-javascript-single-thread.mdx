@@ -6,6 +6,7 @@ image: '/posts/3-javascript-single-thread/cover.png'
 tags:
   - JavaScript
   - JavaScript 동작 원리
+  - 싱글 스레드
 date: 2023-08-08 13:30:39
 ---
 
@@ -217,9 +218,9 @@ console.log(3);
 
 이제 이 질문에 대답할 수 있게 되었습니다!
 
-> 질문: **setTimeout의 delay가 0인데 어째서 console.log(3)보다 늦게 출력 되었을까요? 🤯**
+- 질문: **setTimeout의 delay가 0인데 어째서 console.log(3)보다 늦게 출력 되었을까요? 🤯**
 
-> 대답: **setTimeout**은 `비동기 동작`이기 때문에 나중에 실행하기 위해 `대기실`로 보내지고, `큐를 거쳐서 스택으로 이동`됩니다. 따라서 console.log(3)보다 늦게 실행되는 것입니다.
+- 대답: **setTimeout**은 `비동기 동작`이기 때문에 나중에 실행하기 위해 `대기실`로 보내지고, `큐를 거쳐서 스택으로 이동`됩니다. 따라서 console.log(3)보다 늦게 실행되는 것입니다.
 
 ---
 

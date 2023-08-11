@@ -1,0 +1,261 @@
+---
+title: Event Loop와 JavaScript의 비동기 동작 원리
+description: JavaScript의 비동기 동작 원리에 대해 배워보겠습니다.
+icon: ''
+image: '/posts/4-event-loop/cover.png'
+tags:
+  - JavaScript
+  - JavaScript 비동기
+  - Event Loop
+date: 2023-08-11 17:01:20
+---
+
+> ## 글을 시작하며
+
+자바스크립트에서 가장 중요하지만 그만큼 이해하기 어려운 부분이 바로 비동기 동작입니다.
+하지만 그 원리를 이해하게 된다면 예상치 못한 비동기 동작으로 인한 사이드 이펙트를 막을 수 있을 것입니다.
+
+<img width="400px" src="/posts/4-event-loop/cover.png" />
+
+이번 글에서는 자바스크립트가 **비동기 동작을 수행하는 원리**에 대해 쉽게 배워보도록 하겠습니다. 😉
+
+---
+
+## 자바스크립트는 머리가 하나 🧠
+
+[지난 포스팅](./3-javascript-single-thread)의 내용을 복습해보겠습니다.
+
+> **자바스크립트는 Call Stack이 하나인 싱글 스레드 언어입니다.**
+> 따라서 현재 실행되고 있는 함수가 있는 경우엔 다른 일들을 수행할 수가 없습니다.
+
+그렇다면 1분 이상 소요되는 오래 걸리는 작업이 있다면 그저 기다리기만 해야 할까요..?
+
+<img width="300px" src="/posts/4-event-loop/230811-213055.png" />
+
+아뇨! 우리에게는 `비동기 콜백`이 있기 때문에 `기다리지 않아도 됩니다.`
+
+지금부터 비동기 콜백을 이해하기 위해서 필요한 개념들에 대해 배워보겠습니다.
+
+---
+
+## 자바스크립트를 실행 시켜줘 (JS Engine)
+
+자바스크립트 엔진은 JS 코드를 이해하고 실행할 수 있도록 도와주는 역할을 합니다.
+대표적으로 크롬에서는 V8이라는 엔진으로 JS를 실행합니다.
+
+자바스크립트 엔진은 크게 `Memory Heap`과 `Call Stack`으로 이루어져 있습니다.
+
+<img width="300px" src="/posts/4-event-loop/230811-213225.png" />
+
+- ### Memory Heap
+
+  데이터를 임시로 저장하는 공간으로, 주로 함수나 변수 또는 함수를 실행할 때 사용하는 값들을 저장합니다.
+
+- ### Call Stack
+
+  코드의 실행 순서를 기록해놓고 순차적으로 실행할 수 있도록 도와줍니다.
+
+<br />
+
+만약 상단에 있는 코드를 실행하는 시간이 오래 걸리게 된다면 그 아래에 위치한 코드들은 실행하지 못하므로 `block` 상태가 될 것입니다.
+
+하지만 저희는 가만히 앉아서 실행을 기다릴 만큼 인내심이 좋지는 않죠 😇
+
+<img
+  width="500px"
+  src="https://velog.velcdn.com/images/soopy368/post/2b53ea20-7f10-474a-80d1-4220e7e9e1cb/image.png"
+/>
+
+이 때 효과적으로 event를 관리하기 위해 필요한 것이 바로 `web API`와 `Callback Queue` 그리고 `Event Loop`입니다.
+
+- ### 지금부터 맛있는 치킨😋을 만드는 과정을 이용해서 위 세 가지 도구로 비동기를 처리하는 방법에 대해 배워보겠습니다.
+
+---
+
+## 재료 손질이 끝나고 할 일은 Callback 함수에게 전해줘
+
+치킨을 만들 때, 재료 손질이 끝났다면 재료를 구울 수도 있고 튀길 수도 있습니다.
+이처럼 하나의 일이 끝나면 다음에 할 일이 달라질 수 있죠.
+
+자바스크립트에서는 **함수 실행이 끝나면 다음에 할 일**을 정할 수 있는데, 이것을 `Callback`이라고 부릅니다.
+
+자고로 치킨이란 바삭바삭한 맛에 먹는게 제맛이기 때문에 🤤 손질이 끝나면 튀겨달라고 요청해보겠습니다.
+
+<img width="200px" src="/posts/4-event-loop/230811-215226.png" />
+
+```javascript
+setTimeout(function () {
+  console.log('치킨을 튀겨주세요');
+}, 1000);
+```
+
+위 코드에서 setTimeout 함수는 첫 번째 인자로 `Callback function`을 받고, 두 번째 인자로 기다릴 시간을 받습니다.
+
+따라서 코드를 실행하면 1초 뒤에 '치킨을 튀겨주세요'라는 내용이 console에 출력됩니다.
+
+> 즉, `Callback function`은 함수 실행이 끝나면 다음에 해야할 일을 가지고 있는 함수입니다.
+
+서버 통신에서 쓰이는 ajax나 DOM을 관리하는 event 등에서 주로 사용되기 때문에 JS를 효과적으로 사용하기 위해서 꼭 알아야 하는 개념이라고 할 수 있습니다 👀
+
+---
+
+## 오래 걸리는 일은 따로 처리할래 (web APIs)
+
+브라우저의 `web API`는 브라우저 안에서 C++로 구현된 스레드로
+주로 DOM event, Ajax request, setTimeout 등 `비동기 이벤트를 처리`합니다.
+
+장점은 자바스크립트의 `싱글 스레드의 영향을 받지 않고 독립적으로 이벤트를 처리`할 수 있습니다.
+
+치킨을 튀기는 건 오래 걸리는 작업이기 때문에 web API에게 맡겨놓아봅시다.
+
+---
+
+## 머리 속에 다음에 할 일 생각해놓기 (Callback Queue)
+
+사람은 어떠한 일이 끝나면 다음에 할 일을 머리 속에 저장해두지만, 브라우저의 경우 다음으로 할 일을 Callback Queue에 저장해놓습니다.
+
+즉, Callback Queue는 `web API`에 있는 `event가 실행이 되고나면`, javascript에서 `실행할 Callback 함수를 저장`하고 있는 저장소입니다.
+
+우리는 web API에게 치킨을 튀겨달라고만 말했지 아직 튀긴 후에 무엇을 해달라고 말하지 않습니다.
+
+오늘은 양념 치킨이 땡기는 날이기 때문에 튀긴 후에 소스를 발라달라고 부탁해보겠습니다. 🤤
+
+<img width="250px" src="/posts/4-event-loop/230811-215357.png" />
+
+```javascript
+setTimeout(function () {
+  console.log('소스를 발라주세요');
+}, 80000);
+```
+
+위 코드를 실행하게 되면 8분이 지난 후 Callback Queue에 `function(){console.log('소스를 발라주세요')}` 함수가 담기게 됩니다.
+
+그렇다면 튀긴 후에 Callback Queue를 확인하여 소스를 바르는 것을 잊지 않고 수행할 수 있게 됩니다!
+
+---
+
+## 할 일 정돈하기 (Event Loop)
+
+능률적으로 일하려는 사람은 우선순위를 정해서 행동합니다.
+
+<img width="400px" src="/posts/4-event-loop/230811-213538.png" />
+
+마찬가지로 JS 내에서도 `일을 효과적으로 처리하기 위한 메커니즘`이 있는데, 이를 바로 `Event Loop`라고 부릅니다.
+
+우리는 치킨을 튀겨달라고 요청한 뒤 8분 후에 소스를 발라달라고 하겠습니다.
+8분 동안 마냥 기다리는 것보단 포장을 준비하는게 효율적이니 포장도 준비해달라고 합니다.
+
+```javascript
+console.log('치킨을 튀겨주세요');
+setTimeout(function () {
+  console.log('소스를 발라주세요');
+}, 80000);
+console.log('포장을 준비해주세요');
+```
+
+위 코드가 실행되는 과정을 살펴보면서 앞서 배운 개념들이 어떠한 역할을 하는지 정리해봅시다!
+
+---
+
+### 1) 모든 코드를 Call Stack에 담는다.
+
+<img
+  width="500px"
+  src="https://velog.velcdn.com/images/soopy368/post/f02a3909-ae2a-49e7-8e24-c0aba4d66881/image.png"
+/>
+
+### 2) Call Stack에 있는 코드를 순차적으로 실행한다.
+
+- console.log("치킨을 튀겨주세요")가 실행되었습니다.
+
+<img
+  width="500px"
+  src="https://velog.velcdn.com/images/soopy368/post/9b783979-019b-4444-a664-2570360dec58/image.png"
+/>
+
+### 3) 오래 걸리는 작업은 Web API에게 맡긴다.
+
+- 비동기 작업인 setTimeout()이 web API에게 맡겨졌습니다. 편의상 함수는 timeout()으로 줄여서 표기하겠습니다.
+
+```javascript
+timeout() = setTimeout(function(){console.log("소스를 발라주세요")})
+```
+
+<img
+  width="500px"
+  src="https://velog.velcdn.com/images/soopy368/post/290add83-2716-4780-8593-38666a5a8991/image.png"
+/>
+
+### 4) Call Stack에 있는 작업을 수행한다.
+
+- 8분 동안 기다릴 수는 없기 때문에 Call Stack에 있는 console.log("포장을 준비해주세요") 작업을 먼저 실행하겠습니다.
+
+<img
+  width="500px"
+  src="https://velog.velcdn.com/images/soopy368/post/290add83-2716-4780-8593-38666a5a8991/image.png"
+/>
+
+<img
+  width="500px"
+  src="https://velog.velcdn.com/images/soopy368/post/ebe4df37-5946-48fa-8376-6f83835eeffb/image.png"
+/>
+
+### 5) 8분 후 setTimeout() 작업이 끝났습니다.
+
+- Callback Queue에 다음에 할 작업인 Callback Function이 저장되었습니다.
+
+<img
+  width="500px"
+  src="https://velog.velcdn.com/images/soopy368/post/ebe4df37-5946-48fa-8376-6f83835eeffb/image.png"
+/>
+
+<img
+  width="500px"
+  src="https://velog.velcdn.com/images/soopy368/post/9a16b00f-80a4-4f9e-9ff5-861ba35c018e/image.png"
+/>
+
+### 6) Event Loop는 Stack이 비었는지 확인합니다.
+
+<img
+  width="500px"
+  src="https://velog.velcdn.com/images/soopy368/post/9a16b00f-80a4-4f9e-9ff5-861ba35c018e/image.png"
+/>
+
+- `Event loop`는 Call stack이 비어있는지를 주기적으로 확인합니다.
+- 반복적으로 `Call stack`이 비어있는지 확인하는 것을 `tick`이라고 합니다.
+- Call stack이 비어있다면, `Callback queue`에서 `Callback function`을 가져와 stack에 올립니다.
+
+### 7) Queue에 있던 코드를 Stack에 넣고 실행합니다.
+
+<img
+  width="500px"
+  src="https://velog.velcdn.com/images/soopy368/post/3a97627e-cd68-410b-a6d1-83e3cc9014a3/image.png"
+/>
+
+<img
+  width="500px"
+  src="https://velog.velcdn.com/images/soopy368/post/ccb16cd3-79b3-4124-8aad-cd81749b6f30/image.png"
+/>
+
+"소스를 발라주세요"가 출력됩니다.
+
+치킨을 튀기고 포장하는 과정을 통해 `Call Stack`, `web API`, `Callback Queue`, `Event Loop`가 어떠한 역할을 하는지 배울 수 있었습니다.
+
+> 개념들에 대해서 다시 한 번 정리해보겠습니다. 😀
+
+- **Call Stack**: 자바스크립트의 함수 호출을 기록하는 데이터 구조입니다.
+- **web API**: 브라우저 안에서 C++로 구현된 스레드로 자바스크립트의 싱글 스레드의 영향을 받지 않고 `독립적으로 이벤트를 처리`할 수 있습니다. 따라서 `비동기 작업`들은 web API에서 수행됩니다.
+- **Callback Queue**: web API에 있는 동작이 끝나면 실행할 `Callback 함수들이 Stack에 올라가기 전 대기`하는 공간입니다.
+- **Event Loop**: `Call Stack이 비어있는지 주기적으로 확인`합니다. Stack이 비어있다면 Callback Queue에서 Callback 함수를 가져와서, 작업을 수행할 수 있도록 Stack에 올립니다.
+
+---
+
+## 글을 마치며
+
+이제 자바스크립트 환경에서 비동기 이벤트가 어떻게 동작하는지 알게 되었습니다.
+
+> 이번에 배운 `비동기 동작`을 저번 포스팅에서 다뤘던 `싱글 스레드 개념과 연결지어` 보면서 글을 마치겠습니다.
+
+- 자바 스크립트는 단일 스레드 기반의 언어로 **한 번에 하나의 작업**만을 처리할 수 있습니다.
+- 하지만 **비동기로 동작**하기 때문에 단일 스레드임에도 불구하고 **동시에 많은 작업을 수행**할 수 있습니다.
+- **비동기로 동작하는 핵심 요소**는 자바스크립트가 아닌 브라우저가 가지고 있습니다. **(Call Stack, Web API, Callback Queue, Event Loop)**

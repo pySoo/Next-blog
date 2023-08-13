@@ -52,8 +52,8 @@ export default function SearchInput({
   return (
     <form
       className={$(
-        'relative w-full flex items-center',
-        'w-full rounded-xl border px-4 py-2 w-[150px] sm:min-w-[200px]',
+        'relative w-full flex items-center gap-2',
+        'w-full rounded-xl border px-1 py-1 w-[150px] sm:min-w-[200px]',
         'border-neutral-200 bg-tertiary placeholder:text-tertiary dark:border-neutral-900 dark:bg-neutral-800',
         className,
       )}
@@ -62,7 +62,7 @@ export default function SearchInput({
       <input
         type="text"
         className={$(
-          'w-full bg-tertiary placeholder:text-mute dark:bg-neutral-800 focus:outline-none',
+          'w-full bg-tertiary placeholder:text-mute dark:bg-neutral-800 focus:outline-none pl-2',
         )}
         placeholder={placeholder}
         value={inputText}
@@ -73,21 +73,23 @@ export default function SearchInput({
       <button
         aria-label="search-button"
         type="submit"
-        className="text-secondary h-5 w-5 ml-1"
+        className="text-secondary w-[30px] h-[30px] flex justify-center items-center shrink-0"
       >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-          />
-        </svg>
+        <div className="w-5 h-5">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+            />
+          </svg>
+        </div>
       </button>
     </form>
   );

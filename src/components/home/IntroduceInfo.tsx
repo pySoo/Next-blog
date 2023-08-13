@@ -12,12 +12,8 @@ export default function IntroduceInfo() {
       animate="animate"
       className="text-tertiary"
     >
-      <Title className="text-primary flex max-[410px]:flex-col">
-        <span className="mr-2 pb-1">기억은 기록을 이기지</span>
-        <span className="flex">
-          <span>못한다</span>
-          <span className="ml-2">✍️</span>
-        </span>
+      <Title className="text-black flex max-[410px]:flex-col">
+        <span className="pb-1">기억은 기록을 이기지 못한다 ✍️</span>
       </Title>
       <div className="pt-2 flex flex-col sm:flex-row justify-between">
         <div className="w-full h-full">

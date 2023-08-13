@@ -36,6 +36,7 @@ export default function PostPressedCard({
                 height={300}
                 className={'h-64 w-full object-cover'}
                 draggable={false}
+                priority
               />
               <div className="p-6 sm:h-[128px]">
                 <div className="mb-2 flex w-full items-end">

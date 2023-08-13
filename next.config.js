@@ -9,4 +9,7 @@ module.exports = withContentlayer({
       { loader: '@next/font/google', options: { subsets: ['latin'] } },
     ],
   },
+  images: {
+    formats: ['image/avif', 'image/webp'],
+  },
 });

@@ -25,8 +25,6 @@ export default function Document() {
         sizes="16x16"
         href="/images/favicon/favicon-16x16.png"
       />
-      <meta name="msapplication-TileColor" content="#ffffff" />
-      <meta name="msapplication-TileImage" content="/ms-icon-144x144.png" />
       <meta
         name="theme-color"
         content="#fafafa"

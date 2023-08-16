@@ -1,6 +1,9 @@
-import { motion } from 'framer-motion';
-
-import { LinkExternal, SectionBorder, Tag } from '@/components/common';
+import {
+  AnimatedContainer,
+  LinkExternal,
+  SectionBorder,
+  Tag,
+} from '@/components/common';
 import { fadeInHalf } from '@/constants/animations';
 import { siteConfig } from '@/constants/config';
 import { Post } from '@/types/post';
@@ -16,7 +19,7 @@ type PostFooterType = {
 
 export default function PostFooter({ post, postNavigation }: PostFooterType) {
   return (
-    <motion.div variants={fadeInHalf} className="space-y-8 mt-12">
+    <AnimatedContainer variants={fadeInHalf} className="space-y-8 mt-12">
       <div className="flex gap-2">
         {post.tags.map((tag) => (
           <Tag key={tag} tag={tag} />
@@ -44,6 +47,6 @@ export default function PostFooter({ post, postNavigation }: PostFooterType) {
       </div>
       <PostNavigation {...postNavigation} />
       <Giscus />
-    </motion.div>
+    </AnimatedContainer>
   );
 }

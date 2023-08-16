@@ -1,5 +1,4 @@
 import dayjs from 'dayjs';
-import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
@@ -18,7 +17,7 @@ export default function PostItem({ post }: { post: ReducedPost }) {
     <div className={$('text-ye w-full py-4')}>
       <Link as={post.slug} href={href}>
         <div className="group">
-          <motion.div className="overflow-hidden rounded-xl bg-neutral-200 dark:bg-neutral-800 mb-3 transition-all sm:group-hover:scale-[1.02]">
+          <div className="overflow-hidden rounded-xl bg-neutral-200 dark:bg-neutral-800 mb-3 transition-all sm:group-hover:scale-[1.02]">
             <Image
               src={post.image ?? defaultCoverImage}
               alt={'대표 이미지'}
@@ -27,7 +26,7 @@ export default function PostItem({ post }: { post: ReducedPost }) {
               className="h-52 w-full object-cover max-w-[400px] mx-auto"
               draggable={false}
             />
-          </motion.div>
+          </div>
           <p className="text-xl font-bold group-hover:text-highlight">
             {post.title}
           </p>

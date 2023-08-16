@@ -1,6 +1,9 @@
-import { motion } from 'framer-motion';
-
-import { PlainText, SubTitle, Title } from '@/components/common';
+import {
+  AnimatedContainer,
+  PlainText,
+  SubTitle,
+  Title,
+} from '@/components/common';
 import PostList from '@/components/post/PostList';
 import { PageSEO } from '@/components/SEO';
 import { fadeInHalf, staggerHalf } from '@/constants/animations';
@@ -22,25 +25,19 @@ export default function SearchLayout({
         url="/search"
       />
       <Title>Search</Title>
-      <motion.div
-        variants={staggerHalf}
-        initial="initial"
-        animate="animate"
-        exit="exit"
-      >
-        <motion.div
-          className="mt-8 mb-4 flex items-end gap-2"
+      <AnimatedContainer variants={staggerHalf} useTransition>
+        <AnimatedContainer
           variants={fadeInHalf}
+          className="mt-8 mb-4 flex items-end gap-2"
         >
           <SubTitle>{searchQuery ? 'Filtered Posts' : 'All Posts'}</SubTitle>
           <span className="font-bold">({postList.length})</span>
-        </motion.div>
-
-        <motion.div
+        </AnimatedContainer>
+        <AnimatedContainer
+          variants={staggerHalf}
           className={`grid w-full gap-8 lg:gap-12 ${
             postList.length !== 0 && 'lg:grid-cols-2'
           }`}
-          variants={staggerHalf}
         >
           {postList.length == 0 && (
             <div className="min-h-[300px] flex items-center mx-auto mt-4">
@@ -48,8 +45,8 @@ export default function SearchLayout({
             </div>
           )}
           <PostList postList={postList} />
-        </motion.div>
-      </motion.div>
+        </AnimatedContainer>
+      </AnimatedContainer>
     </Layout>
   );
 }

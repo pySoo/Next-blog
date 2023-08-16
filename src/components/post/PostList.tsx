@@ -1,16 +1,15 @@
-import { motion } from 'framer-motion';
-
 import { fadeIn, fadeInUp } from '@/constants/animations';
 import { Post } from '@/types/post';
 
+import { AnimatedContainer } from '../common';
 import PostItem from './PostItem';
 
 export default function PostList({ postList }: { postList: Post[] }) {
   return (
     <>
       {postList.map((post) => (
-        <motion.div key={post.slug} variants={fadeInUp}>
-          <motion.div
+        <AnimatedContainer key={post.slug} variants={fadeInUp}>
+          <AnimatedContainer
             variants={fadeIn}
             initial="initial"
             whileInView="animate"
@@ -18,8 +17,8 @@ export default function PostList({ postList }: { postList: Post[] }) {
             viewport={{ amount: 0.2, once: true }}
           >
             <PostItem post={post} />
-          </motion.div>
-        </motion.div>
+          </AnimatedContainer>
+        </AnimatedContainer>
       ))}
     </>
   );

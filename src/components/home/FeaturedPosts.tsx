@@ -1,23 +1,19 @@
-import { motion } from 'framer-motion';
-
 import { fadeIn, staggerHalf } from '@/constants/animations';
 import { allFeaturedPosts } from '@/libs/dataset';
 
-import { LinkArrow, SubTitle } from '../common';
+import { AnimatedContainer, LinkArrow, SubTitle } from '../common';
 import { PostPressedCard } from '../post';
 
 export default function FeaturedPosts() {
   return (
-    <motion.section
-      className="mt-10"
-      variants={staggerHalf}
-      initial="initial"
-      animate="animate"
-    >
-      <motion.div variants={fadeIn}>
+    <AnimatedContainer variants={staggerHalf} className="mt-10">
+      <AnimatedContainer variants={fadeIn}>
         <SubTitle className="mb-6 text-tertiary">Featured Posts</SubTitle>
-      </motion.div>
-      <motion.div className="grid gap-6 md:grid-cols-4" variants={staggerHalf}>
+      </AnimatedContainer>
+      <AnimatedContainer
+        variants={fadeIn}
+        className="grid gap-6 md:grid-cols-4"
+      >
         {allFeaturedPosts.map((post) => (
           <PostPressedCard
             key={post.title}
@@ -28,12 +24,12 @@ export default function FeaturedPosts() {
             isDraft={post.isDraft}
           />
         ))}
-      </motion.div>
-      <motion.div variants={fadeIn}>
+      </AnimatedContainer>
+      <AnimatedContainer variants={fadeIn}>
         <LinkArrow href="/blog" className="mt-8">
           모든 글 보기
         </LinkArrow>
-      </motion.div>
-    </motion.section>
+      </AnimatedContainer>
+    </AnimatedContainer>
   );
 }

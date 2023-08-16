@@ -1,11 +1,10 @@
 import dayjs from 'dayjs';
-import { motion } from 'framer-motion';
 import Link from 'next/link';
 
 import { fadeInHalf } from '@/constants/animations';
 import { Post, Series } from '@/types/post';
 
-import { IconText, SectionBorder, Title } from '../common';
+import { AnimatedContainer, IconText, SectionBorder, Title } from '../common';
 import { CalendarIcon, ClockIcon } from '../icons';
 
 type PostHeaderProps = {
@@ -19,7 +18,7 @@ export default function PostHeader({ post, series }: PostHeaderProps) {
     series?.slug ?? `/snippets?key=${post.snippetName ?? 'all'}`;
 
   return (
-    <motion.div variants={fadeInHalf}>
+    <AnimatedContainer variants={fadeInHalf}>
       <Title className="mx-auto mb-4 max-w-3xl text-center">{post.title}</Title>
       {headerTagTitle && (
         <div className="mt-2 flex justify-center gap-1">
@@ -41,6 +40,6 @@ export default function PostHeader({ post, series }: PostHeaderProps) {
         </div>
       </div>
       <SectionBorder className="mt-4" />
-    </motion.div>
+    </AnimatedContainer>
   );
 }

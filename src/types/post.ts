@@ -29,3 +29,8 @@ export type PostPressedCardType = {
   date: string;
   isDraft?: boolean;
 };
+
+export type Snippet = {
+  key: string;
+  postList: ReducedPost[];
+};

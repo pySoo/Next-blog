@@ -1,14 +1,12 @@
-import React from 'react';
-
-import { FeaturedPosts, IntroduceInfo } from '@/components/home';
+import { FeaturedPosts, IntroduceDescription } from '@/components/home';
 import { PageSEO } from '@/components/SEO';
+import { siteConfig } from '@/constants/config';
 import Layout from '@/layouts/Layout';
 
 export default function Home() {
   return (
-    <Layout>
+    <Layout title={siteConfig.title} description={<IntroduceDescription />}>
       <PageSEO url="/" />
-      <IntroduceInfo />
       <FeaturedPosts />
     </Layout>
   );

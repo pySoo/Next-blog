@@ -3,7 +3,7 @@ import { $ } from '@/libs/core';
 export default function SubTitle({
   className,
   ...props
-}: React.ComponentProps<'h3'>) {
+}: React.ComponentProps<'h2'>) {
   return (
     <h2
       {...props}

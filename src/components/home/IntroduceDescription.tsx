@@ -1,6 +1,4 @@
-import { motion } from 'framer-motion';
-
-import { Pill } from '../common';
+import { AnimatedContainer, Pill } from '../common';
 
 export default function IntroduceDescription() {
   return (
@@ -12,12 +10,12 @@ export default function IntroduceDescription() {
       </p>
       <span className="pt-[15px] sm:hidden">
         상단의{' '}
-        <motion.span
+        <AnimatedContainer
           className="text-orange-500 font-bold"
           whileTap={{ fontSize: '20px' }}
         >
           해바라기
-        </motion.span>
+        </AnimatedContainer>
         를 눌러서 블로그를 구경해 보시죠!
       </span>
       <div className="w-full flex flex-wrap items-center">

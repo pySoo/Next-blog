@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { fadeIn, fadeInUp } from '@/constants/animations';
 import { PostPressedCardType } from '@/types/post';
 
-import { IconText, PressedEffect } from '../common';
+import { AnimatedContainer, IconText, PressedEffect } from '../common';
 import { CalendarIcon } from '../icons';
 
 export default function PostPressedCard({
@@ -15,10 +15,13 @@ export default function PostPressedCard({
   isDraft,
 }: PostPressedCardType) {
   return (
-    <motion.div variants={fadeInUp} whileHover={{ scale: isDraft ? 1 : 1.02 }}>
+    <AnimatedContainer
+      variants={fadeInUp}
+      whileHover={{ scale: isDraft ? 1 : 1.02 }}
+    >
       <PressedEffect>
         <motion.a href={isDraft ? undefined : href} variants={fadeInUp}>
-          <motion.div
+          <AnimatedContainer
             variants={fadeIn}
             initial="initial"
             whileInView="animate"
@@ -47,9 +50,9 @@ export default function PostPressedCard({
                 </p>
               </div>
             </div>
-          </motion.div>
+          </AnimatedContainer>
         </motion.a>
       </PressedEffect>
-    </motion.div>
+    </AnimatedContainer>
   );
 }

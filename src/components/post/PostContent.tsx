@@ -1,10 +1,10 @@
-import { motion } from 'framer-motion';
 import { useMDXComponent } from 'next-contentlayer/hooks';
 
 import { fadeInHalf } from '@/constants/animations';
 import { MAX_TABLE_CONTENTS_LENGTH } from '@/constants/contents';
 import { Post, TableOfContents } from '@/types/post';
 
+import { AnimatedContainer } from '../common';
 import { ContentsBanner, ContentsTable } from '../contents';
 import { CodeBlock, ZoomImage } from '../mdx';
 
@@ -25,7 +25,7 @@ export default function PostContent({
   const MDXContent = useMDXComponent(post.body?.code ?? '');
 
   return (
-    <motion.div variants={fadeInHalf} className="relative gap-8 lg:flex">
+    <AnimatedContainer variants={fadeInHalf} className="relative gap-8 lg:flex">
       <div className="prose prose-neutral w-full max-w-3xl font-spoqa dark:prose-dark">
         <ContentsTable
           className="lg:hidden"
@@ -42,6 +42,6 @@ export default function PostContent({
           />
         </div>
       </div>
-    </motion.div>
+    </AnimatedContainer>
   );
 }

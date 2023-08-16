@@ -1,3 +1,4 @@
+export { default as AnimatedContainer } from './AnimatedContainer';
 export { default as CopyLinkButton } from './CopyLinkButton';
 export { default as Fonts } from './Fonts';
 export { default as HeaderNavigation } from './HeaderNavigation';

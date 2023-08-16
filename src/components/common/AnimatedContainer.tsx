@@ -1,9 +1,8 @@
-import { AnimationProps, motion, Variants } from 'framer-motion';
+import { AnimationProps, motion, MotionProps } from 'framer-motion';
 import { ReactNode } from 'react';
 
-interface AnimatedContainerProps extends AnimationProps {
+interface AnimatedContainerProps extends AnimationProps, MotionProps {
   as?: keyof JSX.IntrinsicElements;
-  variants: Variants;
   className?: string;
   useTransition?: boolean;
   children: ReactNode;
@@ -17,7 +16,6 @@ const defaultMotionProps = {
 
 export default function AnimatedContainer({
   as = 'div',
-  variants,
   className,
   useTransition,
   children,
@@ -28,7 +26,6 @@ export default function AnimatedContainer({
   return (
     <Container
       className={className}
-      variants={variants}
       {...(useTransition ? defaultMotionProps : {})}
       {...props}
     >

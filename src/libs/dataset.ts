@@ -49,6 +49,12 @@ export const allSeries: Series[] = allPosts
 
 export const allFeaturedPosts: PostPressedCardType[] = [
   {
+    href: '/blog/frontend/4-module-bundler',
+    imgUrl: '/posts/4-module-bundler/230818-183808.png',
+    title: '모듈 번들러란? (Webpack vs Vite 무엇을 써야할까요?)',
+    date: '2023.08.18',
+  },
+  {
     href: '/blog/javascript/4-event-loop',
     imgUrl: '/posts/4-event-loop/cover.png',
     title: 'Event Loop와 JavaScript의 비동기 동작 원리',
@@ -65,11 +71,5 @@ export const allFeaturedPosts: PostPressedCardType[] = [
     imgUrl: '/posts/3-reflow-repaint/cover.png',
     title: '브라우저 렌더링 최적화 (Reflow, Repaint)',
     date: '2023.07.26',
-  },
-  {
-    href: '/blog/frontend/2-browser-rendering',
-    imgUrl: '/posts/2-browser-rendering/cover.png',
-    title: '브라우저 렌더링 과정 쉽게 이해하기',
-    date: '2023.07.24',
   },
 ];

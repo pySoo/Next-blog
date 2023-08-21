@@ -1,0 +1,296 @@
+---
+title: Next.js의 렌더링 방식 이해하기 (SSR, SSG, ISR)
+description: Next.js의 렌더링 방식의 차이점에 대해서 알아보고, 필요에 따라 적절한 렌더링 기법을 적용하는 법에 대해 배워보겠습니다.
+image: '/posts/6-ssr-ssg-isr/cover.png'
+tags:
+  - Next.js
+  - SSR
+  - SSG
+  - ISR
+
+date: 2023-08-21 11:25:01
+---
+
+이전 포스팅에서 SPA는 기본적으로 CSR 렌더링 방식을 사용하여 동작한다는 것을 소개했습니다.
+하지만 CSR이 가진 단점을 극복하기 위해서 SSR 개념을 부분적으로 적용하고 싶을 수 있습니다.
+
+![230821-160013](/posts/6-ssr-ssg-isr/cover.png)
+
+지금부터는 SPA 방식인 React에서 Next.js 프레임워크를 사용하여 SSR을 적용하는 방법에 대해 알아보고,
+Next.js에서 사용되는 렌더링 방식인 SSR, SSG, ISR 방식의 차이에 대해서 배워보도록 하겠습니다.
+
+---
+
+## Pre-Rendering
+
+Next.js는 렌더링을 할 때 기본적으로 pre-rendering(사전 렌더링)을 해줍니다.
+사전 렌더링이란 `서버단에서` DOM 요소들을 Build하여 `HTML 문서를 렌더링`하는 것을 뜻합니다.
+
+![230821-131324](/posts/6-ssr-ssg-isr/230821-131324.png)
+
+위 사진처럼 **HTML을 미리 렌더**링하고, 이후 **요청이 오면** Chunk 단위로 **JavaScript를** 보내주어서
+이벤트가 작동하게 되는 것이 `Hydration`이며, Next.js에서 사용되는 방법입니다.
+
+이러한 빌드 과정이 SSR인 것은 아닙니다.
+pre-rendering을 하는 방법은 SSG와 SSR로 나뉘는데, 둘의 차이는 HTML을 생성하는 시기에 있습니다.
+
+- `SSG`는 **빌드 시에 HTML**을 만들고 각각의 요청 시 **재사용**합니다.
+- `SSR`은 각각의 **요청 시에 HTML을 만듭니다.**
+
+기본적으로 SSG가 SSR보다 높은 성능을 가지기 때문에 SSG를 사용하는 것을 Next.js에서도 권장하고 있습니다.
+지금부터는 Next.js에서 SSR과 SSR을 적용하는 방법에 대해 알아보겠습니다.
+
+---
+
+## SSR(Server-Side-Rendering)
+
+SSR은 유저가 **페이지를 요청**할 때마다 **HTML 문서가 생성**됩니다.
+이러한 SSR을 사용하기 위해서는 매 요청마다 서버에 의해 호출되는 getServerSideProps 함수를 사용하는 것이 필요합니다.
+
+### 어떤 상황에서 사용되나요?
+
+항상 최신 상태를 유지해야하는 웹 페이지나, 분석 차트 등
+사용자의 요청마다 `동적으로 페이지를 생성`해서 다른 내용을 보여주어야 하는 경우에 사용됩니다.
+
+### CSR과의 차이
+
+CSR과 SSR의 큰 차이에는 데이터를 불러오는 방식이 있습니다.
+기존 **React**에서는 CSR 방식으로 데이터를 가져올 때 **useEffect**를 사용했다면,
+Next.js에서는 **getStaticProps, getStaticProps, getStaticPaths** 등을 활용하여 데이터를 불러옵니다.
+
+<br />
+
+### getServerSideProps
+
+Next.js는 pre-rendering 중 getServerSideProps 함수를 발견하면
+`컴포넌트 함수 호출 전`에 getServerSideProps를 먼저 `호출`합니다.
+
+API 통신을 통해 데이터를 받아온 후 컴포넌트에 props로 데이터를 전달합니다.
+이 함수는 `매 요청마다 호출`되며 `서버에서 실행`됩니다.
+
+```javascript
+export async function getServerSideProps(context) {
+  const res = await fetch(`https://.../data`);
+  const data = await res.json();
+
+  return {
+    props: {
+      listData: data,
+    },
+  };
+}
+
+const Main = ({ listData }) => {
+  <ul>
+    {listData.map((item) => (
+      <li key={item.id}>{item.title}</li>
+    ))}
+  </ul>;
+};
+```
+
+---
+
+## SSG(Static-Site-Generation)
+
+Next.js에서는 SSR보다 SSG가 높은 성능을 가지기 때문에 SSG를 사용하는 것을 권장합니다.
+왜 그럴까요? 앞서 다뤘던 내용을 복습해봅시다!
+
+### SSG와 SSR의 차이
+
+SSG는 빌드 시에 HTML이 생성되고 매 요청마다 `HTML을 재사용` 합니다.
+하지만 그에 비해 SSR은 매 요청마다 HTML을 생성하기 때문에 응답 속도가 느리고 서버에 더 많은 부담이 가게 됩니다.
+
+![230821-132345](/posts/6-ssr-ssg-isr/230821-132345.png)
+
+SSG에서 HTML은 next build 명령어를 사용할 때 생성됩니다.
+그 후에는 **CDN으로 캐시가 되어지고 요청마다 HTML을 재사용**합니다.
+
+### 어떤 상황에서 사용되나요?
+
+주로 마케팅 페이지, 블로그 게시물과 같이 정적으로 생성된 정보를 `요청마다 동일한 정보로 반환`하는 경우에 사용됩니다.
+
+<br />
+
+### getStaticProps
+
+Next.js에서 SSG를 사용하여 데이터를 받아오려면 getStaticProps를 사용하면 됩니다.
+서버 측에서만 실행되는 함수로 클라이언트에서 실행되지 않습니다.
+
+이 함수는 API와 같은 외부 데이터를 받아서 Static Generation 하기 위한 용도이며 빌드 시에 딱 한 번만 호출되며, static file로 빌드됩니다.
+
+```javascript
+export async function getStaticProps() {
+  const res = await fetch(`https://.../data`);
+  const data = await res.json();
+
+  return {
+    props: {
+      listData: data,
+    },
+  };
+}
+
+const Main = ({ listData }) => {
+  <ul>
+    {listData.map((item) => (
+      <li key={item.id}>{item.title}</li>
+    ))}
+  </ul>;
+};
+```
+
+Main 페이지가 호출되면 **getStaticProps가 먼저 실행**되며 axios 통신을 통해 게시물 리스트를 가져오고
+**props에 리턴 값을 담아서 Main 컴포넌트에 전달**합니다.
+
+위와 같이 getStaticProps를 사용해서 build를 하면 사전에 서버에서 API 호출을 해서 데이터를 담고, 그 데이터가 담긴 HTML을 생성하게 됩니다.
+
+<br />
+
+### getStaticPaths
+
+만약 `동적 라우터(Dynamic Route)`를 사용해서 pages/posts/[id].js 라는 파일을 만들었을 때,
+id에 따라서 다른 글을 보여주고 싶을 때는 어떻게 하면 좋을까요?
+
+id가 1인 글을 추가한다면 우리는 빌드 시에 id가 1인 post data를 불러와서 pre-render 해야합니다. 만약 id가 2로 바뀐다면 id가 2인 글을 불러와서 pre-render 하는 것이 필요하겠죠?
+
+이러한 예시가 바로 page의 `path가 외부 데이터에 의존`하는 경우입니다.
+이것은 구현하기 위해서는 getStaticPaths를 사용해서 pre-render 되기 원하는 `path들을 명시`해주면 됩니다.
+
+```javascript
+export const getStaticPaths = async () => {
+  return {
+    paths: [
+      { params: { id: '1' } },
+      { params: { id: '2' } },
+      { params: { id: '3' } },
+    ],
+    fallback: true,
+  };
+};
+
+export const getStaticProps = async ({ params }) => {
+  const id = params.id;
+  const res = await axios.get(`https://url/${id}`);
+
+  return {
+    props: {
+      list: res.data,
+    },
+  };
+};
+
+const Detail = ({ list }) => {
+  <ul>
+    {list.map((item) => (
+      <li key={item.id}>{item.title}</li>
+    ))}
+  </ul>;
+};
+```
+
+호출 순서는 `getStaticPaths -> getStaticProps -> Detail` 페이지입니다.
+getStaticPaths에서 리턴값으로 path에 1,2,3 페이지 번호를 지정했습니다.
+
+그 후 getStaticProps에서 params.id를 읽어서 해당 게시글에 대한 데이터를 가져와서 페이지를 생성합니다.
+getStaticPaths에서 정적으로 지정했기 때문에 `1,2,3 페이지는 static file`로 생성됩니다.
+
+<br />
+
+### fallback
+
+getStaticPaths 반환 값 중 fallback 값이 있습니다.
+fallback은 `true | false | blocking`을 값으로 가질 수 있습니다.
+
+동적 페이지의 경우 빌드 시에 생성되지 않은 주소로 사용자가 요청을 보내는 경우가 존재하는데,
+이러한 경우에 fallback 값에 따라 다른 대응을 할 수 있게 됩니다.
+
+- **true**
+
+  - 빌드 시에 생성되지 않은 정적 페이지를 요청하는 경우, `fallback 페이지`를 제공합니다.
+  - 서버에서 정적 페이지를 생성하고, 생성되면 사용자에게 해당 페이지를 제공합니다.
+
+- **false**
+
+  - 빌드 시에 생성되지 않은 정적 페이지를 요청하는 경우, `404 페이지`를 응답합니다.
+
+- **blocking**
+  - 빌드 시에 생성되지 않은 정적 페이지를 요청하는 경우, `SSR 방식으로 제작한 정적 페이지`를 사용자에게 제공합니다.
+  - 이후에 해당 주소로 요청이 들어오면 정적 페이지를 응답합니다.
+
+true와 blocking은 정적 페이지를 생성하고 사용자에게 제공한다는 부분이 유사하지만, true는 정적 페이지가 생성되는 동안 fallback 페이지를 제공한다는 점에 차이가 있습니다.
+
+---
+
+## ISR (Incremental-Static-Regeneration)
+
+SSG에 포함되는 개념이며 SSG와의 차이는 `설정한 시간마다 페이지를 새로 렌더링` 한다는 점이 있습니다.
+
+SSG는 빌드 시에 페이지를 생성하기 때문에 데이터가 변경되면 다시 빌드를 해야하지만, ISR은 일정 시간마다 특정 페이지만 다시 빌드하여 페이지를 업데이트 합니다.
+
+### 어떤 상황에서 사용되나요?
+
+블로그와 같이 컨텐츠가 동적이지만 자주 변경되지 않는 사이트인 경우 ISR을 사용하는 것이 좋습니다.
+
+```javascript
+export const getStaticProps = async ({ params }) => {
+  const id = params.id;
+  const res = await axios.get(`https://url/${id}`);
+
+  return {
+    props: {
+      list: res.data,
+    },
+    revalidate: 20,
+  };
+};
+
+const Detail = ({ list }) => {
+  <ul>
+    {list.map((item) => (
+      <li key={item.id}>{item.title}</li>
+    ))}
+  </ul>;
+};
+```
+
+SSG와 getStaticProps 사용 방법은 같지만 revalidate에 명시된 숫자(초)마다 페이지가 새로 렌더링 되는 차이가 있습니다.
+
+---
+
+## Next.js의 웹 서버는 어디에?
+
+SSR(Server Side Rendering)의 용어를 주목해보면 서버에서 렌더링 로직을 처리해준다는 것을 알 수 있습니다.
+하지만 우리는 따로 웹 서버를 만든적이 없습니다. 🧐 ❓
+
+그럼에도 동작이 가능한 이유는 Next.js가 자체적으로 웹 서버를 가지고 있기 때문입니다.
+따라서 서버에서 실행된다고 배웠던 getServerSideProps나 getStaticProps 함수는 Next의 서버로 전달되어 임무를 수행하고 결과 값을 컴포넌트 단에 반환합니다.
+
+그렇기 때문에 해당 함수들이 사용되는 `pages 폴더`의 영역은 프론트와 백엔드, 즉 `서버와 공유하고 있는 공간`이며 getServerSideProps 등의 함수는 `Next.js의 자체 서버에서 실행`되는 것입니다.
+
+---
+
+## 글을 마치며
+
+SPA 환경의 React에서 Next.js를 사용하여 SSG, SSR 렌더링 기법을 적용하는 법에 대해서 배워봤습니다.
+내용들을 다시 정리해보면서 글을 마치도록 하겠습니다. 😃
+
+> Next.js의 SSR, SSG, ISR
+
+Next.js의 큰 특징은 **pre-rendering** 방식을 사용하여 서버에서 미리 HTML 문서를 렌더링을 해주는 것이며,
+SSG와 SSR의 차이는 **SSG는 HTML을 빌드 시에 생성하여 재사용**하고, **SSR은 요청 시마다 생성**하는 것이 있습니다.
+ISR은 SSG에 포함되는 개념이며 설정한 시간마다 페이지를 새로 렌더링한다는 차이가 있습니다.
+
+> 상황마다 적절한 렌더링 방식
+
+- SEO 적용이 크게 중요하지 않거나 데이터 pre-rendering이 필요없다면 `CSR`
+- 정적 문서로 충분한 화면이면서 빠른 HTML 문서 반환이 필요하다면`SSG`
+- 컨텐츠가 동적이지만 자주 변경되지 않는 경우 `ISR`
+- 매 요청마다 화면이 달라지면서 서버 사이드로 렌더링을 하고자 한다면 `SSR`
+
+---
+
+> ### 이미지 출처
+
+- https://guydumais.digital/blog/next-js-the-ultimate-cheat-sheet-to-page-rendering/
+- https://medium.com/weekly-webtips/next-js-on-the-server-side-notes-to-self-e2170dc331ff

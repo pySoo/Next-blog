@@ -67,9 +67,9 @@ export const allFeaturedPosts: PostPressedCardType[] = [
     date: '2023.08.11',
   },
   {
-    href: '/blog/javascript/3-javascript-single-thread',
-    imgUrl: '/posts/3-javascript-single-thread/cover.png',
-    title: 'JavaScript의 동작 원리 (JS는 머리가 하나 🧠)',
-    date: '2023.08.08',
+    href: '/blog/frontend/3-reflow-repaint',
+    imgUrl: '/posts/3-reflow-repaint/cover.png',
+    title: '브라우저 렌더링 최적화 (Reflow, Repaint)',
+    date: '2023.07.26',
   },
 ];

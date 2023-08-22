@@ -8,7 +8,7 @@
 .prose h3,
 .prose h4,
 .prose thead th {
-  @apply text-primary;
+  @apply text-primary break-words;
 }
 
 .prose del {

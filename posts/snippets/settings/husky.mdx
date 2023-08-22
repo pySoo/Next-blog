@@ -13,71 +13,77 @@ date: 2023-07-06 18:15:38
 
 ## Husky
 
-Husky란 eslint나 prettier와 같은 설정을 자동화를 통해 특정 상황에서 무조건 적용이 되도록 도와주는 도구입니다. 아무리 eslint, prettier와 같은 규칙을 설정해도 작업자가 사용을 하지 않으면 소용이 없습니다.
+Husky란 eslint나 prettier와 같은 설정을 자동화를 통해 특정 상황에서 무조건 적용이 되도록 도와주는 도구입니다.
+아무리 eslint, prettier와 같은 규칙을 설정해도 작업자가 사용을 하지 않으면 소용이 없습니다 🥲
 
 우리는 지금부터 husky를 적용해서 다음 과정을 자동화 할 것입니다.
 
-1. commit 전에 prettier formatting이 잘 적용 되어있는지 검사
-2. push 전에 eslint 규칙이 적용 되었는지 검사
-   - pass 되었을 때만 push 하도록 함
+### 1. commit 전에 prettier formatting이 잘 적용 되어있는지 검사
 
-### Husky의 역할
+### 2. push 전에 eslint 규칙이 적용 되었는지 검사
+
+- pass 되었을 때만 push 하도록 함
+
+---
+
+## Husky의 역할
 
 - git hook 역할
-  - git에서 특정 이벤트 발생하기 전, 후로 특정 hook 동작을 실행할 수 있게 합니다. (ex. commit, push)
+  - git에서 **특정 이벤트 발생하기 전, 후로 특정 hook 동작을 실행**할 수 있게 합니다. (ex. commit, push)
 - git hook 설정은 까다로우며 모든 팀원들이 사전에 repo를 클론받고 메뉴얼하게 사전 과정을 수행해야지만 hook이 실행됨을 보장할 수 있습니다.
   - 실수로라도 사전 과정을 시행하지 않는다면 hook이 실행되지 않습니다.
-- 해결법은? **husky**
-  - husky를 통해서 pre-commit, pre-push hook을 설정할 수 있습니다.
+  - 해결법은? **husky**
+    - husky를 통해서 pre-commit, pre-push hook을 설정할 수 있습니다.
 
-<br />
+---
 
 ## Husky를 통한 Git Hook 적용
 
-1. `npm install husky --save-dev`
-2. (처음 husky 세팅하는 사람만 실행 필요) `npx husky install`
+### 1. `npm install husky --save-dev`
 
-   1. `npx husky install` : husky에 등록된 hook을 실제 .git에 적용시키기 위한 스크립트
-   2. add postinstall script in package.json
+### 2. (처음 husky 세팅하는 사람만 실행 필요)
 
-      - 이후에 clone 받아서 사용하는 사람들은 npm install후에 자동으로 `husky install` 이 될 수 있도록 하는 설정입니다.
+1.  `npx husky install` : husky에 등록된 hook을 실제 .git에 적용시키기 위한 스크립트
+2.  `add postinstall script` in package.json
+
+    - 이후에 clone 받아서 사용하는 사람들은 npm install후에 자동으로 `husky install` 이 될 수 있도록 하는 설정입니다.
+
+    ```json
+    // package.json
+
+    {
+      "scripts": {
+        "postinstall": "husky install"
+      }
+    }
+    ```
+
+### 3. scripts 설정
 
       ```json
       // package.json
 
       {
         "scripts": {
-          "postinstall": "husky install"
+          "postinstall": "husky install",
+          "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --cache",
+          "lint-staged": "lint-staged"
+        },
+        "lint-staged": {
+          "**/*.{tsx,ts,jsx,js}": ["prettier --write"]
         }
       }
       ```
 
-3. scripts 설정
+### 4. add pre-commit, pre-push hook
 
-   ```json
-   // package.json
+    1.  `npx husky add .husky/pre-commit "yarn lint-staged"`
+    2.  `npx husky add .husky/pre-push "yarn lint"`
 
-   {
-     "scripts": {
-       "postinstall": "husky install",
-       "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --cache",
-       "lint-staged": "lint-staged"
-     },
-     "lint-staged": {
-       "**/*.{tsx,ts,jsx,js}": ["prettier --write"]
-     }
-   }
-   ```
+        해당 명령어를 입력하면 루트 위치에 .husky 폴더가 생성됩니다.
+        ![230706-185053](/posts/husky/230706-185053.png)
 
-4. add pre-commit, pre-push hook
-
-   1. `npx husky add .husky/pre-commit "yarn lint-staged"`
-   2. `npx husky add .husky/pre-push "yarn lint"`
-
-      해당 명령어를 입력하면 루트 위치에 .husky 폴더가 생성됩니다.
-      ![230706-185053](/posts/husky/230706-185053.png)
-
-5. prettier 포맷 검사를 해주는 lint-staged 설치
+### 5. prettier 포맷 검사를 해주는 lint-staged 설치
 
 - lint-staged의 장점
   - 포맷팅을 수행 한 뒤 git add 명령어를 자동으로 수행되게 할 수 있습니다.
@@ -87,13 +93,13 @@ Husky란 eslint나 prettier와 같은 설정을 자동화를 통해 특정 상�
 yarn add -D lint-staged
 ```
 
-6. .gitignore에 .eslintcache 파일 추가
+### 6. .gitignore에 .eslintcache 파일 추가
 
 ```
 .eslintcache
 ```
 
-긴 과정 고생 많으셨습니다! 이제부터 협업 만족도 쑥쑥 올라갈 일만 남았습니다. 🥳
+---
 
 ## Husky를 적용해서 commit, push 하기
 
@@ -120,8 +126,10 @@ git push origin main
 
 (규칙에 어긋난 경우 에러와 워닝을 표시해줍니다.)
 
+---
+
 ## 과정 요약
 
-1. package.json에 있는 “postinstall”로 인해서, yarn install만 해도 모든 사람이 husky 설치를 하게 됩니다.
-2. pre-commit git hook이 적용되어서 commit 할 때 package.json에 있는 “lint-staged”가 실행됩니다. 이것은 prettier 포매팅을 검사합니다.
-3. pre-push git hook이 적용되어서 push 할 때 package.json에 있는 “lint”가 실행됩니다. 이 때 commit과 다르게 lint 규칙이 맞지 않으면 push가 되지 않습니다. **(강제성)**
+1. package.json에 있는 `postinstall`로 인해서, yarn install만 해도 모든 사람이 husky 설치를 하게 됩니다.
+2. `pre-commit` git hook이 적용되어서 commit 할 때 package.json에 있는 “lint-staged”가 실행됩니다. 이것은 prettier 포맷팅을 검사합니다.
+3. `pre-push` git hook이 적용되어서 push 할 때 package.json에 있는 “lint”가 실행됩니다. 이 때 commit과 다르게 lint 규칙이 맞지 않으면 push가 되지 않습니다. **(강제성)**

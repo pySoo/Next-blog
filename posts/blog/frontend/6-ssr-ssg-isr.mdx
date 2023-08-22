@@ -56,9 +56,7 @@ SSR은 유저가 **페이지를 요청**할 때마다 **HTML 문서가 생성**�
 
 CSR과 SSR의 큰 차이에는 데이터를 불러오는 방식이 있습니다.
 기존 **React**에서는 CSR 방식으로 데이터를 가져올 때 **useEffect**를 사용했다면,
-Next.js에서는 **getStaticProps, getStaticProps, getStaticPaths** 등을 활용하여 데이터를 불러옵니다.
-
-<br />
+Next.js에서는 **getServerSideProps, getStaticProps, getStaticPaths** 등을 활용하여 데이터를 불러옵니다.
 
 ### getServerSideProps
 
@@ -109,8 +107,6 @@ SSG에서 HTML은 next build 명령어를 사용할 때 생성됩니다.
 ### 어떤 상황에서 사용되나요?
 
 주로 마케팅 페이지, 블로그 게시물과 같이 정적으로 생성된 정보를 `요청마다 동일한 정보로 반환`하는 경우에 사용됩니다.
-
-<br />
 
 ### getStaticProps
 
@@ -175,14 +171,14 @@ export const getStaticProps = async ({ params }) => {
 
   return {
     props: {
-      list: res.data,
+      listData: res.data,
     },
   };
 };
 
-const Detail = ({ list }) => {
+const Detail = ({ listData }) => {
   <ul>
-    {list.map((item) => (
+    {listData.map((item) => (
       <li key={item.id}>{item.title}</li>
     ))}
   </ul>;

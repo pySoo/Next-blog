@@ -6,7 +6,6 @@ import { allBlogPosts, allSeries } from '@/libs/dataset';
 import { parseContents } from '@/libs/mdx';
 import { Series } from '@/types/post';
 
-// SSG 렌더링을 사용하기 위한 getStaticPaths 함수 사용
 export const getStaticPaths: GetStaticPaths = async () => {
   return {
     paths: allBlogPosts.map((post) => post.slug),
@@ -14,7 +13,6 @@ export const getStaticPaths: GetStaticPaths = async () => {
   };
 };
 
-// SSG 렌더링을 사용하기 위한 getStaticProps 함수 사용
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const { slugs } = params as { slugs: string[] };
   const slug = `/blog/${[...slugs].join('/')}`;

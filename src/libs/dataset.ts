@@ -56,7 +56,7 @@ export const allFeaturedPosts: PostPressedCardType[] = [
   },
   {
     href: '/blog/frontend/4-module-bundler',
-    imgUrl: '/posts/4-module-bundler/230818-183808.png',
+    imgUrl: '/posts/4-module-bundler/230824-203200.png',
     title: '모듈 번들러란? (Webpack vs Vite 무엇을 써야 할까요?)',
     date: '2023.08.18',
   },

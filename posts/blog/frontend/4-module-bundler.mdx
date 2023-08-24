@@ -1,7 +1,7 @@
 ---
 title: 모듈 번들러란? (Webpack vs Vite 무엇을 써야 할까요?)
 description: 웹을 구성하는 자원들을 하나의 파일로 압축해주는 모듈 번들러에 대해서 배워보겠습니다.
-image: '/posts/4-module-bundler/230818-183808.png'
+image: '/posts/4-module-bundler/230824-203200.png'
 tags:
   - 모듈 번들러
   - Webpack
@@ -137,14 +137,16 @@ Vite의 등장으로 CRA나 Webpack 대신 Vite를 사용하는 개발자들이 
 
 ## 그렇다면 Webpack을 Vite로 교체해야 할까요?
 
-Vite는 번들링 속도에서 강점이 있지만, `마이그레이션과 안정성 측면에서의 문제`가 거론되고 있습니다.
+<img src="/posts/4-module-bundler/230824-202514.png" width="500px" />
+
+Vite는 번들링 속도에서 강점이 있지만, **마이그레이션과 안정성 측면에서의 문제**가 거론되고 있습니다.
 
 Vite는 `개발 환경에서 esbuild`를 사용하지만 `프로덕션 환경에서는 Rollup`으로 번들링을 수행합니다.
 따라서 Webpack에서 Vite로 마이그레이션을 한다면 Rollup config를 설정하는 것에 많은 시간을 투자해야합니다.
 
-![230818-172731](/posts/4-module-bundler/230818-172731.png)
+<img src="/posts/4-module-bundler/230818-172731.png" width="500px" />
 
-Rollup 설정에는 CommonJS 처리, Polyfill 처리 등이 되어있지 않기 때문에 일일이 플러그인을 설치해야해서 번거롭지만, 설정을 마치게 되면 정작 프로덕션 환경에서는 Webpack과 빌드 시간에서 차이가 크게 나지 않는다고 합니다.
+Rollup 설정에는 CommonJS 처리, Polyfill 처리 등이 되어있지 않기 때문에 일일이 플러그인을 설치해야해서 번거롭습니다. 하지만 설정을 마치게 되면 정작 프로덕션 환경에서는 Webpack과 빌드 시간에서 차이가 크게 나지 않는다고 합니다.
 
 게다가 **개발 환경과 프로덕션 환경의 설정이 다르기 때문에 빌드 안정성이 낮아서** 개발 환경에서만 사용한다는 의견도 많습니다.
 
@@ -159,3 +161,8 @@ Rollup 설정에는 CommonJS 처리, Polyfill 처리 등이 되어있지 않기 
 Webpack을 교체하는 것이 필요한 지에 대해서 생각해보기도 했습니다.
 
 환경과 목적에 맞는 번들링 도구를 선택할 수 있도록 이번 글이 도움이 되었으면 좋겠습니다.
+
+> ### 이미지 출처
+
+- https://ko.vitejs.dev/
+- https://www.toptal.com/react/webpack-config-tutorial-pt-2

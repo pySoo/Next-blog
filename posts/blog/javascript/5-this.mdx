@@ -1,6 +1,6 @@
 ---
 title: JavaScript의 this란?
-description: JavaScript의 this의 정의와 용법에 대해서 알아보겠습니다.
+description: JavaScript에서 흔히 혼동되는 this의 정의와 용법에 대해서 알아보겠습니다.
 icon: ''
 image: '/posts/5-this/cover.png'
 tags:
@@ -11,23 +11,49 @@ date: 2023-08-23 23:01:53
 
 > ## 글을 시작하며
 
-이번 글에서는 `this`의 정의와 용법에 대해서 알아보겠습니다.
 JavaScript의 경우 함수를 호출할 때, `함수가 어떻게 호출되었는지에 따라` this가 가리키는 대상이 달라집니다.
 
-함수를 호출하는 방식은 다음과 같이 다양합니다.
+<img src="/posts/5-this/cover.png" width="500px" />
 
-- #### 1. 일반 함수 호출
-- #### 2. 메서드 호출
-- #### 3. 생성자 함수 호출
-- #### 4. apply/call/bind 호출
+이번 글에서는 this란 무엇이며 상황마다 `this`가 어떻게 달라지는지에 대해 배워보겠습니다.
 
 ---
 
-### 1. 일반 함수 호출 (전역 객체에 바인딩)
+## this
+
+this란 `자신이 속한 객체` 또는 `자신이 생성할 인스턴스`를 가리키는 자기 참조 변수(self-reference variable)입니다.
+
+즉, 우리는 this를 통해 **객체나 인스턴스의 프로퍼티나 메서드를 참조**할 수 있습니다.
+
+```javascript
+var Person = function () {
+  this.name = '박수현';
+  this.sayHello = function () {
+    console.log('반갑습니다.');
+  };
+};
+```
+
+그렇다면 this가 가리키는 값은 어떻게 결정될까요?
+
+> 그때 그떄 다릅니다.
+
+JavaScript에서 this의 값은 결정되어 있지 않고, 문맥에 따라 바인딩 되는 객체가 변합니다.
+this가 **특정 객체에 연결**되는 것을 `바인딩`이라고 하는데요, `함수를 호출하는 방식에 따라` 바인딩 객체가 달라집니다.
+
+함수를 호출하는 방식은 다음과 같이 다양합니다.
+
+- **1. 일반 함수 호출**
+- **2. 메서드 호출**
+- **3. 생성자 함수 호출**
+- **4. apply/call/bind 호출**
+
+---
+
+## 1. 일반 함수 호출 ➡️ 전역 객체
 
 - 글로벌 영역에 선언한 함수에서 this는 `전역 객체에 바인딩`됩니다.
 - 전역 객체는 Browser-side에서는 window, Server-side에서는 global 객체를 의미합니다.
-- `바인딩`이란, this가 특정 `객체에 연결`되는 것입니다.
 
 ```javascript
 console.log(this === window); // true
@@ -42,14 +68,15 @@ function foo() {
 foo();
 ```
 
-주목할 점은 foo 함수 안의 bar라는 `내부 함수`도 this가 `전역 객체`에 바인딩 된다는 것입니다.
-전역 객체를 사용하고 싶지 않다면 어떻게 해야할까요?
+주목할 점은 foo 함수 안의 bar라는 `내부 함수`도 this가 `전역 객체`에 바인딩 된다는 것입니다!
+
+> 전역 객체를 사용하고 싶지 않다면 어떻게 해야할까요?
 
 글의 마지막에서 다룰 apply, call, bind를 사용하면 바인딩할 객체를 명시적으로 정할 수 있습니다!
 
 ---
 
-### 2. 메서드 호출 (메서드를 호출한 객체와 바인딩)
+## 2. 메서드 호출 ➡️ 메서드를 호출한 객체
 
 ```javascript
 var handleThis = function (x) {
@@ -65,15 +92,16 @@ var obj = {
 obj.thisMethod(2); // { thisMethod: f }, 2
 ```
 
-자, 여기서 handleThis 함수는 앞서 1에서 다뤘던 일반 함수이며 this는 전역 객체에 바인딩됩니다.
+자, 여기서 handleThis 함수는 앞서 1에서 다뤘던 일반 함수이기 때문에 this는 전역 객체에 바인딩됩니다.
 
-그렇다면 obj 객체의 thisMethod `프로퍼티`에 `일반 함수를 할당`해서 호출하면 어떻게 될까요?
-일반 함수는 메서드로써 호출되기 때문에 `메서드를 호출한 객체`와 바인딩이 됩니다.
-따라서 위의 예시에서는 메서드를 호출한 thisMethod와 바인딩이 되는 것입니다.
+> 그렇다면 obj 객체의 thisMethod `프로퍼티`에 `일반 함수를 할당`해서 호출하면 this 값은 어떻게 될까요?
+
+일반 함수는 **메서드로써 호출**되기 때문에 `메서드를 호출한 객체`와 바인딩이 됩니다.
+따라서 위의 예시에서는 **메서드를 호출한 thisMethod와 바인딩**이 되는 것입니다.
 
 ---
 
-### 3. 생성자 함수 호출 (생성할 인스턴스와 바인딩)
+## 3. 생성자 함수 호출 ➡️ 생성할 인스턴스
 
 JavaScript에서는 공통된 성질을 지니는 객체들을 생성할 때 생성자 함수를 사용합니다.
 
@@ -88,20 +116,18 @@ console.log(obj); // { name: '박수현' }
 ```
 
 생성자 함수 Person을 호출하면 Person에 대한 prototype 프로퍼티가 있는 객체가 생성됩니다.
-그리고 해당 객체를 this에 바인딩을 하기 때문에 this에서는 생성자 함수의 프로퍼티(name) 내용을 알고 있습니다.
+그리고 `생성된 Person 객체`를 this에 `바인딩`을 하기 때문에 this에서는 Person 객체의 **프로퍼티(name) 내용을 알고 있습니다.**
 
 ---
 
-### 4. apply/call/bind 호출 (첫 번째 인자로 전달하는 객체에 바인딩)
+## 4. apply/call/bind 호출 ➡️ 첫 번째 인자로 전달하는 객체
 
-위의 함수들을 이용해서 함수를 실행하면, `첫 번째 인자로 전달하는 객체`에 this를 `바인딩` 할 수 있습니다.
+위의 함수들을 이용해서 함수를 실행하면, 공통적으로 `첫 번째 인자로 전달하는 객체`에 this를 `바인딩` 할 수 있습니다.
 
-특이한 점은 bind의 경우 첫 번째 인자를 this에 바인딩하지만 함수를 실행하지는 않으며, 새로운 함수를 반환합니다.
-
-#### Apply
+### Apply
 
 - 함수를 실행하고 첫 번째 인자로 전달한 값에 this를 바인딩합니다.
-- Call과의 차이점은 인자를 배열의 형태로 전달한다는 것입니다.
+- Call과의 차이점은 `인자를 배열의 형태로` 전달한다는 것입니다.
 
 ```javascript
 var Person = function (name) {
@@ -116,10 +142,10 @@ Person.apply(obj, ['박수현']);
 console.log(obj); // { name: '박수현' }
 ```
 
-#### Call
+### Call
 
 - 함수를 실행하고 첫 번째 인자로 전달한 값에 this를 바인딩합니다.
-- Apply와의 차이점은 인자를 배열로 넘기지 않고 요소를 하나씩 넘깁니다.
+- Apply와의 차이점은 `인자를 배열로 넘기지 않고` 요소를 `하나씩` 넘깁니다.
 
 ```javascript
 var Person = function (name, job) {
@@ -132,10 +158,10 @@ var obj = {};
 Person.apply(obj, ['박수현', 'Frontend Developer']);
 Person.call(obj, '박수현', 'Frontend Developer');
 
-console.log(obj); // { name: '박수현' }
+console.log(obj); // { name: '박수현', job: 'Frontend Developer' }
 ```
 
-#### Bind
+### Bind
 
 - 함수를 실행하고 첫 번째 인자로 전달한 값에 this를 바인딩합니다.
 - Apply, Call과의 차이점은 함수를 실행하지 않고 `새로운 함수를 반환`합니다.
@@ -157,10 +183,11 @@ Suhyeon('박수현', 'Frontend Developer');
 
 ---
 
-### 5. 추가 자료: 이벤트 리스너 (이벤트의 currentTarget에 바인딩)
+## 5. 추가 자료: 이벤트 리스너 ➡️ 이벤트의 currentTarget
 
-Vanilla JavaScript 개발을 하던 중 이벤트 리스너 내부의 this 동작이 헷갈리는 사례가 있었어서 정리해보고자 합니다.
-이벤트 리스너에 할당된 함수에서는 this가 어디에 바인딩 될까요?
+Vanilla JavaScript 개발을 하던 중 이벤트 리스너 내부의 this 동작이 헷갈렸던 사례가 생각나서 정리해보고자 합니다.
+
+> 이벤트 리스너에 할당된 함수에서는 this가 어디에 바인딩 될까요?
 
 ```javascript
 document.body.onclick = function () {
@@ -168,8 +195,8 @@ document.body.onclick = function () {
 };
 ```
 
-이벤트 리스너의 함수에서는 this가 currentTarget에 할당됩니다!
-그렇다면 함수에 내부 함수가 위치한다면 this는 어디에 바인딩 될까요?
+이벤트 리스너의 함수에서는 this가 `currentTarget에 할당`됩니다!
+그렇다면 이벤트 리스너 함수에 내부 함수가 위치한다면 this는 어디에 바인딩 될까요?
 
 ```javascript
 document.body.onclick = function () {
@@ -181,14 +208,14 @@ document.body.onclick = function () {
 };
 ```
 
-헉... 함수 내부에 위치하기 때문에 body를 가리킬 줄 알았는데 왜 이런 결과가 나왔을까요?
+헉... 상위 함수와 같이 body를 가리킬 줄 알았는데 왜 이런 결과가 나왔을까요?
 
-앞서 1번의 사례를 보시면 일반 함수의 this는 기본적으로 전역 객체에 바인딩 된다는 것을 알 수 있습니다.
-따라서 위의 inner 함수는 일반 함수이기 때문에 전역 객체 window에 바인딩 된 것이죠.
+앞서 1번의 사례를 보시면 `일반 함수의 this`는 기본적으로 `전역 객체에 바인딩` 된다는 것을 알 수 있습니다.
+따라서 위의 inner 함수는 **일반 함수이기 때문에 전역 객체 window에 바인딩** 된 것이죠.
 
-그렇다면 inner 함수의 this도 body를 가리키게 하려면 어떻게 하면 좋을까요?
+> 그렇다면 내부 함수 inner의 this도 body를 가리키게 하려면 어떻게 하면 좋을까요?
 
-#### 해결 1. this를 변수에 저장
+### 해결 1. this를 변수에 저장
 
 ```javascript
 document.body.onclick = function () {
@@ -201,7 +228,7 @@ document.body.onclick = function () {
 };
 ```
 
-#### 해결 2. 화살표 함수
+### 해결 2. 화살표 함수
 
 ```javascript
 document.body.onclick = function () {
@@ -213,16 +240,21 @@ document.body.onclick = function () {
 };
 ```
 
-화살표 함수는 this에 window 대신 상위 함수의 this를 바인딩합니다.
+ES6의 화살표 함수는 상위 함수의 this를 바인딩합니다.
+그 이유는 화살표 함수의 경우 `정의된 곳의 문맥(렉시컬 스코프)을 사용`하기 때문에 상위 스코프와 같이 body에 바인딩 됩니다.
 
 ---
 
 ## 글을 마치며
 
-JavaScript에서의 this는 함수 호출 방식에 따라서 동적으로 결정됩니다.
-함수 호출 방식에 따라 바인딩 되는 방식을 정리하며 글을 마치도록 하겠습니다.
+JavaScript에서의 this는 `함수 호출 방식`에 따라서 `동적으로 결정`됩니다.
 
-- 일반 함수: 글로벌 객체에 바인딩
-- 메서드: 메서드를 호출한 객체에 바인딩
-- 생성자 함수: 생성할 인스턴스에 바인딩
-- Apply, Call, Bind: 첫 번째 인자로 전달한 객체에 바인딩
+상황에 따라 달라지는 this의 특성을 이해하면 예상치 못한 참조를 방지할 수 있고 코드 흐름을 이해하는데 도움이 될 것입니다.
+
+함수 호출 방식에 따라 달라지는 바인딩 방식을 정리하며 글을 마치도록 하겠습니다.
+
+- **일반 함수**: 글로벌 객체에 바인딩
+- **메서드**: 메서드를 호출한 객체에 바인딩
+- **생성자 함수**: 생성할 인스턴스에 바인딩
+- **Apply, Call, Bind**: 첫 번째 인자로 전달한 객체에 바인딩
+- **이벤트 리스너**: currentTarget에 바인딩

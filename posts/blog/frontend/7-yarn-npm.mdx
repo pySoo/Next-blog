@@ -1,0 +1,50 @@
+---
+title: npm, yarn, yarn berry 비교해보기
+description: JavaScript의 패키지 매니저인 npm, yarn, yarn berry의 차이점과 각각의 장단점에 대해 알아보겠습니다.
+image: '/posts/7-yarn-npm/cover.png'
+tags:
+  - npm
+  - yarn
+  - yarn berry
+
+date: 2023-08-27 11:05:51
+---
+
+> ## 글을 시작하며
+
+JavaScript로 프로젝트를 진행할 때 대표적으로 쓰이는 패키지 관리 툴로는 npm과 yarn이 있습니다.
+npm과 yarn의 차이 어디까지 알고 계시나요?
+두 도구의 단점을 개선하기 위해서 yarn berry라는 도구가 개발된 것 아셨나요?
+
+대개 새로운 기술이 나오는 이유는 이전 기술의 단점을 개선하기 위함입니다.
+이번 포스팅에서는 패키지 매니저의 장단점과 이를 개선한 기술들의 역사를 살펴보도록 하겠습니다.
+
+---
+
+## npm
+
+npm의 단점은 다음과 같습니다.
+
+1. 일관적이지 않은 패키지 버전
+2. 고정되지 않은 설치 순서
+3. 순차적인 설치로 인한 긴 소요시간
+
+---
+
+## yarn
+
+yarn은 npm의 단점을 다음과 같이 개선하였습니다.
+
+1. 버전을 고정할 수 있도록 yarn.lock 추가
+2. 설치 확인을 위한 checksum
+3. 캐시를 통한 속도 개선
+
+---
+
+## yarn berry
+
+하지만 npm과 yarn의 공통적인 단점은 node_modules를 사용하기 때문에 유령 의존성 문제가 생긴다는 것입니다.
+yarn berry는 이러한 점을 개선하기 위해 Plug'n'Play와 Zero install 방식을 사용하여 패키지를 관리합니다.
+
+1. Plug'n'Play
+2. Zero Install

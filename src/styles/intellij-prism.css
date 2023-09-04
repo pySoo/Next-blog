@@ -3,6 +3,7 @@
   --prism-comment: #808080;
   --prism-foreground: #a9b7c6;
   --prism-selection: #484848;
+  --prism-highlight: #ffc528;
 }
 
 code[class*='language-'],

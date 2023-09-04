@@ -16,7 +16,7 @@
 }
 
 .prose p {
-  @apply leading-7 sm:leading-8;
+  @apply leading-8;
 }
 
 .prose img {
@@ -42,7 +42,7 @@
 
 .prose code:not(:where(pre *)) {
   @apply text-primary rounded-lg px-2 py-0.5 content-none;
-  @apply bg-neutral-200 dark:bg-[var(--prism-background)];
+  @apply bg-neutral-200 dark:bg-neutral-750;
 }
 
 .prose pre::-webkit-scrollbar {
@@ -85,4 +85,14 @@
 .prose ul,
 .prose ol {
   padding-left: 1.2rem;
+}
+
+.prose :where(blockquote):not(:where([class~='not-prose'] *)) {
+  font-style: normal !important;
+  border-left-color: var(--prism-highlight) !important;
+  @apply p-4 bg-neutral-100 dark:bg-neutral-800;
+}
+
+.prose blockquote > :first-child {
+  margin: 0;
 }

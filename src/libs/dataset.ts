@@ -49,6 +49,12 @@ export const allSeries: Series[] = allPosts
 
 export const allFeaturedPosts: PostPressedCardType[] = [
   {
+    href: '/blog/frontend/8-monorepo',
+    imgUrl: '/posts/8-monorepo/cover.png',
+    title: 'yarn workspace와 모노레포 구축 여정 🏃🏼‍♂️ (feat. Turborepo)',
+    date: '2023.09.05',
+  },
+  {
     href: '/blog/frontend/6-ssr-ssg-isr',
     imgUrl: '/posts/6-ssr-ssg-isr/cover.png',
     title: 'Next.js의 렌더링 방식 이해하기 (SSR, SSG, ISR)',
@@ -59,12 +65,6 @@ export const allFeaturedPosts: PostPressedCardType[] = [
     imgUrl: '/posts/4-module-bundler/230824-203200.png',
     title: '모듈 번들러란? (Webpack vs Vite 무엇을 써야 할까요?)',
     date: '2023.08.18',
-  },
-  {
-    href: '/blog/javascript/4-event-loop',
-    imgUrl: '/posts/4-event-loop/cover.png',
-    title: 'Event Loop와 JavaScript의 비동기 동작 원리',
-    date: '2023.08.11',
   },
   {
     href: '/blog/frontend/3-reflow-repaint',

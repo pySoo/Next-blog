@@ -55,8 +55,8 @@ export const allFeaturedPosts: PostPressedCardType[] = [
     date: '2023.09.05',
   },
   {
-    href: '/blog/frontend/6-ssr-ssg-isr',
-    imgUrl: '/posts/6-ssr-ssg-isr/cover.png',
+    href: '/blog/nextjs/1-ssr-ssg-isr',
+    imgUrl: '/posts/1-ssr-ssg-isr/cover.png',
     title: 'Next.js의 렌더링 방식 이해하기 (SSR, SSG, ISR)',
     date: '2023.08.21',
   },

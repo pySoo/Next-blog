@@ -1,7 +1,7 @@
 ---
 title: Next.js의 렌더링 방식 이해하기 (SSR, SSG, ISR)
 description: Next.js의 렌더링 방식의 차이점에 대해서 알아보고, 필요에 따라 적절한 렌더링 기법을 적용하는 법에 대해 배워보겠습니다.
-image: '/posts/6-ssr-ssg-isr/cover.png'
+image: '/posts/1-ssr-ssg-isr/cover.png'
 tags:
   - Next.js
   - SSR
@@ -14,7 +14,7 @@ date: 2023-08-21 11:25:01
 이전 포스팅에서 SPA는 기본적으로 CSR 렌더링 방식을 사용하여 동작한다는 것을 소개했습니다.
 하지만 CSR이 가진 단점을 극복하기 위해서 SSR 개념을 부분적으로 적용하고 싶을 수 있습니다.
 
-![230821-160013](/posts/6-ssr-ssg-isr/cover.png)
+![230821-160013](/posts/1-ssr-ssg-isr/cover.png)
 
 지금부터는 SPA 방식인 React에서 Next.js 프레임워크를 사용하여 SSR을 적용하는 방법에 대해 알아보고,
 Next.js에서 사용되는 렌더링 방식인 SSR, SSG, ISR 방식의 차이에 대해서 배워보도록 하겠습니다.
@@ -26,7 +26,7 @@ Next.js에서 사용되는 렌더링 방식인 SSR, SSG, ISR 방식의 차이에
 Next.js는 렌더링을 할 때 기본적으로 pre-rendering(사전 렌더링)을 해줍니다.
 사전 렌더링이란 `서버단에서` DOM 요소들을 Build하여 `HTML 문서를 렌더링`하는 것을 뜻합니다.
 
-![230821-131324](/posts/6-ssr-ssg-isr/230821-131324.png)
+![230821-131324](/posts/1-ssr-ssg-isr/230821-131324.png)
 
 위 사진처럼 **HTML을 미리 렌더**링하고, 이후 **요청이 오면** Chunk 단위로 **JavaScript를** 보내주어서
 이벤트가 작동하게 되는 것이 `Hydration`이며, Next.js에서 사용되는 방법입니다.
@@ -99,7 +99,7 @@ Next.js에서는 SSR보다 SSG가 높은 성능을 가지기 때문에 SSG를 �
 SSG는 빌드 시에 HTML이 생성되고 매 요청마다 `HTML을 재사용` 합니다.
 하지만 그에 비해 SSR은 매 요청마다 HTML을 생성하기 때문에 응답 속도가 느리고 서버에 더 많은 부담이 가게 됩니다.
 
-![230821-132345](/posts/6-ssr-ssg-isr/230821-132345.png)
+![230821-132345](/posts/1-ssr-ssg-isr/230821-132345.png)
 
 SSG에서 HTML은 next build 명령어를 사용할 때 생성됩니다.
 그 후에는 **CDN으로 캐시가 되어지고 요청마다 HTML을 재사용**합니다.

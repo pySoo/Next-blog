@@ -49,9 +49,15 @@ export const allSeries: Series[] = allPosts
 
 export const allFeaturedPosts: PostPressedCardType[] = [
   {
+    href: '/blog/nextjs/2-lighthouse',
+    imgUrl: '/posts/2-lighthouse/cover.png',
+    title: '웹 성능 개선에 필요한 Lighthouse 지표 알아보기',
+    date: '2023.09.07',
+  },
+  {
     href: '/blog/frontend/8-monorepo',
     imgUrl: '/posts/8-monorepo/cover.png',
-    title: 'yarn workspace와 모노레포 구축 여정 🏃🏼‍♂️ (feat. Turborepo)',
+    title: 'yarn workspace와 모노레포 구축 여정 🏃🏼‍♂️',
     date: '2023.09.05',
   },
   {
@@ -65,11 +71,5 @@ export const allFeaturedPosts: PostPressedCardType[] = [
     imgUrl: '/posts/4-module-bundler/230824-203200.png',
     title: '모듈 번들러란? (Webpack vs Vite 무엇을 써야 할까요?)',
     date: '2023.08.18',
-  },
-  {
-    href: '/blog/frontend/3-reflow-repaint',
-    imgUrl: '/posts/3-reflow-repaint/cover.png',
-    title: '브라우저 렌더링 최적화 (Reflow, Repaint)',
-    date: '2023.07.26',
   },
 ];

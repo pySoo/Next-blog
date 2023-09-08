@@ -1,0 +1,40 @@
+---
+title: Lighthouse로 Next.js 성능 개선하기
+description: 웹 페이지 성능 측정에 쓰이는 Lighthouse의 평가 항목들에 대해 알아보면서 성능 개선 방법을 고민해봅시다.
+image: '/posts/2-lighthouse/cover.png'
+tags:
+  - Next.js
+  - Lighthouse
+date: 2023-09-08 22:48:39
+---
+
+> ### 글을 시작하며
+
+[지난 포스팅](http://localhost:3000/blog/nextjs/2-lighthouse)에서는 웹 사이트 성능 측정에 쓰이는 Lighthouse의 평가 지표들에 대해 알아봤습니다.
+이번 포스팅에서는 Next.js 프로젝트의 성능을 최적화 하는 방법에 대해서 알아보겠습니다.
+
+---
+
+## Performance
+
+먼저 사용자가 컨텐츠를 얼마나 빠르게 인식하는지를 평가하는 Performance 항목을 개선할 방법에 대해 알아보겠습니다.
+
+### 이미지 최적화
+
+- avif, webp 형식 사용
+- next/image 사용
+  - lazy
+  - priority
+
+### 폰트 최적화
+
+- font-display: swap
+- next-font
+
+### 번들 최적화
+
+- dynamic import
+
+### 리소스 캐싱
+
+- 서비스 워커

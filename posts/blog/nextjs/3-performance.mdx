@@ -1,7 +1,7 @@
 ---
 title: Lighthouse로 Next.js 성능 개선하기
-description: 웹 페이지 성능 측정에 쓰이는 Lighthouse의 평가 항목들에 대해 알아보면서 성능 개선 방법을 고민해봅시다.
-image: '/posts/2-lighthouse/cover.png'
+description: Next.js 프로젝트의 성능을 Lighthouse를 이용해서 개선하는 방법을 알아보겠습니다.
+image: '/posts/3-performance/cover.png'
 tags:
   - Next.js
   - Lighthouse
@@ -15,25 +15,115 @@ date: 2023-09-08 22:48:39
 
 ---
 
+## Lighthouse 시작하기
+
+Lighthouse의 정확한 측정을 위해서는 항상 프로덕션 환경에서 테스트를 해야합니다.
+
+이미 production에 배포된 웹 페이지들은 상관 없지만,
+개발 환경은 **production보다 성능이 현저히 낮기 측정**되기 때문에 production 빌드를 한 뒤 yarn start로 production에서 테스트를 해야합니다.
+
+```
+yarn build && yarn start
+```
+
+npm을 사용한다면 아래와 같은 명령어를 입력하면 됩니다.
+
+```
+npm run build && npm run start
+```
+
+---
+
 ## Performance
 
-먼저 사용자가 컨텐츠를 얼마나 빠르게 인식하는지를 평가하는 Performance 항목을 개선할 방법에 대해 알아보겠습니다.
+먼저 사용자가 `컨텐츠를 얼마나 빠르게 인식하는지`를 평가하는 Performance 항목을 개선할 방법에 대해 알아보겠습니다.
 
 ### 이미지 최적화
 
-- avif, webp 형식 사용
-- next/image 사용
-  - lazy
-  - priority
+이미지 최적화는 투자대비 성능 효율이 가장 좋습니다. 웹 페이지 리소스 중 용량이 가장 큰 편에 속하기도 하며, 페이지 컨텐츠 중 가장 큰 영역을 차지하는 경우 LCP 성능에 큰 영향을 주게 됩니다.
+
+지금부터는 Next.js 환경에서 이미지를 최적화 하는 방법에 대해 알아보겠습니다.
+
+### webp, avif 형식 사용
+
+이미지 포맷은 jpg, png, webp 등 다양한 포맷이 존재합니다.
+결론부터 말씀드리면 `webp`와 `avif` 형식을 사용하면 jpg, png보다 크기를 **26% 이상 줄일 수 있습니다.**
+
+Next.js의 경우 `next/image`를 사용하면 친절하게도 이미지 형식을 `webp`로 변경해줍니다 😇
+
+하지만 webp보다 20% 높은 압축률을 자랑하는 형식이 등장했으니!
+그것은 바로 **무손실 압축과 고품질**의 특징을 가지고 있는 `avif` 형식입니다.
+jpeg와 비교했을 경우 동일 품질 대비 **10배나 적은 용량**을 가집니다.
+
+> 어떻게 적용했나요?
+
+next.config.js에 다음과 같이 설정해주면 이미지를 먼저 avif 형식으로 변환하고, avif 형식을 지원하지 않는다면 webp 형식으로 변경해줍니다.
+
+```
+module.exports = {
+  images: {
+    formats: ['image/avif', 'image/webp'],
+  },
+}
+```
+
+네트워크 창을 통해 다음과 같이 이미지 형식이 avif 형식으로 변경된 것을 확인할 수 있습니다. 사파리에서는 avif를 지원하지 않기 때문에 webp로 변경됩니다.
+
+그렇다면 webp를 지원하지 않는 경우는 어떻게 처리해주면 좋을까요?
+webp의 경우 22년 6월부로 은퇴한 IE 브라우저에서만 지원되지 않기 때문에 고려하지 않아도 괜찮을 것 같습니다.
+
+### next/image 사용
+
+- lazy
+- priority
+
+---
 
 ### 폰트 최적화
 
-- font-display: swap
-- next-font
+- #### swap 속성
+
+  CSS의 `@font-face` 부분에 `font-display: swap`를 넣어주면 폰트가 로딩되지 않았을 때 시스템 폰트를 보여줍니다.
+  따라서 화면이 비어있는 시간이 줄어들기 때문에 `FP(First Paint) 시간을 단축`할 수 있습니다.
+
+- #### @next/font
+  구글 폰트를 사용한다면 폰트 리소스를 다운받기 위해 구글에 네트워크 요청을 보냅니다.
+  하지만 `@next/font`를 사용한다면 네트워크 요청 없이도 폰트를 바로 사용할 수 있습니다.
+
+> 어떻게 적용했나요?
+
+저의 경우 @next/font의 구글 폰트를 사용했기 때문에 아래와 같이 next.config.js에 fontLoaders를 등록해주었습니다.
+그리고 swap 속성을 적용하기 위해 display 속성에 swap을 적용해주었습니다.
+
+---
 
 ### 번들 최적화
 
-- dynamic import
+네트워크 창에서 리소스들의 크기를 살펴보면 이미지 다음으로 js 코드들이 큰 크기를 차지하고 있는 것을 확인할 수 있습니다.
+우리는 이 큰 뭉텅이의 js 파일의 크기를 다음과 같은 방법으로 줄일 수 있습니다.
+
+### 코드 스플리팅
+
+React와는 다르게 Next.js는 pages 내의 파일들의 코드 스플리팅을 자동으로 지원해줍니다.
+하지만 웹에 큰 요소가 존재하는 경우 별도의 청크로 분할하는 것이 좋습니다.
+
+사용자의 상호작용이 있어야 보여지는 요소는 나중에 불러와서 첫 로딩 속도를 개선할 수 있는 것이죠!
+
+#### dynamic import
+
+Next.js에서는 dynamic import를 이용해서 파일을 동적으로 불러올 수 있습니다.
+
+```
+import Table from "../components/Table";
+```
+
+```
+import dynamic from "next/dynamic";
+
+const Table = dynamic(import("../components/Table"));
+```
+
+---
 
 ### 리소스 캐싱
 

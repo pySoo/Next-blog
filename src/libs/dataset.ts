@@ -50,7 +50,7 @@ export const allSeries: Series[] = allPosts
 export const allFeaturedPosts: PostPressedCardType[] = [
   {
     href: '/blog/nextjs/3-performance',
-    imgUrl: '/posts/3-performance/230911-111409.png',
+    imgUrl: '/posts/3-performance/cover.png',
     title: 'Lighthouse로 Next.js 성능 최적화 하기',
     date: '2023.09.08',
   },

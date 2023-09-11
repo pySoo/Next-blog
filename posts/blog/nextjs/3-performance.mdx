@@ -1,17 +1,21 @@
 ---
-title: Lighthouse로 Next.js 성능 개선하기
-description: Next.js 프로젝트의 성능을 Lighthouse를 이용해서 개선하는 방법을 알아보겠습니다.
+title: Lighthouse로 Next.js 성능 최적화 하기
+description: Lighthouse를 이용해서 Next.js 프로젝트의 성능을 최적화 했던 방법들을 공유하고자 합니다.
 image: '/posts/3-performance/cover.png'
 tags:
   - Next.js
   - Lighthouse
+  - 성능 최적화
 date: 2023-09-08 22:48:39
 ---
 
 > ### 글을 시작하며
 
 [지난 포스팅](http://localhost:3000/blog/nextjs/2-lighthouse)에서는 웹 사이트 성능 측정에 쓰이는 Lighthouse의 평가 지표들에 대해 알아봤습니다.
-이번 포스팅에서는 Next.js 프로젝트의 성능을 최적화 하는 방법에 대해서 알아보겠습니다.
+
+이번 포스팅에서는 **Lighthouse의 Performance 성능을 개선**하여 Next.js 프로젝트의 성능을 최적화 하는 방법에 대해서 알아보겠습니다.
+
+![230911-102823](/posts/3-performance/cover.png)
 
 ---
 
@@ -21,13 +25,13 @@ Lighthouse의 정확한 측정을 위해서는 항상 `프로덕션 환경에서
 
 이미 배포된 웹 페이지들은 상관 없지만, **개발 환경에서는 프로덕션 환경보다 성능이 더 낮게 측정**되기 때문에 빌드를 한 뒤 yarn start로 프로덕션 환경에서 테스트를 해야합니다.
 
-```
+```bash
 yarn build && yarn start
 ```
 
 npm을 사용한다면 아래와 같은 명령어를 입력하면 됩니다.
 
-```
+```bash
 npm run build && npm run start
 ```
 
@@ -35,12 +39,13 @@ npm run build && npm run start
 
 ## Performance
 
-먼저 사용자가 `컨텐츠를 얼마나 빠르게 인식하는지`를 평가하는 Performance 항목을 개선할 방법에 대해 알아보겠습니다.
+이번 글에서는 사용자가 `컨텐츠를 얼마나 빠르게 인식하는지`를 평가하는 Performance 항목을 개선할 방법에 대해 알아보겠습니다.
 
 ## 이미지 최적화
 
 이미지 최적화는 투자대비 성능 효율이 가장 좋습니다 👍
-리소스 중 용량이 가장 큰 편에 속하기도 하며, 컨텐츠 중 **가장 큰 영역을 차지**하는 경우 `LCP 성능에 큰 영향`을 주기 때문입니다.
+리소스 중 용량이 큰 편에 속하기 때문에 로드 속도가 오래 걸리고, 컨텐츠 중 **가장 큰 영역을 차지**하는 경우
+`LCP 성능에 큰 영향`을 주기 때문입니다.
 
 지금부터는 Next.js 환경에서 이미지를 최적화 하는 방법에 대해 알아보겠습니다.
 
@@ -50,18 +55,23 @@ npm run build && npm run start
 
 이미지 포맷은 jpg, png, webp 등 다양한 포맷이 존재합니다.
 `webp` 형식을 사용하면 jpg, png보다 크기를 **26% 이상 줄일 수 있습니다.**
+
 `webp`는 구글이 웹페이지 로딩 속도를 높이기 위해 만든 이미지 포맷이며, **품질은 유지하면서 파일 크기를 더 작게** 만드는 무손실 압축 확장자입니다.
+
+<img src="/posts/3-performance/230911-103155.png" width="700px" />
 
 하지만 `webp보다 20% 높은 압축률`을 자랑하는 형식이 등장했으니!
 그것은 바로 **무손실 압축과 고품질 이미지**의 특징을 가지고 있는 `avif` 형식입니다.
-jpeg와 비교했을 경우 동일 품질 대비 **10배나 적은 용량**을 가집니다.
+jpeg와 비교했을 경우 동일 품질 대비 **최대 10배 적은 용량**을 가집니다.
+
+<br />
 
 > ### 어떻게 개선했나요?
 
 Next.js의 경우 친절하게도 `next/image`를 사용하면 이미지 형식을 `webp`로 변환해줍니다.
-저는 avif 형식을 사용해서 크기를 더 줄이고 싶었기 때문에 이미지 설정을 해주었습니다.
+저는 avif 형식을 사용해서 더 작은 크기로 만들고 싶었기 때문에 추가 설정을 해주었습니다.
 
-`next.config.js`에 다음과 같이 설정해주면 이미지를 먼저 avif 형식으로 변환하고, avif 형식을 지원하지 않는다면 webp 형식으로 변경해줍니다.
+`next.config.js`에 다음과 같이 설정해주면 **이미지를 먼저 avif 형식으로 변환**하고, avif 형식을 **지원하지 않는다면 webp 형식으로** 변경해줍니다.
 
 ```javascript
 module.exports = {
@@ -72,6 +82,8 @@ module.exports = {
 ```
 
 네트워크 창을 통해 다음과 같이 이미지 형식이 avif 형식으로 변경된 것을 확인할 수 있습니다. 사파리에서는 avif를 지원하지 않기 때문에 webp로 변경됩니다.
+
+![230911-093645](/posts/3-performance/230911-093645.png)
 
 그렇다면 webp를 지원하지 않는 경우는 어떻게 처리해주면 좋을까요?
 22년 6월부로 은퇴한 IE 브라우저에서만 webp 지원을 하지 않기 때문에 고려하지 않아도 괜찮을 것 같다고 생각합니다.
@@ -103,31 +115,51 @@ next/image는 다음과 같은 기능들을 통해 성능을 개선합니다.
 
   따라서 next/image는 `placeholder` 속성을 통해 **빈 영역 또는 blur 이미지를 제공**하여 `레이아웃이 흔들리지 않게` 합니다. 기본 설정으로는 빈 영역을 제공합니다.
 
+<br />
+
 > ### 어떻게 개선했나요?
 
-### next/image의 Image 컴포넌트 사용
+### next/image로 교체
 
 `img 태그`들을 모두 next/image의 `Image 컴포넌트로` 변경해주었습니다.
-약간 허무하실 수도 있지만 저는 Next.js 프로젝트를 처음 시작했을 때 img 태그와 next/image의 Image의 차이를 모르고 사용했었습니다. (반성하고 있습니다 🥲)
-한 페이지에서 많은 이미지들을 로드하는 것이 필요했기 때문에 img 태그를 이용하여 로드했을 때는 아래와 같이 처참한 점수를 기록했었습니다.
+저는 Next.js 프로젝트를 처음 시작했을 때 img 태그와 next/image의 Image의 차이를 모르고 사용했었습니다. (반성하고 있습니다 🥲)
+
+한 페이지에서 많은 이미지들을 로드하는 것이 필요했기 때문에 img 태그를 이용하여 로드했을 때는
+아래와 같이 처참한(...) 점수를 기록했었습니다.
+
+![230911-094750](/posts/3-performance/230911-094750.png)
+
+<br />
 
 **문제를 깨닫고 Next.js의 이미지 최적화 방법을 알아보던 중** next/image와 img 태그의 차이에 대해서 알게 되었습니다. `next/image로 변경`하는 것만으로도 홈에서 로드하는 이미지 용량이 1/8 이상 줄어들고 `성능 점수가 13점이 올랐습니다.`
 
+![230911-095031](/posts/3-performance/230911-095031.png)
+
 아쉬웠던 점은 **그럼에도 LCP 속도가 5초 이상으로 빨간 불**이 들어왔고 `개선의 필요성`을 느꼈습니다.
+
+<br />
 
 ### Priority 속성
 
-먼저 Largest Content가 무엇인지 파악했고, Largest Content에 해당하는 이미지에 `priority` 속성을 주어서 `가장 먼저 로드`하도록 하였습니다. 덕분에 LCP(Largest Content Paint) 속도가 빨라졌습니다.
+먼저 Largest Content가 무엇인지 파악했고, Largest Content에 해당하는 이미지들에 `priority` 속성을 주어서 `가장 먼저 로드`하도록 하였습니다. 덕분에 LCP(Largest Content Paint) 속도가 빨라졌습니다.
 
 ### avif 형식으로 용량 압축
 
-전 섹션에서 언급했던 webp보다 압축률이 좋은 avif 형식을 우선적으로 사용하도록 하여서 이미지 로드 속도를 더 개선하였습니다.
+전 섹션에서 언급했던 webp보다 압축률이 좋은 avif 형식을 우선적으로 사용하도록 설정하여서 이미지 로드 속도를 개선하였습니다.
+
+![230911-093849](/posts/3-performance/230911-093849.png)
+
+<br />
+
+### 개선 결과
 
 결과적으로 next/image의 기본 최적화 방법과 priority, avif 형식 추가 설정을 통해 LCP 속도를 `7.5초에서 2초까지 단축`할 수 있었습니다.
 
+![230911-104707](/posts/3-performance/230911-104707.png)
+
 ---
 
-### 폰트 최적화
+## 폰트 최적화
 
 - #### swap 속성
 
@@ -136,38 +168,32 @@ next/image는 다음과 같은 기능들을 통해 성능을 개선합니다.
 
 - #### @next/font
   구글 폰트를 사용한다면 폰트 리소스를 다운받기 위해 구글에 네트워크 요청을 보냅니다.
-  하지만 `@next/font`를 사용한다면 네트워크 요청 없이도 폰트를 바로 사용할 수 있습니다.
+  하지만 `@next/font`를 사용한다면 네트워크 요청 없이도 폰트를 바로 사용할 수 있어서 `네트워크 페이로드를 줄일 수` 있습니다.
 
-> 어떻게 적용했나요?
+<br />
+
+> ### 어떻게 개선했나요?
 
 ### next/font 사용 및 swap 설정
 
+[Next.js의 가이드](https://nextjs.org/docs/pages/building-your-application/optimizing/fonts)를 따라 설정하였습니다.
 next/font의 구글 폰트를 로드하고 swap 설정을 해주었습니다.
 
 ```typescript
-import {
-  Inter as FontSans,
-  JetBrains_Mono as FontMono,
-} from '@next/font/google';
+import { Inter as FontSans } from 'next/font/google';
 
 export const fontSans = FontSans({
   subsets: ['latin'],
   variable: '--font-sans',
   display: 'swap',
 });
-
-export const fontMono = FontMono({
-  subsets: ['latin'],
-  variable: '--font-mono',
-  display: 'swap',
-});
 ```
 
-폰트를 전역적으로 적용하기 위해 \_app 폴더에 다음 Fonts 컴포넌트를 선언하였습니다.
+**전역적으로 폰트를 적용**하기 위해 root 위치에 폰트들을 선언해주었고 \_app 폴더에 Fonts 컴포넌트를 선언하였습니다.
 
-```typescript
+```tsx
 // components/common
-import { fontMono, fontSans } from '@/constants/fonts';
+import { fontSans } from '@/constants/fonts';
 
 export default function Fonts() {
   return (
@@ -175,7 +201,6 @@ export default function Fonts() {
       <style jsx global>{`
         :root {
           --font-sans: ${fontSans.style.fontFamily};
-          --font-mono: ${fontMono.style.fontFamily};
         }
       `}</style>
     </>
@@ -183,63 +208,146 @@ export default function Fonts() {
 }
 ```
 
-```typescript
+```tsx
 // pages/_app
 import Fonts from '@/components/common/Fonts';
 
 export default function App() {
   return (
-    <>
+    <div>
       <Head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Head>
       {...}
       <Fonts />
-    <>
+    </div>
   );
 }
 ```
 
-```typescript
-import { Inter as FontSans } from '@next/font/google';
+<br />
 
-export const fontSans = FontSans({
-  subsets: ['latin'],
-  variable: '--font-sans',
-  display: 'swap',
-});
-```
+google font가 google이 아닌 **next에서 로드**되는 것을 확인할 수 있습니다. CLS 점수도 0점으로 최적화할 수 있었습니다.
+
+![230911-093523](/posts/3-performance/230911-093523.png)
 
 ---
 
-### 번들 최적화
+## 번들 최적화
 
-네트워크 창에서 리소스들의 크기를 살펴보면 이미지 다음으로 js 코드들이 큰 크기를 차지하고 있는 것을 확인할 수 있습니다.
-우리는 이 큰 뭉텅이의 js 파일의 크기를 다음과 같은 방법으로 줄일 수 있습니다.
+네트워크 창에서 리소스들의 크기를 살펴보면 js 코드들이 다른 리소스들에 비해 큰 크기를 차지하고 있는 것을 확인할 수 있습니다.
+
+![230911-100033](/posts/3-performance/230911-100033.png)
+
+우리는 js 파일의 크기를 다음과 같은 방법으로 줄일 수 있습니다.
 
 ### 코드 스플리팅
 
 React와는 다르게 Next.js는 pages 내의 파일들의 코드 스플리팅을 자동으로 지원해줍니다.
 하지만 웹에 큰 요소가 존재하는 경우 별도의 청크로 분할하는 것이 좋습니다.
 
-사용자의 상호작용이 있어야 보여지는 요소는 나중에 불러와서 첫 로딩 속도를 개선할 수 있는 것이죠!
+사용자의 **상호작용이 있어야 보여지는 요소는 나중에 불러와서** `첫 로딩 속도를 개선`할 수 있는 것이죠!
 
 #### dynamic import
 
 Next.js에서는 dynamic import를 이용해서 파일을 동적으로 불러올 수 있습니다.
 
-```
-import Table from "../components/Table";
+```typescript
+import Table from '../components/Table';
 ```
 
-```
-import dynamic from "next/dynamic";
+```typescript
+import dynamic from 'next/dynamic';
 
-const Table = dynamic(import("../components/Table"));
+const Table = dynamic(import('../components/Table'));
 ```
+
+<br />
+
+> ### 어떻게 개선했나요?
+
+저는 Next.js로 SSG 정적 블로그를 제작하여서 상호작용 등으로 보여지는 요소는 없었기 때문에 dynamic import를 사용하지 않았습니다.
+
+하지만 번들 크기를 측정하는 법을 알아둔다면 **다음 프로젝트에서 번들 크기를 개선할 번들을 선택하는데 도움이 될 것이라 생각**이 되어서 `번들 사이즈 분석 툴`을 사용해보았습니다.
+
+#### 1. 설치
+
+개발 의존성 모드로 @next/bundle-analyzer를 설치합니다.
+
+```bash
+yarn add -D @next/bundle-analyzer
+```
+
+#### 2. 설정 추가
+
+next.config.js에 다음 부분을 추가합니다.
+
+```javascript
+const withBundleAnalyzer = require('@next/bundle-analyzer')({
+  enabled: process.env.ANALYZE === 'true',
+  openAnalyzer: false,
+});
+
+// 기본 설정
+const nextConfig = {
+  reactStrictMode: false,
+  swcMinify: true,
+};
+
+module.exports = withBundleAnalyzer(nextConfig);
+```
+
+#### 3. 명령어 등록
+
+package.json의 scripts 부분을 수정해 analyze 명령 시에만 번들 사이즈를 분석하도록 설정합니다.
+
+```json
+"scripts": {
+    "analyze": "ANALYZE=true next build" // 추가
+},
+```
+
+```bash
+yarn analyze
+```
+
+다음과 같이 **js bundle 사이즈를 파악**할 수 있습니다.
+
+![230911-093453](/posts/3-performance/230911-093453.png)
 
 ---
 
-### 리소스 캐싱
+> ### 글을 마치며
 
-- 서비스 워커
+이번 글에서는 Lighthouse의 Performance 성능을 개선하는 방법에 대해서 알아보았습니다.
+Lighthouse 덕분에 이미지, 폰트 등의 `정적 리소스의 최적화 방법`이나 `번들 크기 분석` 등 놓치고 있던 것들을 개선해볼 수 있었습니다.
+
+**최적화 결과와 최적화를 위해 시도했던 방법**들을 정리하면서 글을 마치도록 하겠습니다.
+
+> #### 최적화 이전
+
+![230911-094750](/posts/3-performance/230911-094750.png)
+
+<br />
+
+> #### 최적화 이후
+
+![230911-104707](/posts/3-performance/230911-104707.png)
+
+### 개선 방법
+
+- #### 이미지 최적화 (FCP 개선)
+
+  - img 태그를 이미지 자동 최적화를 제공하는 `next/image` 컴포넌트로 교체
+  - webp보다 압축률이 좋은 `avif 형식 우선 사용`
+  - Largest Content에 `priority 속성`을 주어서 가장 먼저 로드되도록 함
+
+- #### 폰트 최적화 (FP, CLS 개선)
+
+  - `next/font`를 사용하여 네트워크 페이로드를 줄임
+  - `swap 설정`으로 폰트 로드 전에 비어있는 시간을 줄임
+
+- #### 번들 분석
+  - `@next/bundle-analyzer`를 사용해서 `js bundle 사이즈를 분석하는 법을 알게`되었습니다.
+  - dynamic import를 사용한 코드 스플리팅도 고려해보았으나, **SSG 정적 블로그 프로젝트**였기 때문에 dynamic import 사용이 적절하지 않다고 생각했습니다.
+  - 따라서 **정적 리소스를 최적화** 하는 방법들만 적용하여 개선해보았습니다. 하지만 **번들 크기를 더 개선할 수 있다는 아쉬움**이 들었기 때문에 `@next/bundle-analyzer`를 참고하여 앞으로도 계속 개선 작업을 해보고자 합니다.

@@ -1,0 +1,189 @@
+---
+title: React의 초기 렌더링 속도 최적화하기
+description: 사용자 이탈에 큰 영향을 주는 React의 초기 로딩 속도를 개선하는 방법들을 알아보겠습니다.
+icon: ''
+image: '/posts/9-optimizing-loading-speed/cover.png'
+tags:
+  - React
+  - 로딩 속도 최적화
+  - 번들 사이즈
+date: 2023-09-15 21:45:30
+---
+
+> ## 글을 시작하며
+
+사용자 경험에 영향을 미치는 가장 큰 요소 중 하나는 **속도**입니다.
+
+<img src="/posts/9-optimizing-loading-speed/cover.png" width="500px" />
+
+로딩 속도가 **3초가 넘어가면 53%의 사용자가** 떠나며 **5초가 넘는다면 90%의 사용자가** 떠난다는 통계가 있습니다.
+
+그만큼 프론트엔드 개발자에게 초기 렌더링 속도 개선은 중요한 과제가 되었습니다❗️
+이번 글에서는 React의 SPA 구조의 **초기 렌더링 속도가 느린 이유와 속도를 개선하는 방법**에 대해서 배워보도록 하겠습니다.
+
+---
+
+## SPA의 느린 로딩 속도
+
+SPA는 하나의 HTML에서 새로고침 없이 **자바스크립트 코드만으로 웹사이트를 그리는 방식**입니다.
+
+![230915-213601](/posts/9-optimizing-loading-speed/230915-213601.png)
+
+SPA는 자바스크립트가 웹 페이지를 렌더링하기 때문에 **브라우저는 빈 HTML**을 받게 됩니다.
+따라서 처음엔 흰 화면이 보이게 되고 **자바스크립트 코드가 실행되기 전까지는 컨텐츠가 보이지 않습니다.**
+이러한 특성 때문에 **초기 로딩 시간이 오래 걸린다는 것**이 SPA의 단점입니다.
+
+---
+
+> ## 해결 방법
+
+그렇다면 SPA의 느린 초기 로딩 속도를 어떻게 개선할 수 있을까요?
+
+## 1. 번들 사이즈 줄이기
+
+자바스크립트 파일 크기가 커질수록 화면이 그려지는 렌더링 시간이 길어지게 됩니다.
+
+### 코드 분할
+
+번들 사이즈를 줄이는 가장 쉬운 방법은 `번들을 나누는 것`입니다.
+당장 필요한 코드가 아니라면 **분리시키고 필요할 때 사용하는 방식**으로 초기 로딩 속도를 줄일 수 있습니다.
+
+React에서는 `Suspense와 lazy`를 이용해서 다음과 같이 코드 분할을 적용할 수 있습니다.
+Home에 진입하게 된다면 /login 페이지에 접근하기 전까지는 Login 컴포넌트를 불러오지 않기 때문에 로딩 속도를 단축할 수 있습니다.
+
+Home 컴포넌트가 로딩되기 전까지는 fallback 내부의 Loading 글씨가 보여지게 됩니다.
+
+```javascript
+import React, { Suspense, lazy } from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+
+const Home = lazy(() => import('./routes/Home'));
+const Login = lazy(() => import('./routes/Login'));
+
+const App = () => (
+  <Router>
+    <Suspense fallback={<div>Loading...</div>}>
+      <Switch>
+        <Route exact path="/" component={Home} />
+        <Route exact path="/login" component={Login} />
+      </Switch>
+    </Suspense>
+  </Router>
+);
+```
+
+<br />
+
+### 폰트 다운로드
+
+폰트는 CSS가 아닌 `HTML에서 import`해야 로딩 속도를 단축할 수 있습니다.
+
+왜 그럴까요? 🤔
+브라우저 렌더링 과정을 다시 떠올려보면 가장 먼저 HTML을 파싱하고, **CSS를 파싱한 뒤 렌더 트리**를 만들게 됩니다.
+
+따라서 아래의 사진과 같이 **CSS 내부에서 다른 스타일 시트를 import 한다면** 코드를 다 읽고 나서야 다운로드를 하게 됩니다.
+
+![230915-203619](/posts/7-javascript-performance/230915-203619.png)
+
+따라서 아래의 사진과 같이 비는 시간이 생기게 됩니다.
+
+![230915-203115](/posts/7-javascript-performance/230915-203115.png)
+
+하지만 CSS를 다 읽기 전에 **HTML에서 폰트를 다운받을 수 있다면** 아래와 같이 로딩 속도를 줄일 수 있게 됩니다.
+
+![230915-203119](/posts/7-javascript-performance/230915-203119.png)
+
+<br />
+
+### 이미지 최적화
+
+평균적으로 이미지는 웹사이트에서 21% 정도의 용량을 차지한다고 합니다. 따라서 이미지 용량을 줄이는 것만으로도 큰 최적화 효과를 볼 수 있습니다.
+
+#### webp, avif 포맷
+
+먼저, 이미지 용량을 줄이기 위해서 **압축률이 좋은 포맷**을 사용할 수 있습니다.
+`webp`의 경우 png, jpg보다 크기를 26% 이상 줄일 수 있으며, `avif`의 경우 webp보다 20% 높은 압축률을 가지고 있습니다.
+
+Next.js에서는 간단한 config 설정으로 이미지의 포맷을 변환할 수 있으나, React의 경우 변환 기능이 없어서 해당 포맷의 파일을 직접 추가해야 합니다.
+
+- webp, avif 변환 사이트: https://convertio.co/kr/jpg-webp/
+- 이미지 압축 사이트: https://www.iloveimg.com/ko/compress-image
+
+webp 적용법은 다음과 같습니다. source를 먼저 불러오고, 지원하지 않는 환경인 경우 img 태그를 불러옵니다.
+
+```jsx
+<picture>
+  <source srcSet={item.imageWEBP} type="image/webp" />
+  <img src={item.imageJPG} alt={item.title} />
+</picture>
+```
+
+<br />
+
+#### srcset
+
+다음으로는 `반응형 이미지` 설정을 통해 화면 사이즈에 따라 이미지를 불러오는 방법이 있습니다.
+w 단위를 사용하면 화면 너비에 따라 이미지를 가져올 수 있습니다.
+
+```jsx
+<img
+  srcset="small.webp 500w, \
+          medium.webp 1000w, \
+          large.webp 2000w"
+  src="large.webp"
+/>
+```
+
+<br />
+
+#### sizes
+
+브라우저는 첫 렌더링에서 로드할 이미지의 크기를 알지 못합니다. 브라우저는 이미지가 페이지 전체 너비를 차지한다고 생각합니다.
+따라서 지나치게 큰 이미지를 가져오게 되기 때문에 `sizes` 속성을 이용하여 `렌더링할 크기를 브라우저에게` 알려주어 크기 최적화를 할 수 있습니다.
+
+```jsx
+<img
+  srcset="small.webp 400w, \
+          large.webp 900w"
+  sizes="(max-width: 400px) 95vw, \
+         (max-width: 900px) 50vw"
+  src="large.webp"
+/>
+```
+
+---
+
+## 2. SSR 적용
+
+하지만 위의 노력을 하더라도 개선할 수 있는 부분엔 한계가 존재합니다 🥲
+로딩 속도를 줄인다고 하더라도 초기에 렌더링 되는 **HTML이 빈 문서**이기 때문에 **스크립트 실행이 되어야 화면이 보이기 때문**입니다.
+
+우리는 **SSR을 적용하여 렌더링 시점을 앞당길 수 있습니다.**
+SSR의 경우 초기 페이지를 서버에서 미리 렌더링해서 가져옵니다. 따라서 JS를 다운로드 하기 전에 유저에게 화면을 먼저 보여줄 수 있기 때문에 CSR 방식보다 초기 로딩 속도가 빠릅니다.
+
+### Next.js
+
+React의 경우 `Next.js`를 사용하면 SPA에서도 SSR을 적용할 수 있습니다.
+아래 사진은 React의 CSR 방식과 Next.js의 SSR 방식의 초기 로딩 속도 차이입니다.
+
+`Create-React-App`
+
+![230915-223120](/posts/9-optimizing-loading-speed/230915-223120.png)
+
+`Next.js`
+
+![230915-223127](/posts/9-optimizing-loading-speed/230915-223127.png)
+
+SSR인 `Next.js`는 1000ms부터 화면을 바로 보여주는 반면, CSR인 `Create-React-App`은 2000ms부터 화면이 보이기 시작합니다.
+따라서 유저가 느끼는 체감 속도도 SSR이 훨씬 빠를 수 밖에 없습니다.
+
+React의 초기 로딩 속도를 개선할 뿐만 아니라 HTML 태그가 비어있어서 생겼던 SEO 성능 문제도 SSR 방식을 통해 해결할 수 있습니다.
+
+---
+
+> ## 글을 마치며
+
+초기 로딩 속도는 사용자 이탈과 비지니스에 큰 영향을 미치는 요인이기 때문에 많은 개발자들이 속도 개선을 위해 노력하고 있습니다.
+저도 앞으로도 최적화 방법에 대해 꾸준히 학습하고 고민하여서 방법들을 계속 공유할 수 있도록 노력하겠습니다.
+
+그리고 성능 최적화에 관심이 있으시다면 [Lighthouse를 이용한 Next.js의 성능 최적화 방법](http://localhost:3000/blog/nextjs/3-performance) 포스팅도 추천드립니다 😀

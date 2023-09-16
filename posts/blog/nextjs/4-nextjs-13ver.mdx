@@ -1,0 +1,48 @@
+---
+title: Next.js 13 업데이트 내용 총 정리
+description: Next.js의 13 버전에서 달라진 내용과 이를 잘 활용할 수 있는 방법을 알아보겠습니다.
+image: '/posts/4-nextjs-13ver/cover.png'
+tags:
+  - Next.js 13
+  - app
+  - Turbopack
+date: 2023-09-16 16:33:28
+---
+
+> ### 글을 시작하며
+
+Next.js 12 버전이 공개된 후 약 1년 만에 13 버전이 출시되었습니다.
+프로젝트를 최신 버전으로 세팅하고 `app/` 구조를 마주하며 당황했던 경험 있지 않으신가요?
+
+13 버전의 가장 큰 변화로는 디렉토리 구조가 `app/` 기반의 구조로 변경되었다는 점이 있습니다.
+이번 글을 통해 13 버전의 변경점들과 그것들을 잘 활용할 수 있는 방법에 대해 배워보겠습니다.
+
+---
+
+## app/Directory (beta)
+
+Next.js 13 버전의 메인 업데이트 사항입니다.
+기존 12 버전까지는 우리는 pages 하위에 페이지들을 구성하고 \_app과 \_document 등을 이용하여 레이아웃들을 설정하였습니다.
+하지만 이제는 pages가 없어집니다!
+
+정확히 말하자면 pages 대신 app 디렉토리가 베이스 디렉토리가 됩니다.
+
+## Turbopack (alpha)
+
+Rust 기반의 강화된 Webpack인 Turbopack을 공개했습니다.
+아직은 alpha 단계이지만 매우 빠른 속도의 강점을 가지고 있습니다.
+13 버전부터는 Turbopack을 기본 번들러로 사용합니다.
+
+## New next/image (stable)
+
+- 줄어든 client-side Javascript
+- 네이티브한 lazy 로딩은 hydration이 필요 없기 때문에 빠름
+
+## New @next/font (beta)
+
+- 폰트 자동 최적화
+- side-adjust 옵션을 이용하여 Layout Shift 제거
+
+## improved next/link
+
+a 태그를 넣지 않아도 사용이 가능하게 변경되었습니다.

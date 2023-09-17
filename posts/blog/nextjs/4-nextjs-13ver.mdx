@@ -22,16 +22,41 @@ Next.js 12 버전이 공개된 후 약 1년 만에 13 버전이 출시되었습�
 ## app/Directory (beta)
 
 Next.js 13 버전의 메인 업데이트 사항입니다.
-기존 12 버전까지는 우리는 pages 하위에 페이지들을 구성하고 \_app과 \_document 등을 이용하여 레이아웃들을 설정하였습니다.
-하지만 이제는 pages가 없어집니다!
+기존 12 버전까지는 우리는 pages 디렉토리 내부에 폴더와 파일을 생성하여 라우팅을 설정하였습니다.
+하지만 이제는 pages 디렉토리가 없어지고 app 디렉토리가 베이스 디렉토리가 됩니다.
 
-정확히 말하자면 pages 대신 app 디렉토리가 베이스 디렉토리가 됩니다.
+React Server Components와 새롭게 생기는 Data fetching 기능, 그리고 Layouts, Streaming 등을 유연하게 제공하기 위해 변경되었다고 합니다.
+
+
+### Data Fetching
+
+fetch() Web API를 사용할 수 있게 되면서 SSR data fetching 방식이 변경되었습니다.
+기존의 getStaticProps, getServerSideProps, getStaticProps 방식을 fetch() 옵션으로 대체할 수 있습니다.
+
+```javascript
+// This request should be cached until manually invalidated.
+// Similar to `getStaticProps`.
+// `force-cache` is the default and can be omitted.
+fetch(URL, { cache: 'force-cache' });
+
+// This request should be refetched on every request.
+// Similar to `getServerSideProps`.
+fetch(URL, { cache: 'no-store' });
+
+// This request should be cached with a lifetime of 10 seconds.
+// Similar to `getStaticProps` with the `revalidate` option.
+fetch(URL, { next: { revalidate: 10 } });
+```
 
 ## Turbopack (alpha)
 
 Rust 기반의 강화된 Webpack인 Turbopack을 공개했습니다.
 아직은 alpha 단계이지만 매우 빠른 속도의 강점을 가지고 있습니다.
 13 버전부터는 Turbopack을 기본 번들러로 사용합니다.
+
+- Webpack보다 700배 빠른 업데이트
+- Vite 보다 10배 빠른 업데이트
+- Webpack보다 4배 빠른 cold start
 
 ## New next/image (stable)
 

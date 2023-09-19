@@ -12,7 +12,7 @@ date: 2023-09-16 16:33:28
 > ### 글을 시작하며
 
 Next.js 12 버전이 공개된 후 약 1년 만에 13 버전이 출시되었습니다.
-프로젝트를 최신 버전으로 세팅하고 `app/` 구조를 마주하며 당황했던 경험 있지 않으신가요?
+혹시 프로젝트를 최신 버전으로 세팅하고 `app/` 구조를 마주하며 당황했던 경험이 있지 않으신가요?
 
 13 버전의 가장 큰 변화로는 디렉토리 구조가 `app/` 기반의 구조로 변경되었다는 점이 있습니다.
 이번 글을 통해 13 버전의 변경점들과 그것들을 잘 활용할 수 있는 방법에 대해 배워보겠습니다.
@@ -23,14 +23,13 @@ Next.js 12 버전이 공개된 후 약 1년 만에 13 버전이 출시되었습�
 
 Next.js 13 버전의 메인 업데이트 사항입니다.
 기존 12 버전까지는 우리는 pages 디렉토리 내부에 폴더와 파일을 생성하여 라우팅을 설정하였습니다.
-하지만 이제는 pages 디렉토리가 없어지고 app 디렉토리가 베이스 디렉토리가 됩니다.
+하지만 이제는 **pages 디렉토리가 없어지고** `app 디렉토리가 베이스 디렉토리`가 됩니다!
 
 React Server Components와 새롭게 생기는 Data fetching 기능, 그리고 Layouts, Streaming 등을 유연하게 제공하기 위해 변경되었다고 합니다.
 
-
 ### Data Fetching
 
-fetch() Web API를 사용할 수 있게 되면서 SSR data fetching 방식이 변경되었습니다.
+fetch() Web API를 사용할 수 있게 되면서 **SSR data fetching 방식이 변경**되었습니다.
 기존의 getStaticProps, getServerSideProps, getStaticProps 방식을 fetch() 옵션으로 대체할 수 있습니다.
 
 ```javascript
@@ -48,6 +47,12 @@ fetch(URL, { cache: 'no-store' });
 fetch(URL, { next: { revalidate: 10 } });
 ```
 
+1. `{ cache: 'force-cache' }` : fetch의 디폴트 옵션이며 getStaticProps의 역할과 같습니다. 빌드 시에 가져온 데이터가 사용되고 revalidate하기 전까지 데이터가 캐싱되는 방식입니다.
+2. `{ cache: 'no-store' }` : getServerSideProps의 역할과 같습니다. 서버 단에서 매 요청시마다 새로 fetch하게 됩니다.
+3. `{ next : { revalidate: 10 } }` : next 옵션을 통해 캐시 되고 있는 데이터들을 revalidate 시킬 수 있습니다.
+
+이러한 fetch 방식이 가능해진 이유는 서버 컴포넌트와 클라이언트 컴포넌트가 나뉘었기 때문이라고 합니다.
+
 ## Turbopack (alpha)
 
 Rust 기반의 강화된 Webpack인 Turbopack을 공개했습니다.
@@ -58,10 +63,14 @@ Rust 기반의 강화된 Webpack인 Turbopack을 공개했습니다.
 - Vite 보다 10배 빠른 업데이트
 - Webpack보다 4배 빠른 cold start
 
+![230919-235424](/posts/4-nextjs-13ver/230919-235424.png)
+
 ## New next/image (stable)
 
-- 줄어든 client-side Javascript
-- 네이티브한 lazy 로딩은 hydration이 필요 없기 때문에 빠름
+Next.js에서는 기존에 지원하던 next/image를 강화하여 아래의 기능을 지원한다고 합니다.
+
+- client-side Javascript 코드 감소
+- 네이티브한 lazy 로딩은 hydration이 필요 없기 때문에 더 빨라짐
 
 ## New @next/font (beta)
 

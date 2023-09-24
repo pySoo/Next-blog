@@ -7,8 +7,12 @@ import { PostPressedCard } from '../post';
 export default function FeaturedPosts() {
   return (
     <AnimatedContainer variants={staggerHalf} className="mt-10">
-      <AnimatedContainer variants={fadeIn}>
-        <SubTitle className="mb-6 text-tertiary">Featured Posts</SubTitle>
+      <AnimatedContainer
+        variants={fadeIn}
+        className="flex items-end justify-between mb-6"
+      >
+        <SubTitle className="text-tertiary">Featured Posts</SubTitle>
+        <LinkArrow href="/blog">모든 글 보기</LinkArrow>
       </AnimatedContainer>
       <AnimatedContainer
         variants={fadeIn}
@@ -24,11 +28,6 @@ export default function FeaturedPosts() {
             isDraft={post.isDraft}
           />
         ))}
-      </AnimatedContainer>
-      <AnimatedContainer variants={fadeIn}>
-        <LinkArrow href="/blog" className="mt-8">
-          모든 글 보기
-        </LinkArrow>
       </AnimatedContainer>
     </AnimatedContainer>
   );

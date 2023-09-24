@@ -62,14 +62,32 @@ export const allFeaturedPosts: PostPressedCardType[] = [
   },
   {
     href: '/blog/nextjs/1-ssr-ssg-isr',
-    imgUrl: '/posts/1-ssr-ssg-isr/cover.png',
+    imgUrl: '/posts/1-ssr-ssg-isr/featured.png',
     title: 'Next.js의 렌더링 방식 이해하기 (SSR, SSG, ISR)',
     date: '2023.08.21',
   },
   {
     href: '/blog/frontend/4-module-bundler',
-    imgUrl: '/posts/4-module-bundler/230824-203200.png',
+    imgUrl: '/posts/4-module-bundler/featured.png',
     title: '모듈 번들러란? (Webpack vs Vite 무엇을 써야 할까요?)',
     date: '2023.08.18',
+  },
+  {
+    href: '/blog/nextjs/2-lighthouse',
+    imgUrl: '/posts/2-lighthouse/cover.png',
+    title: '웹 페이지 성능 개선에 필요한 Lighthouse 지표 알아보기',
+    date: '2023.09.06',
+  },
+  {
+    href: '/blog/frontend/9-optimizing-loading-speed',
+    imgUrl: '/posts/9-optimizing-loading-speed/featured.png',
+    title: 'React의 초기 렌더링 속도 최적화하기',
+    date: '2023.09.15',
+  },
+  {
+    href: '/blog/nextjs/4-nextjs-13ver',
+    imgUrl: '/posts/4-nextjs-13ver/featured.png',
+    title: 'Next.js 13 업데이트 내용 총 정리',
+    date: '2023.09.22',
   },
 ];

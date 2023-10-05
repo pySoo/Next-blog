@@ -90,4 +90,10 @@ export const allFeaturedPosts: PostPressedCardType[] = [
     title: 'Next.js 13 업데이트 내용 총 정리',
     date: '2023.09.22',
   },
+  {
+    href: '/blog/frontend/10-cors',
+    imgUrl: '/posts/10-cors/featured.png',
+    title: '웹 개발자의 신고식 🚨 CORS로부터 해방 되기',
+    date: '2023.10.06',
+  },
 ];

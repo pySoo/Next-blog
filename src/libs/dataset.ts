@@ -49,6 +49,12 @@ export const allSeries: Series[] = allPosts
 
 export const allFeaturedPosts: PostPressedCardType[] = [
   {
+    href: '/blog/frontend/11-graphql',
+    imgUrl: '/posts/11-graphql/featured.png',
+    title: 'REST API에서 GraphQL로의 패러다임 변환 - Facebook이 주목한 기술',
+    date: '2023.10.20',
+  },
+  {
     href: '/blog/nextjs/3-performance',
     imgUrl: '/posts/3-performance/cover.png',
     title: 'Lighthouse로 Next.js 성능 최적화 하기',
@@ -83,12 +89,6 @@ export const allFeaturedPosts: PostPressedCardType[] = [
     imgUrl: '/posts/9-optimizing-loading-speed/featured.png',
     title: 'React의 초기 렌더링 속도 최적화하기',
     date: '2023.09.15',
-  },
-  {
-    href: '/blog/nextjs/4-nextjs-13ver',
-    imgUrl: '/posts/4-nextjs-13ver/featured.png',
-    title: 'Next.js 13 업데이트 내용 총 정리',
-    date: '2023.09.22',
   },
   {
     href: '/blog/frontend/10-cors',

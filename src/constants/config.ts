@@ -15,7 +15,7 @@ export const siteConfig = {
   author: {
     name: 'Suhyeon Park',
     photo: 'https://avatars.githubusercontent.com/u/55135881?s=288&v=4',
-    bio: 'Junior Frontend Engineer',
+    bio: 'Frontend Engineer',
     contacts: {
       email: 'soopy368@gmail.com',
       github: 'pySoo',

@@ -49,6 +49,12 @@ export const allSeries: Series[] = allPosts
 
 export const allFeaturedPosts: PostPressedCardType[] = [
   {
+    href: '/blog/retrospect/1-devcourse-MIL-1',
+    imgUrl: '/posts/1-devcourse-MIL-1/cover.png',
+    title: '퇴사 후 나는 어떤 성장을 이루었나 - 데브코스 회고',
+    date: '2023.10.23',
+  },
+  {
     href: '/blog/frontend/11-graphql',
     imgUrl: '/posts/11-graphql/featured.png',
     title: 'REST API에서 GraphQL로의 패러다임 변환 - Facebook이 주목한 기술',

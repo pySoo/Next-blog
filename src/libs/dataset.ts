@@ -57,19 +57,19 @@ export const allFeaturedPosts: PostPressedCardType[] = [
   {
     href: '/blog/frontend/11-graphql',
     imgUrl: '/posts/11-graphql/featured.png',
-    title: 'REST API에서 GraphQL로의 패러다임 변환 - Facebook이 주목한 기술',
+    title: 'REST API에서 GraphQL로의 패러다임 전환 - Facebook이 주목한 기술',
     date: '2023.10.20',
   },
   {
     href: '/blog/nextjs/3-performance',
     imgUrl: '/posts/3-performance/cover.png',
-    title: 'Lighthouse로 Next.js 성능 최적화 하기',
+    title: 'Lighthouse로 Next.js 성능 44% 개선하기',
     date: '2023.09.08',
   },
   {
     href: '/blog/frontend/8-monorepo',
     imgUrl: '/posts/8-monorepo/cover.png',
-    title: 'yarn workspace와 모노레포 구축 여정 🏃🏼‍♂️',
+    title: 'yarn workspace와 사내 모노레포 도입 여정 🏃🏼‍♂️',
     date: '2023.09.05',
   },
   {

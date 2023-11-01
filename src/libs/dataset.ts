@@ -75,13 +75,13 @@ export const allFeaturedPosts: PostPressedCardType[] = [
   {
     href: '/blog/nextjs/1-ssr-ssg-isr',
     imgUrl: '/posts/1-ssr-ssg-isr/featured.png',
-    title: 'Next.js의 렌더링 방식 이해하기 (SSR, SSG, ISR)',
+    title: 'Next.js의 렌더링 방식 이해하기 - SSR, SSG, ISR',
     date: '2023.08.21',
   },
   {
     href: '/blog/frontend/4-module-bundler',
     imgUrl: '/posts/4-module-bundler/featured.png',
-    title: '모듈 번들러란? (Webpack vs Vite 무엇을 써야 할까요?)',
+    title: '모듈 번들러란? - Webpack vs Vite 무엇을 써야 할까요?',
     date: '2023.08.18',
   },
   {

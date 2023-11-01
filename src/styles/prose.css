@@ -90,7 +90,13 @@
 .prose :where(blockquote):not(:where([class~='not-prose'] *)) {
   font-style: normal !important;
   border-left-color: var(--prism-highlight) !important;
+  margin: 1.4rem 0 !important;
   @apply p-4 bg-neutral-100 dark:bg-neutral-800;
+}
+
+.prose
+  :where(p, ul, ol):not(:where([class~='not-prose'], [class~='not-prose'] *)) {
+  margin: 1.1rem 0 !important;
 }
 
 .prose blockquote > :first-child {

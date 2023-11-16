@@ -5,6 +5,9 @@ import UpIcon from '@/components/icons/UpIcon';
 import { $ } from '@/libs/core';
 import { Section, SubSection, TableOfContents } from '@/types/post';
 
+import { ChatIcon } from '../icons';
+import ThemeSwitch from '../ThemeSwitch';
+
 const useScroll = (tableOfContents: TableOfContents) => {
   const [currentSectionSlug, setCurrentSectionSlug] = useState<
     string | undefined
@@ -171,6 +174,14 @@ export default function ContentsBanner({
         >
           <UpIcon width={20} />
         </IconButton>
+        <IconButton
+          className="hover:bg-mute"
+          aria-label="scroll-down"
+          onClick={() => document.querySelector('.giscus')?.scrollIntoView()}
+        >
+          <ChatIcon width={20} />
+        </IconButton>
+        <ThemeSwitch className="hover:bg-mute" />
       </div>
     </div>
   );

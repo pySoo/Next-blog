@@ -1,4 +1,5 @@
 export { default as CalendarIcon } from './CalendarIcon';
+export { default as ChatIcon } from './ChatIcon';
 export { default as CheckIcon } from './CheckIcon';
 export { default as ClockIcon } from './ClockIcon';
 export { default as ContactsIcon } from './ContactsIcon';

@@ -50,7 +50,7 @@ export const allSeries: Series[] = allPosts
 export const allFeaturedPosts: PostPressedCardType[] = [
   {
     href: '/blog/retrospect/1-devcourse-MIL-1',
-    imgUrl: '/posts/1-devcourse-MIL-1/cover.png',
+    imgUrl: '/posts/1-devcourse-MIL-1/featured.png',
     title: '퇴사 후 나는 어떤 성장을 이루었나 - 데브코스 회고',
     date: '2023.10.23',
   },

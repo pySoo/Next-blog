@@ -62,7 +62,7 @@ export function PageSEO({ ...props }: PageSEOType) {
 export function BlogSEO({
   summary,
   tags,
-  images,
+  image,
   ...props
 }: {
   title: string;
@@ -70,12 +70,12 @@ export function BlogSEO({
   date: string;
   url: string;
   tags: string[];
-  images?: string[];
+  image?: string;
 }) {
   const title = getTitle(props.title);
   const url = getRelativeUrl(props.url);
   const dateTime = new Date(props.date).toISOString();
-  const imageList = images?.length ? images.map(getImageUrl) : [DEFAULT_IMAGE];
+  const coverImage = image ?? DEFAULT_IMAGE;
 
   return (
     <>
@@ -94,13 +94,13 @@ export function BlogSEO({
           url,
           title,
           description: summary,
-          images: imageList.map((img) => ({ url: img })),
+          images: [{ url: coverImage }],
         }}
       />
       <ArticleJsonLd
         datePublished={dateTime}
         dateModified={dateTime}
-        images={imageList}
+        images={[coverImage]}
         url={url}
         title={title}
         description={summary}

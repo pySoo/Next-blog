@@ -61,6 +61,12 @@ export const allFeaturedPosts: PostPressedCardType[] = [
     date: '2023.10.23',
   },
   {
+    href: '/blog/retrospect/3-devcourse-MIL-2',
+    imgUrl: '/posts/3-devcourse-MIL-2/cover.png',
+    title: '차별화된 나만의 무기 찾기 - 데브코스 회고',
+    date: '2023.11.22',
+  },
+  {
     href: '/blog/frontend/11-graphql',
     imgUrl: '/posts/11-graphql/featured.png',
     title: 'REST API에서 GraphQL로의 패러다임 전환 - Facebook이 주목한 기술',

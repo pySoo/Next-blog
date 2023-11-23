@@ -62,7 +62,7 @@ export const allFeaturedPosts: PostPressedCardType[] = [
   },
   {
     href: '/blog/retrospect/3-devcourse-MIL-2',
-    imgUrl: '/posts/3-devcourse-MIL-2/cover.png',
+    imgUrl: '/posts/3-devcourse-mil-2/cover.png',
     title: '차별화된 나만의 무기 찾기 - 데브코스 회고',
     date: '2023.11.22',
   },

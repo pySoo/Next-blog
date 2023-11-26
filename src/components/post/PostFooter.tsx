@@ -20,7 +20,7 @@ type PostFooterType = {
 export default function PostFooter({ post, postNavigation }: PostFooterType) {
   return (
     <AnimatedContainer variants={fadeInHalf} className="space-y-8 mt-12">
-      <div className="flex gap-2">
+      <div className="flex gap-2 flex-wrap">
         {post.tags.map((tag) => (
           <Tag key={tag} tag={tag} />
         ))}

@@ -49,6 +49,12 @@ export const allSeries: Series[] = allPosts
 
 export const allFeaturedPosts: PostPressedCardType[] = [
   {
+    href: '/blog/retrospect/5-daangn-interview',
+    imgUrl: '/posts/5-daangn-interview/240115-034801.png',
+    title: '당근마켓 최종 면접까지의 과정을 돌아보며',
+    date: '2024.01.15',
+  },
+  {
     href: '/blog/retrospect/2-abstract-architecture',
     imgUrl: '/posts/2-abstract-architecture/cover.png',
     title: '변화에 유연한 설계를 위한 고민 - 추상화란 무엇인가?',
@@ -65,12 +71,6 @@ export const allFeaturedPosts: PostPressedCardType[] = [
     imgUrl: '/posts/3-devcourse-mil-2/cover.png',
     title: '차별화된 나만의 무기 찾기 - 데브코스 회고',
     date: '2023.11.22',
-  },
-  {
-    href: '/blog/retrospect/4-devcourse-MIL-3',
-    imgUrl: '/posts/4-devcourse-MIL-3/231229-133437.png',
-    title: '새로운 도전과 성장 - 데브코스 회고',
-    date: '2023.12.29',
   },
   {
     href: '/blog/frontend/11-graphql',

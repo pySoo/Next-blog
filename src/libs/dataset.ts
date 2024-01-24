@@ -61,6 +61,12 @@ export const allFeaturedPosts: PostPressedCardType[] = [
     date: '2023.11.19',
   },
   {
+    href: '/blog/retrospect/6-devcourse-MIL-4',
+    imgUrl: '/posts/6-devcourse-MIL-4/240124-154318.png',
+    title: '맛집 공유 SNS "맛남의 길" 프로젝트 회고 - 데브코스 회고',
+    date: '2024.01.25',
+  },
+  {
     href: '/blog/retrospect/1-devcourse-MIL-1',
     imgUrl: '/posts/1-devcourse-MIL-1/featured.png',
     title: '퇴사 후 나는 어떤 성장을 이루었나 - 데브코스 회고',

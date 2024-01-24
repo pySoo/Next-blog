@@ -1,0 +1,442 @@
+---
+title: 맛집 공유 SNS "맛남의 길" 프로젝트 회고 - 데브코스 회고
+description: 프로젝트에서 협업을 잘 하기 위해 시도했던 방법들과 디자인 및 공통 컴포넌트 개발 과정에서 배운 점을 기록하였습니다.
+image: '/posts/6-devcourse-MIL-4/240124-154318.png'
+tags:
+  - 데브코스 프론트엔드
+  - 회고
+  - 맛남의 길
+date: 2024-01-25 16:01:38
+---
+
+> ## 글을 시작하며
+
+이번 한 달은 데브코스에서의 첫 팀 프로젝트를 **기획부터 개발 및 운영까지** 진행한 한 달이었습니다.
+크리스마스와 새해 첫 날에도 코어 타임이 진행되는 빡센 과정이었지만 휴일에도 열심히 참여해주신 팀원분들 덕분에... 👍
+
+처음엔 타이트한 기간이었다고 생각했지만 **기획했던 기능들을 모두 완성**할 수 있어서
+성취감도 매우 컸고 그만큼 배운 점도 많았던 시간이었습니다.
+
+## 😋 맛남의 길
+
+기획 의도는 광고나 마케팅이 아닌 **지역 사람들이 진심으로 추천하는 맛집**을 찾는 데에 중점을 둔
+SNS 서비스를 만드는 것이었습니다.
+
+핵심 기능으로는 **"좋았어요" / "가지마세요"** 라고 솔직하게 평가할 수 있는 `리뷰` 남기기 기능과
+카카오 지도 API를 연동한 `지도 검색` 기능, 유저간의 정보 교류를 위한 `채팅` 기능이 있습니다.
+
+> #### [➡️ 맛남의 길 🍽️ 이용하기](https://matnam.vercel.app/)
+>
+> #### [➡️ Github Repo](https://github.com/prgrms-fe-devcourse/FEDC5_MatNam_Ducki)
+
+### 소소한 재미도 누려보시쥬
+
+저희 서비스에는 백종원 선생님, 이강인, 손석구 등 유명인 분들이 활동하고 계셔서
+후기를 남기시면 재미난 댓글도 받아보실 수 있습니다 ㅎㅎㅎ
+
+<div
+  style={{
+    display: 'grid',
+    gridTemplateColumns: '1fr 1fr 1fr',
+    gap: '10px',
+  }}
+>
+  <img src="/posts/6-devcourse-MIL-4/240124-154437.png" />
+  <img src="/posts/6-devcourse-MIL-4/240124-154318.png" />
+  <img src="/posts/6-devcourse-MIL-4/240124-154803.png" />
+</div>
+
+### 서비스 상세 페이지
+
+저는 **회원가입, 지도 검색, 채팅** 부분을 담당하여 개발했습니다.
+
+<div
+  style={{
+    display: 'grid',
+    gridTemplateColumns: '1fr 1fr 1fr',
+    gap: '10px 20px',
+  }}
+>
+  <img src="/posts/6-devcourse-MIL-4/240123-220544.png" />
+  <img src="/posts/6-devcourse-MIL-4/240123-220636.png" />
+  <img src="/posts/6-devcourse-MIL-4/240123-221914.png" />
+  <img src="/posts/6-devcourse-MIL-4/240123-220732.png" />
+  <img src="/posts/6-devcourse-MIL-4/240123-220751.png" />
+  <img src="/posts/6-devcourse-MIL-4/240123-222026.png" />
+</div>
+
+---
+
+## 📜 프로젝트 기획
+
+팀원분들이 모두 이번 프로젝트가 첫 협업 프로젝트라고 말씀해주셔서
+최대한 제가 알고 있는 협업 관련 기술이나 팁들을 전해드리고 싶었습니다..!
+그럼에도 제가 **제안한 아이디어들이 최선일지 항상 스스로에게 의문**이 들었는데요 🤔
+
+데브코스에서 프로젝트를 하면서 가장 좋았던 점은
+이러한 의문이 들때마다 **도움을 요청할 동료나 멘토님**들이 주변에 계시고, 이전 기수 분들의 **프로젝트 Github과 같이 공개된 자료**들이 많았다는 점입니다.
+
+동료분들과 이야기를 나누면서 제가 놓치고 있던 점들에 대해 깨닫게 되었습니다.
+
+<br />
+
+### 컨벤션과 팀 내 목표 일치의 중요성
+
+기획 초반에는 기획은 최대한 간단하게 마치고 개발을 일찍 시작해야 한다는 생각을 하고 있었습니다.
+
+하지만 다른 팀들의 노션을 살짝 엿보았더니.. 👀
+함수 네이밍 규칙 또는 export 방식과 같은 **코딩 스타일**과
+카멜 케이스, 파스칼 케이스 등을 고려한 **코드 네이밍 규칙**까지 상세하게 적어두신 것을 볼 수 있었습니다.
+
+그리고 여러 동료분들과 이야기를 나누면서
+기획 단계에서 최대한 개발 컨벤션을 상세하게 정하고 기능에 대한 팀의 방향을 구체적으로 맞추어야
+
+오히려 개발 단계에 진입했을 때 **conflict가 발생할 확률도 적어지고**
+기능에 대한 이해도가 높아져서 **개발 속도도 올라간다는 점**을 깨닫게 되었습니다.
+
+따라서 노션에 `그라운드 룰`과 `개발 컨벤션`을 기록해두고
+`기능 명세서`로 각 기능별 주요 기능을 정리하며 의견을 맞춘 다음 개발을 시작하게 되었습니다.
+
+(다들 문서화를 너무 깔끔하게 잘 하셔서 여러 팀들의 노션을... 참고해서 많이 배웠습니다.. 🥹)
+
+<img src="/posts/6-devcourse-MIL-4/240124-140313.png" width={400} />
+<img
+  src="/posts/6-devcourse-MIL-4/240124-140437.png"
+  style={{ marginTop: 10 }}
+  width={600}
+/>
+
+<br />
+<br />
+
+### 적용했던 협업 기술
+
+개발을 시작하기 앞서 지난 원티드 프리온보딩 협업 프로그램에서 배웠던 기술들을 적용 해보았습니다.
+
+현업에서는 주로 혼자서 개발하던 편이어서 프리온보딩 프로그램이 제대로 된 첫 협업 경험이었습니다.
+이때의 기억을 돌아보면 **저는 팀원분들의 협업 기술을 배우면서 혼자서 계속 감탄하는.. 🙀 리액션 봇**이었던 것 같습니다.
+
+저도 팀원들에게 **유용한 기술을 공유하고 싶었지만 그러지 못했던 점에 아쉬움이 크게 남아서**
+이번 프로젝트에서는 제가 배웠던 **기술들을 적극적으로 나눠보려고 했습니다.**
+
+<br />
+
+#### ESLint plugin
+
+`unused-imports` `simple-import-sort` plugin을 이용해서 사용하지 않는 코드를 지우고
+기능별로 import 정렬을 수행해서 가독성을 높이려는 시도를 했습니다.
+
+#### husky
+
+husky는 commit 또는 push 전에 **lint와 prettier 검사를 자동화** 하는 도구입니다.
+협업을 하다보면 lint가 적용되지 않는 코드가 종종 Git에 push 되고는 해서
+conflict가 발생하는 경우가 있었는데 husky를 사용하면 이러한 상황을 막을 수 있습니다.
+
+#### PR & Issue Template
+
+PR과 Issue Template을 이용하면 팀원들에게 구현 내용을 명확하게 전달할 수 있고 **문서화에 드는 비용을 절감**할 수 있습니다.
+
+#### 브랜치 전략
+
+Git-flow 전략을 따르되 살짝 커스텀을 하였습니다.
+main과 dev 브랜치를 나누어서 배포 환경을 분리하였고, 각 이슈별로 `커밋 컨벤션/#이슈번호` 규칙으로 브랜치를 생성하여 PR과 이슈를 연동하고 관리했습니다.
+
+#### Github Projects
+
+Github Projects의 칸반 보드를 사용해서 일정을 관리했습니다.
+생명 주기를 설정할 수 있어서 PR이 closed되면 PR과 Issue가 자동으로 Done으로 설정되도록 만들어서
+**완료된 태스크와 해야하는 태스크를 한 눈에 확인**할 수 있게 하였습니다.
+
+---
+
+## 🎨 프로젝트 디자인
+
+<div style={{ display: 'flex' }}>
+  <img src="/posts/6-devcourse-MIL-4/240124-135607.png" width={300} />
+  <img src="/posts/6-devcourse-MIL-4/240124-135656.png" width={300} />
+</div>
+
+좌측은 기능에 필수적인 UI 위주로 구성된 와이어프레임이며 우측은 완성된 디자인입니다!
+
+피그마로 디자인을 해본 적은 처음이어서 우왕좌왕 했던 것 같지만..
+디자인을 전공하신 동료분의 **"색상은 강조할 부분에서만 사용하는 것!"** 이라는 조언에 따라서 디자인에 도전해보았습니다 🔥
+
+처음부터 디자인을 해보는 과정을 통해서
+`컴포넌트를 재사용해서 개발 비용을 낮추는 방향으로 디자인하는 방법`을 배울 수 있어서 뜻깊은 경험이었다고 생각합니다.
+
+다음에 디자이너님과 협업하는 상황이 있다면 이러한 경험을 활용해서
+**개발 비용이 많이 드는 디자인이 있다면 먼저 재사용 가능한 방향을 제안**해볼 수 있는 개발자가 되어보자는 생각을 하게 되기도 했습니다.
+
+---
+
+## ⭕️ 공통 컴포넌트 개발
+
+공통 컴포넌트를 개발하기 전에 고민이 되었던 점이 있었습니다.
+
+> #### **공통 컴포넌트를 개발하는 비용 vs 공통 컴포넌트를 사용했을 때의 효용**
+
+만약 효용보다 **비용이 더 크다면 페이지 별로 별개의 컴포넌트**를 사용하는 것이 더 효율적인 방법일 것입니다.
+
+하지만 `Input`과 `Modal` 컴포넌트의 경우는
+아래의 이유로 효용이 더 크다는 생각이 들어서 공통 컴포넌트로 만들게 되었습니다.
+
+### Input
+
+1. 모든 Input은 **내부적으로 useRef를 사용하여 성능을 최적화**한 `react-hook-form`을 사용합니다.
+2. 회원가입, 로그인, 리뷰 작성 페이지에서 사용되는 **Input 디자인이 같기 때문**에 재사용을 했을 때 전체적인 비용이 절감됩니다.
+3. **style은 props**로 주입할 수 있게 자유도를 열어주면 **모든 페이지에서 재사용**이 가능합니다.
+4. validation **에러는 공통 컴포넌트 내에서만 처리**해주면 됩니다.
+
+### Modal
+
+1. Modal을 각 페이지에서 만들게 되면 **렌더링 또는 레이아웃에 영향**을 줄 수 있습니다.
+2. 따라서 `createPortal`을 이용하여 root div와 **별개의 위치에서 렌더링** 되도록 설계합니다.
+3. useModal hook을 만들면 **사용하는 쪽에서는 모달에 대한 맥락을 몰라도** openModal, closeModal 만으로 **동작이 가능**하게 설계할 수 있습니다.
+
+만들었던 코드를 보면서 그 구조와 사용법에 대한 예시를 살펴보겠습니다.
+
+<br />
+
+### Hook Form Input
+
+- react-hook-form 사용에 필수적인 **register 함수와 데이터 타입을 제네릭 형태**로 넘겨줍니다.
+- **label**이 있는 경우 label을 보여줍니다.
+- **필수 값**인 경우 '값이 입력되지 않았어요'라는 문구를 표시합니다.
+- validation이 있는 경우 inputError.message에 표시된 내용으로 사용자에게 **validation 성공 유무를 안내**합니다.
+
+```tsx
+// 재사용 컴포넌트: HookFormInput.tsx
+
+export default function HookFormInput<T extends FieldValues>({
+  name,
+  register,
+  label,
+  errors,
+  required = false,
+  type = 'text',
+  validation,
+  ...props
+}: HookFormInputProps<T>) {
+  const inputError = errors && errors[name];
+
+  return (
+    <InputWrapper>
+      {label && <label htmlFor={name}>{label}</label>}
+      <Input
+        type={type}
+        {...register(name, {
+          ...validation,
+          required: required && '값이 입력되지 않았어요',
+        })}
+        {...props}
+      />
+      {inputError && (
+        <InputErrorMessage>{inputError.message as string}</InputErrorMessage>
+      )}
+    </InputWrapper>
+  );
+}
+```
+
+<br />
+
+### 사용법
+
+- form에서 **사용하는 필드들을 interface로 정의**합니다.
+- form에서 사용하는 **inputList를 배열로** 만들어서 필요한 정보들을 기입합니다.
+- inputList 데이터를 **map 함수를 통해 반복**하고 **HookFormInput에 props들을 넣어주면 끝**입니다!
+
+```tsx
+// 사용하는 쪽: SignInForm.tsx
+
+interface SignInValues {
+  email: string;
+  password: string;
+}
+
+const {
+  register,
+  handleSubmit,
+  formState: { errors },
+} = useForm<SignInValues>({
+  mode: 'onChange',
+});
+
+const inputList: HookFormInputListProps<SignInValues> = [
+  {
+    label: '이메일',
+    name: 'email',
+    required: true,
+    placeholder: '이메일을 입력해 주세요.',
+    type: 'email',
+    validation: INPUT_VALIDATION.EMAIL,
+  },
+  {
+    label: '비밀번호',
+    name: 'password',
+    required: true,
+    placeholder: '비밀번호를 입력해 주세요.',
+    type: 'password',
+  },
+];
+
+return (
+  <FormWrapper onSubmit={handleSubmit(onSubmit)}>
+    {inputList.map((props) => (
+      <HookFormInput
+        key={props.name}
+        register={register}
+        errors={errors}
+        {...props}
+      />
+    ))}
+    <SignupButton type="submit" isValid={isValid}>
+      회원가입
+    </SignupButton>
+  </FormWrapper>
+);
+```
+
+<br />
+
+### 공통 Modal
+
+#### 1. modal div를 root와 독립적인 위치에 선언
+
+```html
+<body>
+  <div id="root"></div>
+  <div id="modal"></div>
+</body>
+```
+
+#### 2. createPortal을 이용해서 id가 modal인 div와 연결, 열려있는 모달에 대한 정보를 recoil로 관리
+
+```tsx
+export default function ModalContainer() {
+  // 열려있는 모달 리스트
+  const modalList = useRecoilValue(modalAtom);
+
+  if (!modalList.length) return null;
+
+  // div와 연결
+  const modalContainer = document.getElementById('modal') as HTMLElement;
+
+  const renderModal = modalList.map((props: ModalStateType) => {
+    // 현재 열려있는 모달 type에 해당하는 모달 컴포넌트를 렌더링
+    const ModalComponent = MODAL_COMPONENTS[props.type];
+
+    return (
+      <BaseModal key={props.type} {...props}>
+        <ModalComponent />
+      </BaseModal>
+    );
+  });
+
+  return ReactDOM.createPortal(<>{renderModal}</>, modalContainer);
+}
+```
+
+#### 3. 모달 type에 따라 모달 컴포넌트 선언하기
+
+```tsx
+export const MODAL_COMPONENTS: {
+  [key in ModalType]: () => ReactElement | null;
+} = {
+  [ModalType.CHANGE_IMAGE]: ChangeImageModal,
+};
+```
+
+#### 4. 루트 레이아웃에 ModalContainer 선언
+
+```tsx
+export default function MainPage() {
+  return (
+    <MainPageWrapper>
+      <ErrorBoundary FallbackComponent={ErrorFallback}>
+        <Suspense fallback={<Spinner />}>
+          <Outlet />
+          <ModalContainer />
+        </Suspense>
+      </ErrorBoundary>
+    </MainPageWrapper>
+  );
+}
+```
+
+#### 5. modal hook으로 모달 열고 닫기
+
+```tsx
+const { openModal, closeModal } = useModal();
+
+// 모달 열기: type만 명시하면 됩니다
+openModal({ type: ModalType.CHANGE_IMAGE });
+
+// 모달 닫기: type만 명시하면 됩니다
+closeModal({ type: ModalType.CHANGE_IMAGE });
+```
+
+생략된 과정들이 꽤 있지만, 큰 흐름은 다음과 같습니다!
+이렇게 공통 모달을 개발하게 되면서 다음과 같은 장점을 누릴 수 있었습니다.
+
+### 해당 설계에 대한 장점
+
+1. createPortal으로 **다른 컴포넌트의 렌더링이나 레이아웃에 영향을 주지 않습니다.**
+2. 모달도 기능에 따라서 여러 개의 컴포넌트가 존재함. type에 따라서 모달 컴포넌트를 선언해두면 **컴포넌트를 재사용**할 수 있습니다.
+3. 같은 기능이라면 같은 모달을 사용하기 때문에 (예: 이미지 변경 모달) **각 기능에 대한 유지보수가 쉬워집니다.**
+4. **사용하는 쪽에서는 모달의 type만 알면** hook을 이용하여 모달을 열고 닫을 수 있습니다.
+
+---
+
+## 프로젝트 KPT 회고
+
+### Keep 👏
+
+- 협업에서 쓰이는 기술들을 정리해두었던 블로그 글이 도움이 된 것
+- 협업하면서 배웠던 점이나 나중에 또 적용해보면 좋을 점을 틈틈이 기록해보기
+- 이슈에 없던 작업이라도 필요한 것이 있다면 의견 나누고 이슈 파서 진행하기
+
+### Problem 🤔
+
+- **일정 분배**가 생각보다 어려웠습니다.
+- 각 페이지별로 **공통 컴포넌트가 있었는데, 이것들을 먼저 만들어두었으면** 다른 이슈를 만들 때 **딜레이가 생기지 않았을텐데 하는 아쉬움**이 남습니다.
+- 프로젝트 개발에만 집중하느라 **기획서나 발표 자료 일정 관리에 더 신경을 못쓴 것..**
+
+### Try 😉
+
+- 각 페이지별로 필요한 **공통 요소**를 찾고, 다른 이슈에 영향이 가지 않도록 빠르게 구현해서 공유하기
+- 다른 일정에 영향을 줄 수 있는 이슈는 **먼저 발견해서 구현**하기
+- **문서화 기간을 여유롭게 미리 계획**해두기
+- 팀원들의 **진행사항을 중간중간 파악해서 역할 분배**하기
+
+---
+
+> ## 글을 마치며
+
+데브코스의 첫 팀 프로젝트였고 실질적인 개발 기간은 연말 연초 공휴일이 포함된 3주 정도였기 때문에
+중간중간 정말 완성할 수 있을까..? 라는 불안감 속에 개발을 했지만
+결국엔 **기능 완성을 최우선으로 개발 속도에 초점을 맞춰서** 계획했던 모든 기능을 완성할 수 있었습니다!
+
+### 땡스 투 더기팀 🦆
+
+그러다보니 초반에 비해 후반부에서는 코드 리뷰에 시간을 많이 투자하지 못하게 되면서
+**리뷰를 통해 더 좋은 피드백을 드리지 못했다는 아쉬움**이 남기도 했습니다.. 🥲
+
+그럼에도 끝까지 책임감 있게 맡은 기능들을 완수해주시고
+**부족할 수도 있는 저의 제안들을 열린 태도로 받아주신 더기팀 팀원분들께 감사의 인사**를 드립니다! 🙇‍♀️
+
+마지막 날에는 팀원분들과 서로의 리뷰에 댓글을 달면서
+재밌는 추억을 쌓았던 것도 잊지 못할 추억이 될 것 같습니다! 🤣
+
+저희 서비스에는 백종원, 이강인, 손석구 등.. 여러 인플루언서 분들도 활동하시기 때문에
+`유용한 정보 공유와 소소한 재미`까지 함께 누려보시면 좋을 것 같습니다!
+
+### 앞으로 더 개선될 맛남의 길
+
+사실 **무한 스크롤, 스크롤 유지, 이미지 최적화**와 같은 기능도 추가했으면
+사용성이 더 좋았을 것 같다는 아쉬움이 들지만..!
+
+팀이 변경된 이후에도 꾸준히 리팩토링을 해보자는 계획을 세웠기 때문에
+앞으로 **시간이 지날수록 개선될 맛남의 길을 기대해주시면 감사하겠습니다!** 😊
+
+> #### [➡️ 맛남의 길 🍽️ 이용하기](https://matnam.vercel.app/)

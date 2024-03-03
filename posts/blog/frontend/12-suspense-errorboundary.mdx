@@ -1,0 +1,507 @@
+---
+title: 선언적 비동기 처리로 사용자 경험 향상시키기 (Suspense, ErrorBoundary)
+description: Suspense와 ErrorBoundary를 활용하여 사용자 경험과 개발 생산성의 두 마리 토끼를 모두 잡을 수 있는 방법에 대해 알아보겠습니다.
+image: '/posts/12-suspense-errorboundary/240304-055427.png'
+tags:
+  - 비동기 처리
+  - Suspense
+  - ErrorBoundary
+date: 2024-03-04 07:40:21
+---
+
+> ## 글을 시작하며
+
+프론트엔드 개발자로서 개발을 하면서 가장 중요시 생각하는 점은 `사용자 경험 향상에 대한 고민`입니다.
+그렇다면 어떻게 하면 사용자 경험을 향상시킬 수 있을까요?
+
+페이지 로드 시간 개선, API 응답 속도 개선, 웹 성능 최적화 등 다양한 방법이 존재하지만
+
+이번 글에서는 **비동기 작업 또는 에러**로 인해 `화면이 정상적으로 노출되지 않는 상황을` 효과적으로 처리하는 방법에 대해서 알아보고자 합니다.
+
+<img src="/posts/12-suspense-errorboundary/240304-055427.png" width="600px" />
+
+더불어, 개발자가 **성공 상태와 비즈니스 로직에만 집중**하여 개발 생산성을 높일 수 있는 선언적 컴포넌트 구현 방법에 대해서도 배워보겠습니다.
+
+지금부터 이를 구현할 핵심 기술인 `Suspense`와 `ErrorBoundary`의 동작 원리와 활용 방법에 대해 알아보겠습니다.
+
+---
+
+## 기존 방식의 문제점
+
+비동기 서버 통신을 React-query를 이용해서 구현한다면 다음과 같이 **에러와 로딩 상태를 처리**하게 될 것입니다.
+
+```tsx
+function Profile() {
+  const { data, isLoading, isError } = useProfile();
+
+  if (isLoading) return <span>로딩 중..</span>;
+  if (isError) return <span>에러 발생</span>;
+
+  return <div>...</div>;
+}
+```
+
+기능적으로는 문제가 없어 보이는 코드입니다.
+하지만 프로젝트가 커지고 컴포넌트가 많아진다면 어떤 문제가 생길 수 있을까요? 🤔
+
+### 문제점
+
+- `사용자 경험 저하`: 특정 컴포넌트에서 에러 핸들링이 되지 않는다면 **전체 App이 멈출 수 있습니다.**
+- `개발자 경험 저하`: 생성되는 컴포넌트마다 매번 로딩 상태와 에러 상태를 확인하고 정의하는 **반복 작업**이 필요합니다.
+
+지금부터 Suspense와 ErrorBoundary를 이용하여 기존 비동기 작업에서 발생할 수 있는 문제들을 해결해보겠습니다.
+
+---
+
+## 비동기 작업의 목표
+
+더 근원적인 개념으로 올라가서, 프론트엔드에서 비동기 프로그래밍이 필요한 이유가 무엇일까요?
+비동기 프로그래밍을 하는 이유는 `애플리케이션이 멈추지 않고 다른 작업을 동시에` 할 수 있도록 하기 위함입니다.
+
+만약 로딩이나 에러 상태가 발생했을 때 전체 어플리케이션이 멈추게 된다면 사용자 경험에 치명적인 영향을 줄 것입니다.
+따라서 **부분적으로 로딩, 에러 상태를 보여주는 것**이 좋은 설계라고 생각합니다.
+
+그렇다면 이러한 설계를 어떻게 하면 구현할 수 있을까요?
+
+> Suspense: 로딩이 발생하는 부분에만 fallback을 Render 할 수 있습니다.
+> ErrorBoundary: 에러가 발생하는 부분에만 fallback을 Render 할 수 있습니다.
+
+지금부터 어떻게 이러한 기능이 동작하는지 이해하기 위해 각 기술의 동작 원리를 파악해보도록 하겠습니다.
+
+---
+
+## Suspense의 동작 원리
+
+Suspense를 이용하면 Loading 상태를 선언적으로 관리할 수 있습니다.
+
+```tsx
+function Main() {
+  return (
+    <main>
+      <Suspense fallback={<Loading />}>
+        <Profile />
+      </Suspense>
+    </main>
+  );
+}
+
+function Profile() {
+  const { data: profile } = useProfile();
+
+  return <div>{profile.name}</div>;
+}
+```
+
+앞서 봤던 Profile 컴포넌트 코드와 달라진 점을 눈치채셨나요?
+컴포넌트의 **isLoading, isError에 따른 처리 코드가 없어졌습니다.**
+
+Suspense의 fallback props로 컴포넌트를 전달하여 **로딩 상태에 따른 렌더링을 처리**를 할 수 있게 된 것입니다.
+
+<br />
+
+### ✅ 핵심 동작 원리
+
+위 코드와 함께 Suspense의 동작 원리를 이해해보겠습니다.
+
+컴포넌트는 **가장 가까운 Parent**에 위치한 Suspense에게 `Promise를 throw`합니다.
+Promise의 상태가 `pending`인 경우에는 **fallback props에 전달된 컴포넌트를 렌더링**하고
+Promise의 상태가 `resolve`가 되면, **해당 컴포넌트를 렌더링**합니다.
+
+> 핵심은 컴포넌트가 Promise를 throw하는 것이고, Promise의 상태에 따라서 다르게 렌더링 처리를 하는 것입니다.
+
+해당 개념은 ErrorBoundary에서도 사용되기 때문에 이어서 ErrorBoundary의 동작 원리에 대해서도 알아보도록 하겠습니다.
+
+---
+
+## ErrorBoundary의 동작 원리
+
+ErrorBoundary가 도입된 배경은 `UI에 존재하는 JS 에러가 전체 애플리케이션을 중단시켜서는 안 된다`는 것입니다.
+
+따라서 ErrorBoundary라는 이름처럼 **에러를 어떠한 경계 안에 가두고** 기존 컴포넌트 대신 **fallback UI를 보여주는 역할**을 합니다.
+
+### ✅ 핵심 동작 원리
+
+핵심 원리는 Suspense와 마찬가지로 `하위 컴포넌트에서 throw된 에러를 catch`합니다.
+에러 catch가 가능한 이유는 class 컴포넌트의 생명주기 중 에러와 관련된 메서드 덕분입니다.
+
+- #### getDerivedStateFromError
+
+  자식 컴포넌트에서 오류가 발생했을 때 호출됩니다.
+  주의할 점은 **에러를 throw 받은 시점인 render 단계에서 호출**되기 때문에 side effects를 발생시키면 안됩니다.
+
+  `throw된 에러를 catch`하고 return 한 값을 기반으로 `setState를 실행`합니다.
+
+- #### componentDidCatch
+
+  render 이후의 side effects를 다루는 메서드입니다.
+  에러 로그를 기록하는 용도로 사용될 수 있습니다.
+
+<br />
+
+### React LifeCycle
+
+> getDerivedStateFromError -> render -> componentDidCatch 순서에 따라 동작됩니다.
+
+![240304-045441](/posts/12-suspense-errorboundary/240304-045441.png)
+
+<br />
+
+### 구현 코드
+
+앞선 동작 원리에서 유추할 수 있듯이 **class 컴포넌트의 생명주기 메서드를 이용**하여 에러를 catch하기 때문에
+ErrorBoundary는 `class 컴포넌트로만 구현`할 수 있습니다.
+
+React 공식 문서에서 소개하고 있는 코드입니다. 앞선 개념과 연관지어 살펴보시죠!
+
+```tsx
+class ErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false };
+  }
+
+  static getDerivedStateFromError(error) {
+    // 다음 렌더링에서 Fallback UI가 보이도록 상태를 업데이트 합니다.
+    return { hasError: true };
+  }
+
+  componentDidCatch(error, errorInfo) {
+    // 에러를 기록합니다.
+    logErrorToMyService(error, errorInfo);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      // Fallback UI를 커스텀하여 렌더링할 수 있습니다.
+      return <h1>Something went wrong.</h1>;
+    }
+
+    return this.props.children;
+  }
+}
+```
+
+---
+
+## ErrorBoundary를 이용한 비동기 에러 처리
+
+지금까지 기존 방식의 문제점, 비동기 작업의 목표, 사용할 기술의 동작 원리를 파악했으니
+ErrorBoundary를 이용한 **비동기 에러 처리**를 구현해보겠습니다.
+
+아래의 코드들은 [jbee님의 블로그](https://jbee.io/react/error-declarative-handling-1/)를 참고하여 작성하였습니다.
+
+### ErrorBoundary 컴포넌트 개선
+
+기존 코드에서는 에러가 발생한 경우 모두 같은 Fallback UI를 보여주어 확장성이 낮은 문제가 있었습니다.
+`Fallback UI를 props로` 받을 수 있도록 구현하여 **상황에 맞는 UI를 보여줄 수 있게 개선**해보겠습니다.
+
+```ts
+type ErrorFallbackProps<ErrorType extends Error = Error> = {
+  error: ErrorType;
+};
+
+type ErrorFallbackType = <ErrorType extends Error>(
+  props: ErrorFallbackProps<ErrorType>,
+) => JSX.Element;
+
+// FallbackUI를 props로 받을 수 있게 커스텀
+type Props = {
+  errorFallback: ErrorFallbackType;
+  children: ReactElement;
+};
+
+type State = {
+  hasError: boolean;
+  error: Error | null;
+};
+const initialState = { hasError: false, error: null };
+
+class ErrorBoundary extends React.Component<Props, State> {
+  constructor(props: Props) {
+    super(props);
+    this.state = initialState;
+  }
+
+  static getDerivedStateFromError(error: Error) {
+    return { hasError: true, error };
+  }
+
+  render() {
+    const { hasError, error } = this.state;
+
+    const isErrorExist = hasError && error !== null;
+    const fallbackUI = (err: ErrorFallbackProps['error']) =>
+      errorFallback({ error: err });
+
+    // 에러가 발생한 경우 fallbackUI를 렌더링
+    if (isErrorExist) return fallbackUI(error);
+    return children;
+  }
+}
+```
+
+<br />
+
+### API 재호출을 위한 reset 기능 추가
+
+만약 **네트워크 오류** 등으로 API 에러가 발생했을 때 사용자에게 어떤 UI를 제공해주는 것이 좋을까요? 🤔
+
+예를 들어 `결제 상황`에서 새로고침을 통해 이전의 결제 flow를 다시 경험하는 것보다는
+**API를 다시 호출**하여 `즉시 결제`할 수 있게 하는 것이 사용자 경험을 향상시킬 수 있을 것입니다.
+
+지금부터 `다시 시도` 버튼을 제공하여 사용자가 **API 재요청을** 통해 에러 상황을 해결할 수 있도록 구현해보겠습니다.
+
+#### 1. reset 인터페이스 추가
+
+```tsx
+type ErrorFallbackProps<ErrorType extends Error = Error> = {
+  error: ErrorType;
+  reset: (...args: unknown[]) => void;
+};
+```
+
+원하는대로 reset함수를 변경할 수 있도록 props에도 추가합니다.
+
+```tsx
+type Props = {
+  errorFallback: ErrorFallbackType;
+  children: ReactElement;
+  resetQuery?: () => void;
+};
+```
+
+그 다음 Error Boundary에 reset 메서드를 추가하고 fallback UI에도 반영합니다.
+
+```tsx
+resetBoundary = () => {
+  const { resetQuery } = this.props;
+  resetQuery?.();
+  this.setState(initialState);
+};
+
+const fallbackUI = (err: ErrorFallbackProps['error']) =>
+  errorFallback({
+    error: err,
+    reset: this.resetBoundary,
+  });
+```
+
+<br />
+
+#### 2. reset을 선언적으로 호출하기
+
+React hook에서 사용하는 dependency array처럼 **배열이 바뀌면 에러를 초기화**할 수 있게 구현해보겠습니다.
+
+해당 기능이 왜 필요한 걸까요? 🤔
+컴포넌트의 state인 hasError는 부모 컴포넌트가 mount 된 경우에만 초기 상태로 변경되기 때문에
+`변경 사항이 생겼을 때 상태를 초기화`할 수 있게 하는 기능이 필요합니다.
+
+```tsx
+const changedArray = (
+  prevArray: Array<unknown> = [],
+  nextArray: Array<unknown> = [],
+) => {
+  return (
+    prevArray.length !== nextArray.length ||
+    prevArray.some((item, index) => {
+      return !Object.is(item, nextArray[index]);
+    })
+  );
+};
+
+type Props = {
+  ...
+  keys?: unknown[];
+}
+
+```
+
+React 상태 비교에서 사용하는 `Object.is`를 통해 **배열이 바뀌었는지 확인하는 함수**를 작성합니다.
+
+```tsx
+componentDidUpdate(prevProps: Props, prevState: State) {
+  const { error } = this.state;
+  const { keys } = this.props;
+
+  if (
+    error !== null &&
+    prevState.error !== null &&
+    changedArray(prevProps.keys, keys)
+  ) {
+    this.resetBoundary();
+  }
+}
+
+```
+
+componentDidUpdate 생명주기 함수에서 keys가 변경되면 resetBoundary 함수를 호출합니다.
+
+<br />
+
+#### 3. API 에러 예외 처리하기
+
+지금까지는 에러가 발생하면 Error Fallback UI를 보여주는 형태입니다.
+
+하지만 **401, 404**와 같이 `특정 페이지로 redirect` 처리를 해주어야 하는 상황이라면 어떻게 처리하는 것이 좋을까요?
+
+```tsx
+render() {
+  ...
+  if (isInstanceOfAPIError(error)) {
+    const { redirectUrl, notFound, status } = error;
+    if (redirectUrl) router.replace(redirectUrl);
+    if (notFound) return <NotFoundPage />;
+  }
+  ...
+}
+```
+
+status code에 따라서 API 에러 종류를 판단하는 함수를 통해 상황에 맞는 페이지로 direct 처리를 해줄 수 있습니다.
+
+<br />
+
+#### 4. Fallback UI 버튼에 reset 함수 등록
+
+```tsx
+type Props = {
+  error: Error | ApiError;
+  reset: () => void;
+};
+
+function ErrorFallback(props: Props) {
+  const { error, reset } = props;
+
+  return (
+    <div>
+      {error.message && <span>{error.message}</span>}
+      <button type="button" onClick={reset}>
+        <span>다시 시도</span>
+      </button>
+    </div>
+  );
+}
+```
+
+드디어 마지막 작업입니다!
+앞서 ErrorBoundary 내부에서 필요한 기능들을 등록해주었기 때문에
+`ErrorFallback` 내부에서는 **에러 메세지**를 보여주고, **버튼에 reset 함수를 등록**하는 작업에만 집중할 수 있게 되었습니다.
+
+에러 메세지를 보여주는 것이 필요한 상황에서는 error props를 사용하여 안내 메세지를 표시합니다. (옵션)
+이제 fallback UI에서 `다시 시도` 버튼을 통해 **새로고침을 하지 않고도 API를 재요청**할 수 있게 되었습니다.
+
+---
+
+## Suspense와 ErrorBoundary를 조합한 AsyncBoundary
+
+마지막으로 Suspense와 ErrorBoundary를 조합하여
+하나의 컴포넌트로 로딩, 에러 상태의 작업을 모두 처리하여 **개발자 경험을 높일 수 있는 작업**을 해보겠습니다.
+
+추상화를 통해 Suspense와 ErrorBoundary를 하나의 컴포넌트로 합쳐보겠습니다.
+
+코드를 간략히 표현하면 이러한 구조가 될 것입니다.
+
+```tsx
+function AsyncBoundary() {
+  return (
+    <ErrorBoundary>
+      <Suspense>{children}</Suspense>
+    </ErrorBoundary>
+  );
+}
+```
+
+앞서 구현했던 Props들을 다시 활용해보겠습니다.
+
+```tsx
+type ErrorBoundaryProps = ComponentProps<typeof ErrorBoundary>;
+
+type Props = {
+  suspenseFallback: ComponentProps<typeof SSRSafeSuspense>['fallback'];
+  errorFallback: ErrorBoundaryProps['errorFallback'];
+  keys?: Array<unknown>;
+};
+
+function AsyncBoundary(props: PropsWithChildren<Props>) {
+  const { suspenseFallback, errorFallback, children, keys } = props;
+
+  const { reset } = useQueryErrorResetBoundary();
+
+  const resetHandler = useCallback(() => {
+    reset();
+  }, [reset]);
+
+  return (
+    <ErrorBoundary resetQuery={resetHandler} {...{ errorFallback, keys }}>
+      <SSRSafeSuspense fallback={suspenseFallback}>
+        {children} {/* <- fulfilled */}
+      </SSRSafeSuspense>
+    </ErrorBoundary>
+  );
+}
+```
+
+위 코드에서의 핵심은 resetHandler를 만들어주는 것입니다.
+React-Query를 사용했기 때문에 API 재호출을 위해 useQueryErrorResetBoundary를 reset 메서드로 등록해주었습니다.
+
+---
+
+## 컴포넌트에서 AsyncBoundary 사용하기
+
+Profile이라는 컴포넌트에서 비동기 호출을 하고 있다면
+부모 컴포넌트에서 Profile 컴포넌트를 AsyncBoundary로 감싸주면 됩니다.
+
+핵심은 `API 호출을 Boundary 안에 가두는 것`입니다.
+
+```tsx
+function ProfileList() {
+  return (
+    <AsyncBoundary
+      suspenseFallback={<ProfileSkeleton />}
+      errorFallback={<ErrorFallback />}
+    >
+      <Profile />
+    </AsyncBoundary>
+  );
+}
+
+function Profile() {
+  // react-query를 사용한다면 suspense: true 옵션이 필요합니다.
+  const { data: profile } = useQuery(queryKey.profile, () => getProfile(), {
+    suspense: true,
+  });
+
+  return <div>{profile.name}</div>;
+}
+```
+
+### 해당 방식의 장점
+
+- 개발자는 비동기 `성공 상태`와 `비즈니스 로직에만 집중`하여 개발할 수 있음
+- 401, 404와 같이 redirect가 필요한 특정 API 에러를 `하나의 컴포넌트에서 일괄적으로 처리`
+
+### 상태에 따른 UI 렌더링
+
+- #### 데이터 로드 전 Pending 상태
+
+  - suspenseFallback으로 전달한 `ProfileSkeleton` 컴포넌트 렌더링
+
+- #### 비동기 작업 중 Error 발생
+
+  - errorFallback으로 전달한 `ErrorFallback` 컴포넌트 렌더링
+
+- #### 비동기 작업 완료 Fulfilled 상태
+  - `ProfileDropDown` 컴포넌트 렌더링
+
+---
+
+> ## 글을 마치며
+
+이번 글을 통해 Suspense와 ErrorBoundary를 이용한 효과적인 비동기 처리 방법에 대해 배울 수 있었습니다.
+
+사용자 경험을 높이기 위해 `화면이 정상적으로 노출되지 않는 상황`은 ErrorBoundary를 이용하여 API를 재호출하거나, 특정 페이지로 redirect 하도록 처리하여 해결할 수 있었습니다.
+
+또한, 비동기 로딩 및 에러 로직을 공통화한 AsyncBoundary 컴포넌트를 사용하면 개발자는 `성공 상태`와 `비즈니스 로직에만 집중`하여 개발할 수 있기 때문에 개발 생산성을 높일 수 있었습니다.
+
+프론트엔드에서 비동기 처리와 에러 핸들링은 중요하지만 효과적으로 처리하기는 쉽지 않은 영역인 것 같습니다.
+
+앞서 소개한 구조로도 분명히 얻을 수 있는 장점들이 있지만 에러 케이스 분류에서 더 다양한 상황을 고려해볼 수 있을 것 같다는 생각이 듭니다. 포스팅 이후에도 더 나은 설계를 위해 고민하면서 지속적으로 글을 업데이트 해보도록 하겠습니다.

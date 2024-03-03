@@ -55,17 +55,17 @@ export const allFeaturedPosts: PostPressedCardType[] = [
     date: '2024.01.15',
   },
   {
-    href: '/blog/retrospect/2-abstract-architecture',
-    imgUrl: '/posts/2-abstract-architecture/cover.png',
-    title: '변화에 유연한 설계를 위한 고민 - 추상화란 무엇인가?',
-    date: '2023.11.19',
-  },
-  {
     href: '/blog/frontend/12-suspense-errorboundary',
     imgUrl: '/posts/12-suspense-errorboundary/240304-055427.png',
     title:
       '선언적 비동기 처리로 사용자 경험 향상시키기 (Suspense, ErrorBoundary)',
     date: '2024.03.04',
+  },
+  {
+    href: '/blog/retrospect/2-abstract-architecture',
+    imgUrl: '/posts/2-abstract-architecture/cover.png',
+    title: '변화에 유연한 설계를 위한 고민 - 추상화란 무엇인가?',
+    date: '2023.11.19',
   },
   {
     href: '/blog/retrospect/1-devcourse-MIL-1',

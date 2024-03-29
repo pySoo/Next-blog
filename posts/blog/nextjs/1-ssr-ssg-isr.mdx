@@ -1,6 +1,6 @@
 ---
 title: Next.js의 렌더링 방식 이해하기 - SSR, SSG, ISR
-description: Next.js의 렌더링 방식의 차이점에 대해서 알아보고, 필요에 따라 적절한 렌더링 기법을 적용하는 법에 대해 배워보겠습니다.
+description: Next.js의 렌더링 방식의 차이점에 대해서 알아보며 필요에 따라 적절한 렌더링 기법을 적용하는 방법에 대해 배워보겠습니다.
 image: '/posts/1-ssr-ssg-isr/cover.png'
 tags:
   - Next.js
@@ -11,28 +11,29 @@ tags:
 date: 2023-08-21 11:25:01
 ---
 
-이전 포스팅에서 SPA는 기본적으로 CSR 렌더링 방식을 사용하여 동작한다는 것을 소개했습니다.
+[이전 포스팅](https://www.enjoydev.life/blog/frontend/5-csr-ssr)에서 SPA는 기본적으로 CSR 렌더링 방식을 사용하여 동작한다는 것을 소개했습니다.
 하지만 CSR이 가진 단점을 극복하기 위해서 SSR 개념을 부분적으로 적용하고 싶을 수 있습니다.
 
 ![230821-160013](/posts/1-ssr-ssg-isr/cover.png)
 
-지금부터는 SPA 방식인 React에서 Next.js 프레임워크를 사용하여 SSR을 적용하는 방법에 대해 알아보고,
+지금부터는 SPA 방식인 React에서 Next.js 프레임워크를 사용하여 SSR을 적용하는 방법에 대해 알아보고
 Next.js에서 사용되는 렌더링 방식인 SSR, SSG, ISR 방식의 차이에 대해서 배워보도록 하겠습니다.
 
 ---
 
 ## Pre-Rendering
 
-Next.js는 렌더링을 할 때 기본적으로 pre-rendering(사전 렌더링)을 해줍니다.
+Next.js는 렌더링을 할 때 기본적으로 pre-rendering(사전 렌더링)을 수행합니다.
 사전 렌더링이란 `서버단에서` DOM 요소들을 Build하여 `HTML 문서를 렌더링`하는 것을 뜻합니다.
 
 ![230821-131324](/posts/1-ssr-ssg-isr/230821-131324.png)
 
-위 사진처럼 **HTML을 미리 렌더**링하고, 이후 **요청이 오면** Chunk 단위로 **JavaScript를** 보내주어서
-이벤트가 작동하게 되는 것이 `Hydration`이며, Next.js에서 사용되는 방법입니다.
+또 하나의 중요한 개념으로는 `Hydration`이 있습니다.
+`Hydration`이란 이렇게 미리 렌더링된 HTML에 **JavaScript를** 결합하여서
+이벤트가 동작할 수 있도록 만드는 과정을 말합니다.
 
-이러한 빌드 과정이 SSR인 것은 아닙니다.
-pre-rendering을 하는 방법은 SSG와 SSR로 나뉘는데, 둘의 차이는 HTML을 생성하는 시기에 있습니다.
+하지만 이러한 과정이 모두 SSR인 것은 아닙니다.
+pre-rendering을 하는 방법은 SSG와 SSR로 나뉘며 둘의 차이는 **HTML을 생성하는 시기**에 있습니다.
 
 - `SSG`는 **빌드 시에 HTML**을 만들고 각각의 요청 시 **재사용**합니다.
 - `SSR`은 각각의 **요청 시에 HTML을 만듭니다.**
@@ -257,25 +258,28 @@ SSG와 getStaticProps 사용 방법은 같지만 revalidate에 명시된 숫자(
 ## Next.js의 웹 서버는 어디에?
 
 SSR(Server Side Rendering)의 용어를 주목해보면 서버에서 렌더링 로직을 처리해준다는 것을 알 수 있습니다.
-하지만 우리는 따로 웹 서버를 만든적이 없습니다. 🧐 ❓
+하지만 우리는 따로 웹 서버를 만든적이 없습니다 🧐
 
 그럼에도 동작이 가능한 이유는 Next.js가 자체적으로 웹 서버를 가지고 있기 때문입니다.
 따라서 서버에서 실행된다고 배웠던 getServerSideProps나 getStaticProps 함수는 Next의 서버로 전달되어 임무를 수행하고 결과 값을 컴포넌트 단에 반환합니다.
 
-그렇기 때문에 해당 함수들이 사용되는 `pages 폴더`의 영역은 프론트와 백엔드, 즉 `서버와 공유하고 있는 공간`이며 getServerSideProps 등의 함수는 `Next.js의 자체 서버에서 실행`되는 것입니다.
+그렇기 때문에 해당 함수들이 사용되는 `pages 폴더`의 영역은
+`서버와 공유하고 있는 공간`이며 getServerSideProps 등의 함수는 `Next.js의 자체 서버에서 실행`되는 것입니다.
 
 ---
 
 ## 글을 마치며
 
-SPA 환경의 React에서 Next.js를 사용하여 SSG, SSR 렌더링 기법을 적용하는 법에 대해서 배워봤습니다.
-내용들을 다시 정리해보면서 글을 마치도록 하겠습니다. 😃
+지금까지 SPA 환경의 React에서 Next.js를 사용하여 SSG, SSR 렌더링 기법을 적용하는 법에 대해서 배워보았습니다.
+내용들을 다시 정리해보면서 글을 마치도록 하겠습니다 😃
 
 > #### Next.js의 SSR, SSG, ISR
 
-Next.js의 큰 특징은 **pre-rendering** 방식을 사용하여 서버에서 미리 HTML 문서를 렌더링을 해주는 것이며,
+Next.js의 큰 특징은 **pre-rendering** 방식을 사용하여 서버에서 미리 HTML 문서를 렌더링을 해주는 것이며
 SSG와 SSR의 차이는 **SSG는 HTML을 빌드 시에 생성하여 재사용**하고, **SSR은 요청 시마다 생성**하는 것이 있습니다.
 ISR은 SSG에 포함되는 개념이며 설정한 시간마다 페이지를 새로 렌더링한다는 차이가 있습니다.
+
+<br />
 
 > #### 상황마다 적절한 렌더링 방식
 

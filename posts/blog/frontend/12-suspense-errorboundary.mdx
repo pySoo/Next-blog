@@ -245,7 +245,7 @@ class ErrorBoundary extends React.Component<Props, State> {
 
 ### API 재호출을 위한 reset 기능 추가
 
-만약 **네트워크 오류** 등으로 API 에러가 발생했을 때 사용자에게 어떤 UI를 제공해주는 것이 좋을까요? 🤔
+만약 **네트워크 오류** 등으로 API 에러가 발생한 상황엔 사용자에게 어떤 UI를 제공해주는 것이 좋을까요? 🤔
 
 예를 들어 `결제 상황`에서 새로고침을 통해 이전의 결제 flow를 다시 경험하는 것보다는
 **API를 다시 호출**하여 `즉시 결제`할 수 있게 하는 것이 사용자 경험을 향상시킬 수 있을 것입니다.
@@ -294,7 +294,7 @@ const fallbackUI = (err: ErrorFallbackProps['error']) =>
 React hook에서 사용하는 dependency array처럼 **배열이 바뀌면 에러를 초기화**할 수 있게 구현해보겠습니다.
 
 해당 기능이 왜 필요한 걸까요? 🤔
-컴포넌트의 state인 hasError는 부모 컴포넌트가 mount 된 경우에만 초기 상태로 변경되기 때문에
+컴포넌트의 state인 hasError는 부모 컴포넌트가 mount 된 상황에만 초기 상태로 변경되기 때문에
 `변경 사항이 생겼을 때 상태를 초기화`할 수 있게 하는 기능이 필요합니다.
 
 ```tsx
@@ -341,7 +341,7 @@ componentDidUpdate 생명주기 함수에서 keys가 변경되면 resetBoundary 
 
 #### 3. API 에러 예외 처리하기
 
-지금까지는 에러가 발생하면 Error Fallback UI를 보여주는 형태입니다.
+지금까지의 코드는 에러가 발생하면 Error Fallback UI를 보여주는 형태입니다.
 
 하지만 **401, 404**와 같이 `특정 페이지로 redirect` 처리를 해주어야 하는 상황이라면 어떻게 처리하는 것이 좋을까요?
 
@@ -357,7 +357,8 @@ render() {
 }
 ```
 
-status code에 따라서 API 에러 종류를 판단하는 함수를 통해 상황에 맞는 페이지로 direct 처리를 해줄 수 있습니다.
+우리는 status code에 따라서 API 에러 종류를 판단하는 함수를 만들어서
+상황에 맞는 페이지로 direct 처리를 수행할 수 있습니다.
 
 <br />
 
@@ -387,7 +388,7 @@ function ErrorFallback(props: Props) {
 앞서 ErrorBoundary 내부에서 필요한 기능들을 등록해주었기 때문에
 `ErrorFallback` 내부에서는 **에러 메세지**를 보여주고, **버튼에 reset 함수를 등록**하는 작업에만 집중할 수 있게 되었습니다.
 
-에러 메세지를 보여주는 것이 필요한 상황에서는 error props를 사용하여 안내 메세지를 표시합니다. (옵션)
+에러 메세지를 보여주는 것이 필요한 상황에서는 error props를 사용하여 안내 메세지를 표시합니다.
 이제 fallback UI에서 `다시 시도` 버튼을 통해 **새로고침을 하지 않고도 API를 재요청**할 수 있게 되었습니다.
 
 ---
@@ -395,9 +396,9 @@ function ErrorFallback(props: Props) {
 ## Suspense와 ErrorBoundary를 조합한 AsyncBoundary
 
 마지막으로 Suspense와 ErrorBoundary를 조합하여
-하나의 컴포넌트로 로딩, 에러 상태의 작업을 모두 처리하여 **개발자 경험을 높일 수 있는 작업**을 해보겠습니다.
+하나의 컴포넌트로 로딩, 에러 상태의 작업을 모두 처리하여 **개발자 경험(DX)을 향상할 수 있는 작업**을 해보겠습니다.
 
-추상화를 통해 Suspense와 ErrorBoundary를 하나의 컴포넌트로 합쳐보겠습니다.
+추상화를 통해 Suspense와 ErrorBoundary를 하나의 컴포넌트로 조합해보겠습니다.
 
 코드를 간략히 표현하면 이러한 구조가 될 것입니다.
 

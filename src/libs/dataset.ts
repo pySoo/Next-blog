@@ -50,7 +50,7 @@ export const allSeries: Series[] = allPosts
 export const allFeaturedPosts: PostPressedCardType[] = [
   {
     href: '/blog/retrospect/7-toss-interview',
-    imgUrl: '/posts/7-toss-interview/240602-001419.png',
+    imgUrl: '/posts/7-toss-interview/240603-010120.png',
     title: '토스증권 최종 인터뷰까지의 과정을 돌아보며',
     date: '2024.05.31',
   },

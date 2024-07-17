@@ -12,26 +12,20 @@ export default function PostPressedCard({
   imgUrl,
   title,
   date,
-  isDraft,
 }: PostPressedCardType) {
   return (
-    <AnimatedContainer
-      variants={fadeInUp}
-      whileHover={{ scale: isDraft ? 1 : 1.02 }}
-    >
+    <AnimatedContainer variants={fadeInUp} whileHover={{ scale: 1.02 }}>
       <PressedEffect>
-        <motion.a href={isDraft ? undefined : href} variants={fadeInUp}>
+        <motion.a href={href} variants={fadeInUp}>
           <AnimatedContainer
             variants={fadeIn}
             initial="initial"
             whileInView="animate"
             exit="exit"
             viewport={{ amount: 0.08, once: true }}
-            className={`overflow-hidden rounded-xl bg-neutral-200 dark:bg-neutral-800 ${
-              isDraft ? 'cursor-not-allowed' : ''
-            }`}
+            className={`overflow-hidden rounded-xl bg-neutral-200 dark:bg-neutral-800`}
           >
-            <div className={`${isDraft ? 'opacity-50' : 'opacity-100'}`}>
+            <div>
               <Image
                 src={imgUrl}
                 alt={title}

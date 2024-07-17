@@ -25,7 +25,6 @@ export default function FeaturedPosts() {
             imgUrl={post.imgUrl}
             title={post.title}
             date={post.date}
-            isDraft={post.isDraft}
           />
         ))}
       </AnimatedContainer>

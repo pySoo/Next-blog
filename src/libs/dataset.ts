@@ -49,12 +49,6 @@ export const allSeries: Series[] = allPosts
 
 export const allFeaturedPosts: PostPressedCardType[] = [
   {
-    href: '/blog/retrospect/7-toss-interview',
-    imgUrl: '/posts/7-toss-interview/240603-010120.png',
-    title: '과제 탈락을 딛고 토스증권 최종 면접까지',
-    date: '2024.05.31',
-  },
-  {
     href: '/blog/retrospect/5-daangn-interview',
     imgUrl: '/posts/5-daangn-interview/240115-034801.png',
     title: '당근마켓 최종 면접까지의 과정을 돌아보며',
